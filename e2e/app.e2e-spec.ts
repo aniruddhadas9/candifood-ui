@@ -1,10 +1,10 @@
-import { CcPage } from './app.po';
+import { AppPage } from './app.po';
 
-describe('cc App', () => {
-  let page: CcPage;
+describe('candifood-ui-x App', () => {
+  let page: AppPage;
 
   beforeEach(() => {
-    page = new CcPage();
+    page = new AppPage();
   });
 
   it('should display welcome message', () => {
