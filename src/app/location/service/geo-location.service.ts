@@ -63,7 +63,6 @@ export class GeoLocationService {
   }
 
   public getLocationFromGoogleMap() {
-
     const mapOptions = {
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
