@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {UserService} from './core/services/user.service';
 
 @Component({
   selector: 'cfs-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'cfs';
+
+  constructor(public userService: UserService) {
+
+  }
 }

@@ -9,6 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
+        "configuration.json",
         "favicon.ico"
       ],
       "index": "index.html",
@@ -19,7 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cfs",
       "styles": [
-        "../node_modules/bootstrap/dist/css/bootstrap.css",
+        "../node_modules/bootstrap/scss/bootstrap.scss",
+        "../node_modules/font-awesome/scss/font-awesome.scss",
         "styles.scss"
       ],
       "scripts": [],
@@ -52,6 +54,15 @@
   "test": {
     "karma": {
       "config": "./karma.conf.js"
+    },
+    "codeCoverage": {
+      "exclude": [
+        "./e2e/mock/**/*",
+        "./**/core/core.module.ts",
+        "./**/testing/*",
+        "./**/src/polyfills.ts",
+        "./**/src/test.ts"
+      ]
     }
   },
   "defaults": {
