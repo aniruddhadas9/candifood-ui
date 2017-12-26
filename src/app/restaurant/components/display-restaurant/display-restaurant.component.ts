@@ -13,26 +13,28 @@ import {GeoLocationService} from '../../../location/service/geo-location.service
 export class DisplayRestaurantComponent implements OnInit {
 
   public restaurants = [];
-  public location = [];
+  public location: any = null;
 
   constructor(private restaurantService: RestaurantService,
-              private geoLocation: GeoLocationService,
               private mapService: MapService,
               private configService: ConfigService, appService: AppService) {
   }
 
   ngOnInit() {
-    this.geoLocation.getLocation({}).subscribe((position: Position) => {
+    this.restaurantService.getRestaurants().subscribe((restaurants) => {
+      this.restaurants = restaurants;
+    });
+  }
+
+  getUserFromMap() {
+    this.mapService.getLocation({}).subscribe((position: Position) => {
       this.mapService.getUserLocation({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
-      }).subscribe((userData) => {
-        this.location = userData;
+      }).subscribe((location) => {
+        console.log('getUserFromMap|location:%o', location);
+        this.location = location;
       });
-    });
-
-    this.restaurantService.getRestaurants().subscribe((restaurants) => {
-      this.restaurants = restaurants;
     });
   }
 

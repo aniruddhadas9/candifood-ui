@@ -61,8 +61,6 @@ export class GeoLocationService {
       }
 
     });
-
-
   }
 
   public getLocationFromGoogleMap() {
@@ -73,7 +71,7 @@ export class GeoLocationService {
 
     const map = new google.maps.Map(document.getElementById('google_canvas'), mapOptions);
 
-    navigator.geolocation.getCurrentPosition( (position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
 
       const geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       const infowindow = new google.maps.InfoWindow({

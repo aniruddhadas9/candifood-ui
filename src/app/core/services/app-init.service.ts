@@ -8,7 +8,6 @@ export function appInitFactory(init: AppInitService): () => Promise<any> {
   return () => init.load().toPromise();
 }
 
-
 @Injectable()
 export class AppInitService {
 

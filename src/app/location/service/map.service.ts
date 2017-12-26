@@ -1,3 +1,4 @@
+///<reference path="../../../../node_modules/@agm/core/services/google-maps-types.d.ts"/>
 import {Injectable, OnInit} from '@angular/core';
 import {ConfigService} from '../../core/services/config.service';
 import {google} from '@agm/core/services/google-maps-types';
@@ -5,17 +6,25 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {AppService} from '../../services/app.service';
 import 'rxjs/add/operator/mergeMap';
+import {LatLng} from '@agm/core';
+
+const GEOLOCATION_ERRORS = {
+  'errors.location.unsupportedBrowser': 'Browser does not support location services',
+  'errors.location.permissionDenied': 'You have rejected access to your location',
+  'errors.location.positionUnavailable': 'Unable to determine your location',
+  'errors.location.timeout': 'Service timeout has been reached'
+};
+
 
 @Injectable()
 export class MapService {
 
-  constructor(private configService: ConfigService, private httpClient: HttpClient, private appService: AppService) {
-    if (!google) {
-      console.log('google is not set yet');
-    }
+  private position: Observable<Position>;
+
+  constructor(private configService: ConfigService,
+              private httpClient: HttpClient,
+              private appService: AppService) {
   }
-
-
 
 
   public getLatLng(): Observable<any> {
@@ -49,17 +58,45 @@ export class MapService {
     });
   }
 
+  public getLocation(opts): Observable<Position> {
+    return this.position || Observable.create(observer => {
+      if (window.navigator && window.navigator.geolocation) {
+        window.navigator.geolocation.getCurrentPosition(
+          (position: Position) => {
+            this.position = Observable.of(position);
+            observer.next(position);
+            observer.complete();
+          },
+          (error) => {
+            switch (error.code) {
+              case 1:
+                observer.error(GEOLOCATION_ERRORS['errors.location.permissionDenied']);
+                break;
+              case 2:
+                observer.error(GEOLOCATION_ERRORS['errors.location.positionUnavailable']);
+                break;
+              case 3:
+                observer.error(GEOLOCATION_ERRORS['errors.location.timeout']);
+                break;
+            }
+          },
+          opts);
+      } else {
+        observer.error(GEOLOCATION_ERRORS['errors.location.unsupportedBrowser']);
+      }
+
+    });
+  }
+
   public getUserLocation(latLngValue) {
-    // console.log("_mapService|getUserLocation|latLngValue:%o", latLngValue);
+    console.log('_mapService|getUserLocation|google.maps:%o', window.google);
     return Observable.create(observer => {
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({'latLng': new google.maps.LatLng(latLngValue.latitude, latLngValue.longitude)}, (results, status) => {
-        if (status === google.maps.GeocoderStatus.OK) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({'latLng': new window.google.maps.LatLng(latLngValue.latitude, latLngValue.longitude)}, (results, status) => {
+        if (status === window.google.maps.GeocoderStatus.OK) {
           const newLocation: any = this.processUserLocation(results[0]);
           newLocation.latitude = latLngValue.latitude;
           newLocation.longitude = latLngValue.longitude;
-          console.log('_mapService|getUserLocation|from map:%o|processed object:%o', results, newLocation);
-
           observer.next(newLocation);
           observer.complete();
         } else {
@@ -75,94 +112,94 @@ export class MapService {
     return Observable.create(observer => {
 
 
-    const type = 'restaurant';
-    const keyword = 'restaurant';
-    const rankBy = 'distance';
-    const search = {
-      keyword: '',
-      radius: '',
-      location: {},
-      types: [],
-    };
-    const restaurants = [];
+      const type = 'restaurant';
+      const keyword = 'restaurant';
+      const rankBy = 'distance';
+      const search = {
+        keyword: '',
+        radius: '',
+        location: {},
+        types: [],
+      };
+      const restaurants = [];
 
-    const mapOptions = {
-      zoom: 8,
-      center: new google.maps.LatLng(userLocation.latitude, userLocation.longitude),
-      mapTypeId: 'roadmap'
-    };
-    const map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    const places = new google.maps.places.PlacesService(map);
-    if (keyword) {
-      search.keyword = keyword;
-      console.log('keyword found and setting it to filter that particular types of restaurant!');
-    }
-
-    search.types = ['restaurant'];
-
-    /*if (rankBy == 'distance' && (search.types || search.keyword)) {
-      search.rankBy = google.maps.places.RankBy.DISTANCE;
-      search.location = latlng;//this.configService.map.getCenter();
-      this.configService.centerMarker = new google.maps.Marker({
-        position: search.location,
-        animation: google.maps.Animation.DROP,
-        map: this.configService.map
-      });
-    } else {
-      console.log("nearbyrestaurant: setting the laglng:%o", userLocation);
-      search.bounds = this.configService.map.getBounds();
-    }*/
-    search.location = {lat: userLocation.latitude, lng: userLocation.longitude};
-    search.radius = '500';
-
-    // console.log("nearbyrestaurant: search:%o", search);
-
-    this.appService.userNearbyRestaurants.location = [userLocation];
-
-    places.nearbySearch(search, (results, status) => {
-      console.log('mapService|fetched from map|restaurant::::%o and status: %o', results, status);
-      if (status === google.maps.places.PlacesServiceStatus.OK) {
-        for (let i = 0; i < results.length; i++) {
-
-          const location = results[i].vicinity.split(',');
-          /*for (let i = 0; i < location.length; i++) {
-           location[i] = location[i].trim();
-           }*/
-          // console.log('restaurant::::%o and address: %o', results[i], location);
-          const restaurant = {
-            name: results[i].name,
-            type: JSON.stringify(results[i].types),
-            rating: results[i].rating,
-            googlePlaceId: results[i].place_id,
-            latitude: results[i].geometry.location.lat(),
-            longitude: results[i].geometry.location.lng(),
-            owner: 'google',
-            openTime: '11:00 AM',
-            closeTime: '11:00 PM',
-            address: location[0] + ', ' + location[1],
-            locality1: location[location.length - 3],
-            locality2: location[location.length - 2],
-            city: location[location.length - 1]
-          };
-          restaurants.push(restaurant);
-        }
-        this.appService.userNearbyRestaurants.restaurant = restaurants;
-        observer.resolve(this.appService.userNearbyRestaurants);
-      } else {
-        const restaurant = {'name': null};
-        restaurants.push(restaurant);
-        this.appService.userNearbyRestaurants.restaurant = restaurants;
-        observer.resolve(this.appService.userNearbyRestaurants);
+      const mapOptions = {
+        zoom: 8,
+        center: new window.google.maps.LatLng(userLocation.latitude, userLocation.longitude),
+        mapTypeId: 'roadmap'
+      };
+      const map = new window.google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      const places = new window.google.maps.places.PlacesService(map);
+      if (keyword) {
+        search.keyword = keyword;
+        console.log('keyword found and setting it to filter that particular types of restaurant!');
       }
+
+      search.types = ['restaurant'];
+
+      /*if (rankBy == 'distance' && (search.types || search.keyword)) {
+        search.rankBy = google.maps.places.RankBy.DISTANCE;
+        search.location = latlng;//this.configService.map.getCenter();
+        this.configService.centerMarker = new window.google.maps.Marker({
+          position: search.location,
+          animation: google.maps.Animation.DROP,
+          map: this.configService.map
+        });
+      } else {
+        console.log("nearbyrestaurant: setting the laglng:%o", userLocation);
+        search.bounds = this.configService.map.getBounds();
+      }*/
+      search.location = {lat: userLocation.latitude, lng: userLocation.longitude};
+      search.radius = '500';
+
+      // console.log("nearbyrestaurant: search:%o", search);
+
+      this.appService.userNearbyRestaurants.location = [userLocation];
+
+      places.nearbySearch(search, (results, status) => {
+        console.log('mapService|fetched from map|restaurant::::%o and status: %o', results, status);
+        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+          for (let i = 0; i < results.length; i++) {
+
+            const location = results[i].vicinity.split(',');
+            /*for (let i = 0; i < location.length; i++) {
+             location[i] = location[i].trim();
+             }*/
+            // console.log('restaurant::::%o and address: %o', results[i], location);
+            const restaurant = {
+              name: results[i].name,
+              type: JSON.stringify(results[i].types),
+              rating: results[i].rating,
+              googlePlaceId: results[i].place_id,
+              latitude: results[i].geometry.location.lat(),
+              longitude: results[i].geometry.location.lng(),
+              owner: 'google',
+              openTime: '11:00 AM',
+              closeTime: '11:00 PM',
+              address: location[0] + ', ' + location[1],
+              locality1: location[location.length - 3],
+              locality2: location[location.length - 2],
+              city: location[location.length - 1]
+            };
+            restaurants.push(restaurant);
+          }
+          this.appService.userNearbyRestaurants.restaurant = restaurants;
+          observer.resolve(this.appService.userNearbyRestaurants);
+        } else {
+          const restaurant = {'name': null};
+          restaurants.push(restaurant);
+          this.appService.userNearbyRestaurants.restaurant = restaurants;
+          observer.resolve(this.appService.userNearbyRestaurants);
+        }
+      });
     });
-  });
   }
 
   public getGoogleMapPlaceDetail(googlePlaceId) {
     return Observable.create(observer => {
       // console.log('getGoogleMapPlaceDetail|parameter:%o', googlePlaceId);
-      const map = new google.maps.Map(document.getElementById('map-canvas'));
-      const places = new google.maps.places.PlacesService(map);
+      const map = new window.google.maps.Map(document.getElementById('map-canvas'));
+      const places = new window.google.maps.places.PlacesService(map);
       places.getDetails({placeId: googlePlaceId}, function (place, status) {
         console.log('_mapService|fetched from map|place::::%o and status: %o', place, status);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -195,8 +232,8 @@ export class MapService {
   public getGoogleMapPhotos(googlePlaceId) {
     return Observable.create(observer => {
       // console.log('getGoogleMapPlaceDetail|parameter:%o', googlePlaceId);
-      const map = new google.maps.Map(document.getElementById('map-canvas'));
-      const places = new google.maps.places.PlacesService(map);
+      const map = new window.google.maps.Map(document.getElementById('map-canvas'));
+      const places = new window.google.maps.places.PlacesService(map);
       places.getDetails({placeId: googlePlaceId}, function (place, status) {
         console.log('mapService|fetched from map|place::::%o and status: %o', place, status);
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -294,7 +331,7 @@ export class MapService {
 
       }
     }
-    console.log('_mapService|processUserLocation|processing:%o and locationprocessed:%o', googleLocation, candifoodLocation);
+    console.log('_mapService|processUserLocation|processing:%o and processed:%o', googleLocation, candifoodLocation);
     return candifoodLocation;
   }
 
