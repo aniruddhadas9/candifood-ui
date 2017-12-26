@@ -10,6 +10,8 @@ import {LocationModule} from './location/location.module';
 import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {appInitFactory, AppInitService} from './core/services/app-init.service';
+import {AgmCoreModule} from '@agm/core';
+import {ConfigService} from './core/services/config.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,10 @@ import {appInitFactory, AppInitService} from './core/services/app-init.service';
     AppRoutingModule,
     CoreModule,
     RestaurantModule,
-    LocationModule
+    LocationModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8'
+    })
   ],
   providers: [
     {
@@ -30,7 +35,8 @@ import {appInitFactory, AppInitService} from './core/services/app-init.service';
       deps: [AppInitService],
       multi: true
     },
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    ConfigService
   ],
   bootstrap: [AppComponent]
 })

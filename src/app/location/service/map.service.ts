@@ -1,16 +1,21 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {ConfigService} from '../../core/services/config.service';
 import {google} from '@agm/core/services/google-maps-types';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {AppService} from '../../services/app.service';
-import 'rxjs/add/operator/flatMap';
+import 'rxjs/add/operator/mergeMap';
 
 @Injectable()
 export class MapService {
 
   constructor(private configService: ConfigService, private httpClient: HttpClient, private appService: AppService) {
+    if (!google) {
+      console.log('google is not set yet');
+    }
   }
+
+
 
 
   public getLatLng(): Observable<any> {
@@ -221,7 +226,7 @@ export class MapService {
   }
 
   /*public storeAndUpdateRestaurantsByMap() {
-    this.getLatLng().flatMap(  (latLng) => {
+    this.getLatLng().mergeMap(  (latLng) => {
       const deferred = promise.defer();
       $q.when(this.getLatLng())
         .then(function (latLng) {

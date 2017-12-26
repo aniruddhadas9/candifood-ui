@@ -19,13 +19,6 @@ export class AppInitService {
       // can run other app initializations here that must be run after the config has been loaded
       // can also run then in other APP_INITIALIZERS
 
-      // Get the current location of the user
-      this.geoLocation.getLocation({}).subscribe((position: Position) => {
-        res.latitude = position.coords.latitude;
-        res.longitude = position.coords.longitude;
-      });
-
-
       return res;
     });
   }

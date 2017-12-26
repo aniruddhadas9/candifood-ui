@@ -12,6 +12,8 @@ const GEOLOCATION_ERRORS = {
 @Injectable()
 export class GeoLocationService {
 
+  private position: Observable<Position>;
+
   /**
    * Obtains the geographic position, in terms of latitude and longitude coordinates, of the device.
    * @param {Object} [opts] An object literal to specify one or more of the following attributes and desired values:
@@ -29,13 +31,14 @@ export class GeoLocationService {
    *                 only tries to obtain an updated position if no cached position data exists.
    * @returns {Observable} An observable sequence with the geographical location of the device running the client.
    */
-  public getLocation(opts): Observable<any> {
+  public getLocation(opts): Observable<Position> {
 
-    return Observable.create(observer => {
+    return this.position || Observable.create(observer => {
 
       if (window.navigator && window.navigator.geolocation) {
         window.navigator.geolocation.getCurrentPosition(
           (position: Position) => {
+            this.position = Observable.of(position);
             observer.next(position);
             observer.complete();
           },
