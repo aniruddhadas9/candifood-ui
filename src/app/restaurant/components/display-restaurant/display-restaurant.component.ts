@@ -3,7 +3,6 @@ import {RestaurantService} from '../../service/restaurant.service';
 import {MapService} from '../../../location/service/map.service';
 import {ConfigService} from '../../../core/services/config.service';
 import {AppService} from '../../../services/app.service';
-import {GeoLocationService} from '../../../location/service/geo-location.service';
 
 @Component({
   selector: 'cfs-display-restaurant',

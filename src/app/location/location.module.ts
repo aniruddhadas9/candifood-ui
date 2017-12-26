@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {GeoLocationService} from './service/geo-location.service';
 import {CoreModule} from '../core/core.module';
+import {GoogleMapsAPIWrapper} from '@agm/core';
 
 @NgModule({
   imports: [
@@ -9,7 +9,7 @@ import {CoreModule} from '../core/core.module';
     CoreModule
   ],
   providers: [
-    GeoLocationService
+    GoogleMapsAPIWrapper
   ],
   declarations: []
 })

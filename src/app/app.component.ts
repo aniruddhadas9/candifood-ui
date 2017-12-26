@@ -4,7 +4,6 @@ import {ConfigService} from './core/services/config.service';
 import {MapService} from './location/service/map.service';
 import {RestaurantService} from './restaurant/service/restaurant.service';
 import {AppService} from './services/app.service';
-import {GeoLocationService} from './location/service/geo-location.service';
 
 @Component({
   selector: 'cfs-root',
@@ -17,7 +16,6 @@ export class AppComponent implements OnInit {
   title = 'cfs';
 
   constructor(public userService: UserService,
-              private geoLocation: GeoLocationService,
               private restaurantService: RestaurantService,
               private mapService: MapService,
               private configService: ConfigService,
@@ -25,7 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.geoLocation.getLocation({}).subscribe((position: Position) => {
+    this.mapService.getLocation({}).subscribe((position: Position) => {
       this.position = position;
     });
   }
