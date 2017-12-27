@@ -114,7 +114,7 @@ export class MapService {
   }
 
   public getUserLocation(latLngValue) {
-    console.log('_mapService|getUserLocation|google.maps:%o', (<any>window).google);
+    //  console.log('_mapService|getUserLocation|google.maps:%o', (<any>window).google);
     return this.location || Observable.create(observer => {
       const geocoder = new (<any>window).google.maps.Geocoder();
       geocoder.geocode({'latLng': new (<any>window).google.maps.LatLng(latLngValue.latitude, latLngValue.longitude)}, (results, status) => {
@@ -153,8 +153,8 @@ export class MapService {
         center: new (<any>window).google.maps.LatLng(userLocation.latitude, userLocation.longitude),
         mapTypeId: (<any>window).google.maps.MapTypeId.ROADMAP
       };
-      console.log('html:%o', document.getElementsByClassName('agm-map-container-inner'));
-      console.log('this.googleMapsAPIWrapper.getNativeMap():%o', this.googleMapsAPIWrapper.getNativeMap());
+      // console.log('html:%o', document.getElementsByClassName('agm-map-container-inner'));
+      // console.log('this.googleMapsAPIWrapper.getNativeMap():%o', this.googleMapsAPIWrapper.getNativeMap());
       this.googleMapsAPIWrapper.getNativeMap().then((obj: GoogleMap) => {
         console.log('mapObj:%o', obj);
         this.map = obj;
@@ -167,16 +167,16 @@ export class MapService {
         search.types = ['restaurant'];
 
         if (rankBy === 'distance' && (search.types || search.keyword)) {
-          search.rankBy = google.maps.places.RankBy.DISTANCE;
+          search.rankBy = (<any>window).google.maps.places.RankBy.DISTANCE;
           search.location = new (<any>window).google.maps.LatLng(userLocation.latitude, userLocation.longitude);
           const centerMarker = new (<any>window).google.maps.Marker({
             position: search.location,
-            animation: google.maps.Animation.DROP,
-            map: google.maps.map
+            animation: (<any>window).google.maps.Animation.DROP,
+            map: (<any>window).google.maps.map
           });
         } else {
           console.log('nearbyrestaurant: setting the laglng:%o', userLocation);
-          search.bounds = google.map.getBounds();
+          search.bounds = (<any>window).google.map.getBounds();
         }
         search.location = {lat: userLocation.latitude, lng: userLocation.longitude};
         search.radius = '500';
@@ -186,7 +186,7 @@ export class MapService {
         this.appService.restaurants.location = [userLocation];
 
         places.nearbySearch(search, (results, status) => {
-          console.log('mapService|fetched from map|restaurant::::%o and status: %o', results, status);
+          console.log('---mapService|fetched from map|restaurant::::%o and status: %o', results, status);
           if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
             for (let i = 0; i < results.length; i++) {
 
@@ -458,7 +458,7 @@ export class MapService {
 
       }
     }
-    console.log('_mapService|processUserLocation|processing:%o and processed:%o', googleLocation, candifoodLocation);
+    // console.log('_mapService|processUserLocation|processing:%o and processed:%o', googleLocation, candifoodLocation);
     return candifoodLocation;
   }
 
