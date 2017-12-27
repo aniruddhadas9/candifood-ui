@@ -1,0 +1,10 @@
+{
+  "restUrl": "https://andycandifood.appspot.com",
+  "latitude":"",
+  "longitude":"",
+  "ga": {
+    "key": "tempPwd",
+    "iv": "XXXX",
+    "trackingId": "XX-XXXXXXXX-X"
+  }
+}

@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-md navbar-fixed-top navbar-dark main-nav">
+  <div class="container">
+    <div class="navbar-collapse collapse nav-content order-2">
+      <a class="navbar-brand" href="#">candifood</a>
+      <ul class="nav navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+      </ul>
+    </div>
+    <ul class="nav navbar-nav text-nowrap flex-row mx-md-auto order-1 order-md-2">
+      <li class="nav-item">
+        <button type="button" class="btn btn-warning ng-binding street-button" (click)="changeLocation()">
+          <i class="fa fa-street-view street-view" aria-hidden="true"></i> <span></span>
+          {{location.formatted_address | json}}
+        </button>
+      </li>
+      <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target=".nav-content"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </ul>
+    <div class="ml-auto navbar-collapse collapse nav-content order-3 order-md-3">
+      <ul class="ml-auto nav navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Rates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Help</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">profile</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!--
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#candifood"
+          aria-controls="candifood" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">candifood</a>
+
+  <div class="collapse navbar-collapse" id="candifood">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+    </ul>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-inline my-2 my-lg-0">
+      <div class="input-group">
+        <input formControlName="term" class="form-control"
+             type="search" placeholder="Search" aria-label="Search" required autofocus>
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+      </div>
+    </form>
+  </div>
+</nav>
+-->
