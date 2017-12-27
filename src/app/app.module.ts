@@ -25,7 +25,10 @@ import {ConfigService} from './core/services/config.service';
     RestaurantModule,
     LocationModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8'
+      apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8',
+      libraries: [
+        'places'
+      ]
     })
   ],
   providers: [

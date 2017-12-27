@@ -4,6 +4,7 @@ import {ConfigService} from './core/services/config.service';
 import {MapService} from './location/service/map.service';
 import {RestaurantService} from './restaurant/service/restaurant.service';
 import {AppService} from './services/app.service';
+import {GoogleMap} from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'cfs-root',
@@ -12,20 +13,28 @@ import {AppService} from './services/app.service';
 })
 export class AppComponent implements OnInit {
 
-  position: Position;
+  coordinates: Coordinates;
   title = 'cfs';
 
-  constructor(public userService: UserService,
-              private restaurantService: RestaurantService,
-              private mapService: MapService,
-              private configService: ConfigService,
-              appService: AppService) {
+  constructor(private restaurantService: RestaurantService,
+              private mapService: MapService) {
   }
 
   ngOnInit() {
+
+  }
+  mapReady(map: GoogleMap) {
+    this.mapService.map = map;
     this.mapService.getLocation({}).subscribe((position: Position) => {
-      this.position = position;
+      this.coordinates = position && position.coords;
+      this.mapService.getUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      }).subscribe((location) => {
+        this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
+          console.log('getUserFromMap|restaurants:%o', restaurants);
+        });
+      });
     });
   }
-
 }

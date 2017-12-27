@@ -40,11 +40,7 @@ export class HeaderComponent implements OnInit {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location) => {
-        console.log('getUserFromMap|location:%o', location);
         this.location = location;
-        this.mapService.getUserRestaurants1(location).subscribe((restaurants) => {
-          console.log('getUserFromMap|restaurants:%o', restaurants);
-        });
       });
     });
   }
@@ -57,7 +53,7 @@ export class HeaderComponent implements OnInit {
       }).subscribe((location) => {
         console.log('getUserFromMap|location:%o', location);
         this.location = location;
-        this.mapService.getUserRestaurants1(location).subscribe((restaurants) => {
+        this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
           console.log('getUserFromMap|restaurants:%o', restaurants);
         });
       });

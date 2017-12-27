@@ -17,31 +17,31 @@ const GEOLOCATION_ERRORS = {
 @Injectable()
 export class MapService {
 
-  private position: Observable<Position>;
+  public position: Observable<Position>;
+  public coordinates: Coordinates;
   private location: Observable<any>;
   private nearByPlaces: Observable<any>;
   private type = 'restaurant';
   private keyword = 'restaurant';
-  private map: GoogleMap;
+  public map: GoogleMap;
+  public geocoder;
+  public latLng;
 
   constructor(private configService: ConfigService,
               private httpClient: HttpClient,
               private googleMapsAPIWrapper: GoogleMapsAPIWrapper,
               private appService: AppService) {
 
-    this.googleMapsAPIWrapper.subscribeToMapEvent('init').subscribe((mapObj) => {
-      console.log('listening to init of google map mapObjConstructor:%o', mapObj);
-    });
   }
 
 
   public getLatLng(): Observable<any> {
     return Observable.create(observer => {
       if (window.navigator.geolocation) {
-        window.navigator.geolocation.getCurrentPosition(function (position) {
+        window.navigator.geolocation.getCurrentPosition(function (position: Position) {
           this.configService.latitude = position.coords.latitude;
           this.configService.longitude = position.coords.longitude;
-          // console.log("_mapService|getLatLng|cnadiMap:%o", position);
+          // console.log("_mapService|getLatLng|cnadiMap:%o", coordinates);
           observer.next({latitude: position.coords.latitude, longitude: position.coords.longitude});
           observer.complete();
         }, function (error) {
@@ -50,12 +50,12 @@ export class MapService {
             observer.error(('Geolocation: Please select your location from dropdown to serve you.'));
           }
           if (error.POSITION_UNAVAILABLE) {
-            console.log('Geolocation: Your position is unavailable! Please select your location from dropdown to serve you.');
-            observer.error(('Geolocation: Your position is unavailable! Please select your location from dropdown to serve you.'));
+            console.log('Geolocation: Your coordinates is unavailable! Please select your location from dropdown to serve you.');
+            observer.error(('Geolocation: Your coordinates is unavailable! Please select your location from dropdown to serve you.'));
           }
           if (error.TIMEOUT) {
-            console.log('Geolocation: Timeout to get your position! Please select your location from dropdown to serve you.');
-            observer.error(('Geolocation: Timeout to get your position! Please select your location from dropdown to serve you.'));
+            console.log('Geolocation: Timeout to get your coordinates! Please select your location from dropdown to serve you.');
+            observer.error(('Geolocation: Timeout to get your coordinates! Please select your location from dropdown to serve you.'));
           }
         });
 
@@ -67,20 +67,20 @@ export class MapService {
   }
 
   /**
-   * Obtains the geographic position, in terms of latitude and longitude coordinates, of the device.
+   * Obtains the geographic coordinates, in terms of latitude and longitude coordinates, of the device.
    * @param {Object} [opts] An object literal to specify one or more of the following attributes and desired values:
-   *   - enableHighAccuracy: Specify true to obtain the most accurate position possible, or false to optimize in favor
+   *   - enableHighAccuracy: Specify true to obtain the most accurate coordinates possible, or false to optimize in favor
    *   of performance and power consumption.
-   *   - timeout: An Integer value that indicates the time, in milliseconds, allowed for obtaining the position.
+   *   - timeout: An Integer value that indicates the time, in milliseconds, allowed for obtaining the coordinates.
    *              If timeout is Infinity, (the default value) the location request will not time out.
    *              If timeout is zero (0) or negative, the results depend on the behavior of the location provider.
-   *   - maximumAge: An Integer value indicating the maximum age, in milliseconds, of cached position information.
-   *                 If maximumAge is non-zero, and a cached position that is no older than maximumAge is available,
-   *                 the cached position is used instead of obtaining an updated location.
-   *                 If maximumAge is zero (0), watchPosition always tries to obtain an updated position,
-   *                 even if a cached position is already available.
-   *                 If maximumAge is Infinity, any cached position is used, regardless of its age, and watchPosition
-   *                 only tries to obtain an updated position if no cached position data exists.
+   *   - maximumAge: An Integer value indicating the maximum age, in milliseconds, of cached coordinates information.
+   *                 If maximumAge is non-zero, and a cached coordinates that is no older than maximumAge is available,
+   *                 the cached coordinates is used instead of obtaining an updated location.
+   *                 If maximumAge is zero (0), watchPosition always tries to obtain an updated coordinates,
+   *                 even if a cached coordinates is already available.
+   *                 If maximumAge is Infinity, any cached coordinates is used, regardless of its age, and watchPosition
+   *                 only tries to obtain an updated coordinates if no cached coordinates data exists.
    * @returns {Observable} An observable sequence with the geographical location of the device running the client.
    */
   public getLocation(opts): Observable<Position> {
@@ -88,6 +88,7 @@ export class MapService {
       if (window.navigator && window.navigator.geolocation) {
         window.navigator.geolocation.getCurrentPosition(
           (position: Position) => {
+            this.coordinates = position.coords;
             this.position = Observable.of(position);
             observer.next(position);
             observer.complete();
@@ -114,7 +115,6 @@ export class MapService {
   }
 
   public getUserLocation(latLngValue) {
-    console.log('_mapService|getUserLocation|google.maps:%o', (<any>window).google);
     return this.location || Observable.create(observer => {
       const geocoder = new (<any>window).google.maps.Geocoder();
       geocoder.geocode({'latLng': new (<any>window).google.maps.LatLng(latLngValue.latitude, latLngValue.longitude)}, (results, status) => {
@@ -133,8 +133,7 @@ export class MapService {
   }
 
 
-  public getUserRestaurants1(userLocation) {
-    // console.log("_mapService|userRestaurants|reached:%o", userLocation);
+  public getUserRestaurants(userLocation) {
     return Observable.create(observer => {
       const keyword = 'restaurant';
       const rankBy = 'distance';
@@ -143,8 +142,6 @@ export class MapService {
         radius: '',
         location: {},
         types: [],
-        rankBy: '',
-        bounds: ''
       };
       const restaurants = [];
 
@@ -153,108 +150,8 @@ export class MapService {
         center: new (<any>window).google.maps.LatLng(userLocation.latitude, userLocation.longitude),
         mapTypeId: (<any>window).google.maps.MapTypeId.ROADMAP
       };
-      console.log('html:%o', document.getElementsByClassName('agm-map-container-inner'));
-      console.log('this.googleMapsAPIWrapper.getNativeMap():%o', this.googleMapsAPIWrapper.getNativeMap());
-      this.googleMapsAPIWrapper.getNativeMap().then((obj: GoogleMap) => {
-        console.log('mapObj:%o', obj);
-        this.map = obj;
-        const places = new (<any>window).google.maps.places.PlacesService(this.googleMapsAPIWrapper.getNativeMap());
-        if (keyword) {
-          search.keyword = keyword;
-          console.log('keyword found and setting it to filter that particular types of restaurant!');
-        }
 
-        search.types = ['restaurant'];
-
-        if (rankBy === 'distance' && (search.types || search.keyword)) {
-          search.rankBy = google.maps.places.RankBy.DISTANCE;
-          search.location = new (<any>window).google.maps.LatLng(userLocation.latitude, userLocation.longitude);
-          const centerMarker = new (<any>window).google.maps.Marker({
-            position: search.location,
-            animation: google.maps.Animation.DROP,
-            map: google.maps.map
-          });
-        } else {
-          console.log('nearbyrestaurant: setting the laglng:%o', userLocation);
-          search.bounds = google.map.getBounds();
-        }
-        search.location = {lat: userLocation.latitude, lng: userLocation.longitude};
-        search.radius = '500';
-
-        // console.log("nearbyrestaurant: search:%o", search);
-
-        this.appService.restaurants.location = [userLocation];
-
-        places.nearbySearch(search, (results, status) => {
-          console.log('mapService|fetched from map|restaurant::::%o and status: %o', results, status);
-          if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
-            for (let i = 0; i < results.length; i++) {
-
-              const location = results[i].vicinity.split(',');
-              /*for (let i = 0; i < location.length; i++) {
-               location[i] = location[i].trim();
-               }*/
-              // console.log('restaurant::::%o and address: %o', results[i], location);
-              const restaurant = {
-                name: results[i].name,
-                type: JSON.stringify(results[i].types),
-                rating: results[i].rating,
-                googlePlaceId: results[i].place_id,
-                latitude: results[i].geometry.location.lat(),
-                longitude: results[i].geometry.location.lng(),
-                owner: 'google',
-                openTime: '11:00 AM',
-                closeTime: '11:00 PM',
-                address: location[0] + ', ' + location[1],
-                locality1: location[location.length - 3],
-                locality2: location[location.length - 2],
-                city: location[location.length - 1]
-              };
-              restaurants.push(restaurant);
-            }
-            this.appService.restaurants.restaurant = restaurants;
-            observer.next(this.appService.restaurants);
-            observer.complete();
-          } else {
-            const restaurant = {'name': null};
-            restaurants.push(restaurant);
-            this.appService.restaurants.restaurant = restaurants;
-            observer.next(this.appService.restaurants);
-            observer.complete();
-          }
-        });
-      });
-    });
-  }
-
-    public getUserRestaurants(userLocation) {
-    // console.log("_mapService|userRestaurants|reached:%o", userLocation);
-    return Observable.create(observer => {
-      const keyword = 'restaurant';
-      const rankBy = 'distance';
-      const search = {
-        keyword: '',
-        radius: '',
-        location: {},
-        types: [],
-        rankBy: '',
-        bounds: ''
-      };
-      const restaurants = [];
-
-      const mapOptions: MapOptions = {
-        zoom: 8,
-        center: new (<any>window).google.maps.LatLng(userLocation.latitude, userLocation.longitude),
-        mapTypeId: (<any>window).google.maps.MapTypeId.ROADMAP
-      };
-      console.log('html:%o', document.getElementsByClassName('agm-map-container-inner'));
-      console.log('this.googleMapsAPIWrapper.getNativeMap():%o', this.googleMapsAPIWrapper.getNativeMap());
-      this.googleMapsAPIWrapper.getNativeMap().then((obj: GoogleMap) => {
-        console.log('mapObj:%o', obj);
-        this.map = obj;
-      });
-      // const map: GoogleMap =  new (<any>window).google.maps.Map(document.getElementsByClassName('agm-map-container-inner'), mapOptions);
-      const places = new (<any>window).google.maps.places.PlacesService(this.googleMapsAPIWrapper.getNativeMap());
+      const places = new (<any>window).google.maps.places.PlacesService(this.map);
       if (keyword) {
         search.keyword = keyword;
         console.log('keyword found and setting it to filter that particular types of restaurant!');
@@ -263,23 +160,21 @@ export class MapService {
       search.types = ['restaurant'];
 
       if (rankBy === 'distance' && (search.types || search.keyword)) {
-        search.rankBy = google.maps.places.RankBy.DISTANCE;
+        // search.rankBy = (<any>window).google.maps.places.RankBy.DISTANCE;
         search.location = new (<any>window).google.maps.LatLng(userLocation.latitude, userLocation.longitude);
         const centerMarker = new (<any>window).google.maps.Marker({
           position: search.location,
-          animation: google.maps.Animation.DROP,
-          map: google.maps.map
+          animation: (<any>window).google.maps.Animation.DROP,
+          map: (<any>window).google.maps.map
         });
       } else {
         console.log('nearbyrestaurant: setting the laglng:%o', userLocation);
-        search.bounds = google.map.getBounds();
+        // search.bounds = (<any>window).google.map.getBounds();
       }
       search.location = {lat: userLocation.latitude, lng: userLocation.longitude};
-      search.radius = '500';
+      search.radius = '5000';
 
-      // console.log("nearbyrestaurant: search:%o", search);
-
-      this.appService.restaurants.location = [userLocation];
+      console.log('nearbyrestaurant: search:%o', search);
 
       places.nearbySearch(search, (results, status) => {
         console.log('mapService|fetched from map|restaurant::::%o and status: %o', results, status);
@@ -308,28 +203,26 @@ export class MapService {
             };
             restaurants.push(restaurant);
           }
-          this.appService.restaurants.restaurant = restaurants;
-          observer.next(this.appService.restaurants);
+          observer.next(restaurants);
           observer.complete();
         } else {
           const restaurant = {'name': null};
           restaurants.push(restaurant);
-          this.appService.restaurants.restaurant = restaurants;
-          observer.next(this.appService.restaurants);
+          observer.next(restaurants);
           observer.complete();
         }
       });
+
     });
   }
 
   public getGoogleMapPlaceDetail(googlePlaceId) {
     return Observable.create(observer => {
       // console.log('getGoogleMapPlaceDetail|parameter:%o', googlePlaceId);
-      const map = new (<any>window).google.maps.Map(document.getElementById('map-canvas'));
-      const places = new (<any>window).google.maps.places.PlacesService(map);
+      const places = new (<any>window).google.maps.places.PlacesService(this.map);
       places.getDetails({placeId: googlePlaceId}, function (place, status) {
         console.log('_mapService|fetched from map|place::::%o and status: %o', place, status);
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
+        if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
           let phone;
 
           if (typeof place.international_phone_number !== 'undefined') {
@@ -363,7 +256,7 @@ export class MapService {
       const places = new (<any>window).google.maps.places.PlacesService(map);
       places.getDetails({placeId: googlePlaceId}, function (place, status) {
         console.log('mapService|fetched from map|place::::%o and status: %o', place, status);
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
+        if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
           let phone;
 
           if (typeof place.international_phone_number !== 'undefined') {
@@ -458,7 +351,6 @@ export class MapService {
 
       }
     }
-    console.log('_mapService|processUserLocation|processing:%o and processed:%o', googleLocation, candifoodLocation);
     return candifoodLocation;
   }
 
