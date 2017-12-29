@@ -47,7 +47,8 @@ import {AgmCoreModule} from '@agm/core';
   exports: [
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    ChangeLocationModelComponent
   ],
   entryComponents: [ChangeLocationModelComponent]
 })

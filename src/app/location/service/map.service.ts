@@ -351,20 +351,14 @@ export class MapService {
     return candifoodLocation;
   }
 
-  private _processRestaurantObject(googleLocation) {
-    const gAddress = googleLocation.address_components;
-    const candifoodLocation = {};
-    candifoodLocation['formatted_address'] = googleLocation.formatted_address;
-    candifoodLocation['place_id'] = googleLocation.place_id;
-    for (let i = 0; i < gAddress.length; i++) {
-      candifoodLocation[gAddress[i].types[0]] = String(gAddress[i].long_name).trim();
+  public processGoogleMapLocation(googleLocation) {
+    const location = [];
+    location['formatted_address'] = googleLocation.formatted_address;
+    location['place_id'] = googleLocation.place_id;
+    for (let i = 0; i < googleLocation.address_components.length; i++) {
+      location[googleLocation.address_components[i].types[0]] = String(googleLocation.address_components[i].long_name).trim();
     }
-
-    /*for (let key in candifoodLocation) {
-      console.log("private String "+key+";")
-    }*/
-
-    return candifoodLocation;
+    return location;
   }
 
 

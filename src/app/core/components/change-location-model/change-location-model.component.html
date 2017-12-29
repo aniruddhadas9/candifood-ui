@@ -5,19 +5,12 @@
   </button>
 </div>
 <div class="modal-body">
-  <div class="row">
-    <div class="col">
-  <form class="form-inline" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <div class="input-group">
       <div class="input-group-addon"><i class="fa fa-street-view street-view" aria-hidden="true"></i></div>
-      <input type="text" name="term" id ="inlineFormInputGroup" placeholder="Change location" autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search [formControl]="searchControl">
+      <input type="text" name="term" id ="inlineFormInputGroup" placeholder="Start typing address..." autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control" #search [formControl]="searchControl">
     </div>
-    <button type="submit" class="btn btn-warning">Change</button>
   </form>
-    </div>
-    <!--<div class="col">
-    </div>-->
-  </div>
   <!--<div class="row">
     <agm-map [latitude]="input && input.latitude" [longitude]="input && input.longitude">
       <agm-marker [latitude]="input && input.latitude" [longitude]="input && input.longitude"></agm-marker>

@@ -1,13 +1,4 @@
-<div class="card">
-  <div class="card-header">
-    {{location | json}}
-  </div>
-  <div class="card-block">
-    <h4 class="card-title">location card</h4>
-    <p class="card-text">xxxxx</p>
-    <a href="#" class="btn btn-primary" (click)="getUserFromMap()">getLocation</a>
-  </div>
-</div>
+
 <div class="card" *ngFor="let restaurant of restaurants">
   <div class="card-header">
     {{restaurant.name}}

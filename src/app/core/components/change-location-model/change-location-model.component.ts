@@ -13,13 +13,10 @@ import {MapService} from '../../../location/service/map.service';
 export class ChangeLocationModelComponent implements OnInit {
 
   public searchForm: FormGroup;
-  public loading: boolean;
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
-  public location;
   public searchControl: FormControl;
-  public zoom: number;
 
 
   @Input('input') input: boolean;
@@ -56,11 +53,8 @@ export class ChangeLocationModelComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
-
-          // set latitude, longitude and zoom
-          this.location.latitude = place.geometry.location.lat();
-          this.location.longitude = place.geometry.location.lng();
-          this.zoom = 16;
+          // send changed address back
+          this.output.emit(place);
         });
       });
     });
@@ -68,7 +62,6 @@ export class ChangeLocationModelComponent implements OnInit {
 
   onSubmit() {
     if (this.searchForm.valid) {
-      this.loading = true;
     }
   }
 }

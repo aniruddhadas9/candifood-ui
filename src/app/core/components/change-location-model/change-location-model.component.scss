@@ -1,4 +1,4 @@
-/*model wondow*/
+/*model window*/
 .location-change-modal {
   .modal-content {
     background-color: #f78639;
@@ -21,10 +21,16 @@
   }
 }
 
+/*search input field*/
+.full-width {
+  width: 100%;
+}
+
 /*map*/
 agm-map {
   height: 300px;
 }
+
 .pac-container {
   z-index: 9999;
 }

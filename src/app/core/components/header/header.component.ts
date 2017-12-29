@@ -3,7 +3,7 @@ import {ConfigService} from '../../services/config.service';
 import {MapService} from '../../../location/service/map.service';
 import {AppService} from '../../../services/app.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {AlertService} from '../../services/alert.service';
+import {AlertService, WarningAlert} from '../../services/alert.service';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -30,13 +30,10 @@ export class HeaderComponent implements OnInit {
               private appService: AppService,
               private userService: UserService,
               private alertService: AlertService) {
-
     this.searchForm = new FormGroup({
       term: new FormControl('', [Validators.required]),
     });
-
     this.term = this.searchForm.controls['term'];
-
   }
 
   ngOnInit() {
@@ -45,33 +42,24 @@ export class HeaderComponent implements OnInit {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location) => {
-        console.log(location);
+        console.log('header|ngInit|location:%o', location);
         this.location = location;
+      }, (error) => {
+        this.alertService.alert( new WarningAlert('User address', 'Unable to your current address', error));
       });
+    }, (error) => {
+      this.alertService.alert( new WarningAlert('Location Needed', 'Unable to get location', error));
+      this.open();
     });
   }
-
-  changeLocation() {
-    this.mapService.getLocation({}).subscribe((position: Position) => {
-      this.mapService.getUserLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }).subscribe((location) => {
-        console.log('getUserFromMap|location:%o', location);
-        this.location = location;
-        this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
-          console.log('getUserFromMap|restaurants:%o', restaurants);
-        });
-      });
-    });
-  }
-
 
   open() {
     this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
     this.modalRef.componentInstance.input = this.location;
-    this.modalRef.componentInstance.output.subscribe((ouput) => {
-      console.log(ouput);
+    this.modalRef.componentInstance.output.subscribe((location) => {
+      console.log('header|open|location:%o', location);
+      this.location = this.mapService.processUserLocation(location);
+      this.modalRef.componentInstance.input = this.location;
     });
   }
 
@@ -96,5 +84,4 @@ export class HeaderComponent implements OnInit {
       });
     }
   }
-
 }
