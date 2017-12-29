@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from './core/services/user.service';
-import {ConfigService} from './core/services/config.service';
 import {MapService} from './location/service/map.service';
 import {RestaurantService} from './restaurant/service/restaurant.service';
-import {AppService} from './services/app.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
 
 @Component({
@@ -21,8 +18,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
+
   mapReady(map: GoogleMap) {
     this.mapService.map = map;
     this.mapService.getLocation({}).subscribe((position: Position) => {

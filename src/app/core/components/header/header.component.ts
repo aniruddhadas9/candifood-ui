@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ConfigService} from '../../services/config.service';
 import {MapService} from '../../../location/service/map.service';
 import {AppService} from '../../../services/app.service';
@@ -6,11 +6,14 @@ import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/form
 import {AlertService} from '../../services/alert.service';
 import {UserService} from '../../services/user.service';
 import {Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ChangeLocationModelComponent} from '../change-location-model/change-location-model.component';
 
 @Component({
   selector: 'cfs-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent implements OnInit {
 
@@ -18,8 +21,10 @@ export class HeaderComponent implements OnInit {
   public searchForm: FormGroup;
   private term: AbstractControl;
   public loading: boolean;
+  public modalRef;
 
   constructor(private mapService: MapService,
+              private modalService: NgbModal,
               private router: Router,
               private configService: ConfigService,
               private appService: AppService,
@@ -30,7 +35,7 @@ export class HeaderComponent implements OnInit {
       term: new FormControl('', [Validators.required]),
     });
 
-    this.term = this.searchForm.controls['username'];
+    this.term = this.searchForm.controls['term'];
 
   }
 
@@ -40,6 +45,7 @@ export class HeaderComponent implements OnInit {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location) => {
+        console.log(location);
         this.location = location;
       });
     });
@@ -57,6 +63,15 @@ export class HeaderComponent implements OnInit {
           console.log('getUserFromMap|restaurants:%o', restaurants);
         });
       });
+    });
+  }
+
+
+  open() {
+    this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
+    this.modalRef.componentInstance.input = this.location;
+    this.modalRef.componentInstance.output.subscribe((ouput) => {
+      console.log(ouput);
     });
   }
 

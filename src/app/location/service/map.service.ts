@@ -19,13 +19,13 @@ export class MapService {
 
   public position: Observable<Position>;
   public coordinates: Coordinates;
+  public map: GoogleMap;
+  public geocoder;
+  public latLng;
   private location: Observable<any>;
   private nearByPlaces: Observable<any>;
   private type = 'restaurant';
   private keyword = 'restaurant';
-  public map: GoogleMap;
-  public geocoder;
-  public latLng;
 
   constructor(private configService: ConfigService,
               private httpClient: HttpClient,
@@ -175,10 +175,7 @@ export class MapService {
       search.location = {lat: userLocation.latitude, lng: userLocation.longitude};
       search.radius = '5000';
 
-      console.log('nearbyrestaurant: search:%o', search);
-
       places.nearbySearch(search, (results, status) => {
-        console.log('mapService|fetched from map|restaurant::::%o and status: %o', results, status);
         if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
           for (let i = 0; i < results.length; i++) {
 
@@ -330,7 +327,6 @@ export class MapService {
       });
     });
   }
-
 
   public processUserLocation(googleLocation) {
     const candifoodLocation = {};
