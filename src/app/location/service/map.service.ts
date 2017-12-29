@@ -116,8 +116,9 @@ export class MapService {
 
   public getUserLocation(latLngValue) {
     return this.location || Observable.create(observer => {
-      const geocoder = new (<any>window).google.maps.Geocoder();
-      geocoder.geocode({'latLng': new (<any>window).google.maps.LatLng(latLngValue.latitude, latLngValue.longitude)}, (results, status) => {
+      this.geocoder = this.geocoder || new (<any>window).google.maps.Geocoder();
+      this.latLng = this.latLng || new (<any>window).google.maps.LatLng(latLngValue.latitude, latLngValue.longitude);
+      this.geocoder.geocode({'latLng': this.latLng}, (results, status) => {
         if (status === (<any>window).google.maps.GeocoderStatus.OK) {
           const newLocation: any = this.processUserLocation(results[0]);
           newLocation.latitude = latLngValue.latitude;
