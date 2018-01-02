@@ -4,7 +4,7 @@ import {DisplayRestaurantComponent} from './components/display-restaurant/displa
 import {RestaurantService} from './service/restaurant.service';
 import {HttpClientModule} from '@angular/common/http';
 import {ConfigService} from '../core/services/config.service';
-import {MapService} from '../location/service/map.service';
+import {MapService} from '../core/services/map.service';
 import {AppService} from '../services/app.service';
 
 @NgModule({

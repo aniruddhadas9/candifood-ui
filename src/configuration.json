@@ -1,5 +1,6 @@
 {
-  "restUrl": "https://andycandifood.appspot.com",
+  "restServerUrl": "https://andycandifood.appspot.com",
+  "restUrl": "http://localhost:8080",
   "latitude":"",
   "longitude":"",
   "ga": {

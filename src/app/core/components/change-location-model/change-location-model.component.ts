@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, View
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MapsAPILoader} from '@agm/core';
-import {MapService} from '../../../location/service/map.service';
+import {MapService} from '../../services/map.service';
 
 @Component({
   selector: 'cfs-change-location-model',

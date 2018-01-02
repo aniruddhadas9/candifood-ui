@@ -6,7 +6,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {RestaurantModule} from './restaurant/restaurant.module';
-import {LocationModule} from './location/location.module';
 import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {appInitFactory, AppInitService} from './core/services/app-init.service';
@@ -23,7 +22,6 @@ import {ConfigService} from './core/services/config.service';
     AppRoutingModule,
     CoreModule,
     RestaurantModule,
-    LocationModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8',
       libraries: [

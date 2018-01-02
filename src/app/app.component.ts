@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MapService} from './location/service/map.service';
+import {MapService} from './core/services/map.service';
 import {RestaurantService} from './restaurant/service/restaurant.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'cfs-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   title = 'cfs';
 
   constructor(private restaurantService: RestaurantService,
+              private httpClient: HttpClient,
               private mapService: MapService) {
   }
 
@@ -29,6 +31,16 @@ export class AppComponent implements OnInit {
         longitude: position.coords.longitude
       }).subscribe((location) => {
         this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
+          this.restaurantService.restaurants = [ ...restaurants];
+          const request = {
+            location: [location],
+            restaurant: restaurants
+          };
+          this.restaurantService.addRestaurants(request).subscribe(function (results) {
+            console.log('stored restaurants into datastore:%o', results);
+          }, function (error) {
+            console.log('Error while storing fetched restaurants from google map! error: %o ', error);
+          });
           console.log('getUserFromMap|restaurants:%o', restaurants);
         });
       });

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ConfigService} from '../../core/services/config.service';
+import {ConfigService} from './config.service';
 import {google, GoogleMap, MapOptions} from '@agm/core/services/google-maps-types';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';

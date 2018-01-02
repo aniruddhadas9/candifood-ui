@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ConfigService} from '../../services/config.service';
-import {MapService} from '../../../location/service/map.service';
+import {MapService} from '../../services/map.service';
 import {AppService} from '../../../services/app.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AlertService, WarningAlert} from '../../services/alert.service';

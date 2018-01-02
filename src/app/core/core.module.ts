@@ -14,18 +14,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
 import {EncryptionService} from '../services/encryption.service';
 import {ChangeLocationModelComponent} from './components/change-location-model/change-location-model.component';
-import {AgmCoreModule} from '@agm/core';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
 
 @NgModule({
   imports: [
     CommonModule,
     NgbModule.forRoot(),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8',
-      libraries: [
-        'places'
-      ]
-    }),
     ReactiveFormsModule,
   ],
   declarations: [
@@ -42,7 +36,8 @@ import {AgmCoreModule} from '@agm/core';
     AuthGuardService,
     ConfigService,
     EncryptionService,
-    UserService
+    UserService,
+    GoogleMapsAPIWrapper
   ],
   exports: [
     HeaderComponent,

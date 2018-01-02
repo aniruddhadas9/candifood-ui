@@ -1,11 +1,44 @@
+<div class="list-restaurant">
+  <div class="card restaurant-card" *ngFor="let restaurant of restaurantService.restaurants">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-1" style="padding: 23px 0 0 25px">
+          <p class="glyphicon glyphicon-cutlery" style="font-size: 40px;color:#F36F24" aria-hidden="true"></p>
+          <i class="fa fa-cutlery" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+        </div>
+        <div class="col-md-7 ng-scope" ng-controller="RatingController as rating">
+          <h4 class="ng-binding">{{restaurant.name}}</h4>
+          <div class="ngrateit ng-pristine ng-untouched ng-valid ng-isolate-scope ngrateit-readonly ng-not-empty"
+               ng-class="{'ngrateit-readonly': readOnly()}" ng-model="item.rating" read-only="true">
+            <div class="ngrateit-star_wrapper" ng-click="setValue()" ng-mouseenter="onEnter($event)"
+                 ng-mousemove="onHover($event)" ng-mouseleave="onLeave();"
+                 ng-style="{'width': ((max-min)*starWidth)+'px', 'height': starHeight+'px'}"
+                 style="width: 80px; height: 16px;">
+              <div class="ngrateit-background"></div>
+              <div class="ngrateit-value"
+                   ng-hide="!readOnly() &amp;&amp; hoverValue>0 &amp;&amp; hoverValue!==(ngModel-min)"
+                   ng-style="{'width': (ngModel-min)*starWidth+'px', 'background-position': '0 '+(-2*starHeight)+'px'}"
+                   style="width: 72px; background-position: 0px -32px;"></div>
+            </div>
+          </div>
+          <p class="ng-binding">{{restaurant.address}}, {{restaurant.city}}</p></div>
+        <div class="col-md-4" style="padding: 23px 0 0 11px">
+          <p class="glyphicon glyphicon-glass" style="font-size: 30px;color:#F36F24" aria-hidden="true">
 
-<div class="card" *ngFor="let restaurant of restaurants">
-  <div class="card-header">
-    {{restaurant.name}}
+          </p>
+          <i class="fa fa-glass" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+          <i class="fa fa-truck" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+          <i class="fa fa-heart" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+          <i class="fa fa-coffee" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-block">
+      <h4 class="card-title">{{restaurant.address}}, {{restaurant.city}}</h4>
+      <p class="card-text">{{restaurant.description}}{{restaurant.type}}</p>
+      <a href="#" class="btn btn-primary">{{restaurant.phone}}</a>
+    </div>
   </div>
-  <div class="card-block">
-    <h4 class="card-title">{{restaurant.address}}, {{restaurant.city}}</h4>
-    <p class="card-text">{{restaurant.description}}{{restaurant.type}}</p>
-    <a href="#" class="btn btn-primary">{{restaurant.phone}}</a>
-  </div>
+
+
 </div>
