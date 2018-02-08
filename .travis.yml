@@ -1,34 +1,33 @@
-sudo: required
+sudo: false
 dist: trusty
+
+addons:
+  chrome: stable
 
 language: node_js
 
 node_js:
-  - 8.9.4
-
-before_install:
- - export CHROME_BIN=/usr/bin/google-chrome
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
- - sudo apt-get update
- - sudo apt-get install -y libappindicator1 fonts-liberation
- - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
- - sudo dpkg -i google-chrome*.deb
+  - node
 
 install:
   - npm install
 
-before_script:
-  - npm install -g @angular/cli
-  - npm update -g @angular/cli
-  - npm update
+cache:
+  directories:
+    - "node_modules"
 
 script:
   - ng -v
   - ng build
   - ng test --code-coverage true --watch false
+  - npm test
 
 notifications:
-  email:
+  slack:
     on_failure: change
-    on_success: change
+  email:
+    recipients:
+      - aniruddha.das@finra.org
+      - Kenneth.Steward@finra.org
+    on_success: change # default: change
+    on_failure: always # default: always
