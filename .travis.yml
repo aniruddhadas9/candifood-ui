@@ -1,9 +1,20 @@
 language: node_js
+
 node_js:
   - 8.9.4
+
 install:
   - npm install
+
 before_script:
-  - ng build
+  - npm install -g @angular/cli
+  - ng -v
+
 script:
+  - ng build
   - ng test --code-coverage true --watch false
+
+notifications:
+  email:
+    on_failure: change
+    on_success: change
