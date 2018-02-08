@@ -8,9 +8,9 @@ install:
 
 before_script:
   - npm install -g @angular/cli
-  - ng -v
 
 script:
+  - ng -v
   - ng build
   - ng test --code-coverage true --watch false
 
