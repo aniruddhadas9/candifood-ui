@@ -8,6 +8,8 @@ install:
 
 before_script:
   - npm install -g @angular/cli
+  - npm update -g @angular/cli
+  - npm update
 
 script:
   - ng -v
