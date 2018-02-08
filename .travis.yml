@@ -27,7 +27,6 @@ notifications:
     on_failure: change
   email:
     recipients:
-      - aniruddha.das@finra.org
-      - Kenneth.Steward@finra.org
+      - candifoodindia@gmail.com
     on_success: change # default: change
     on_failure: always # default: always
