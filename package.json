@@ -22,6 +22,7 @@
     "@angular/platform-browser": "5.1.x",
     "@angular/platform-browser-dynamic": "5.1.x",
     "@angular/router": "5.1.x",
+    "@herd/angular-client": "^0.63.0-SNAPSHOT.20180206162415",
     "@ng-bootstrap/ng-bootstrap": "1.0.0-beta.8",
     "angularfire2": "5.0.0-rc.5-next",
     "bootstrap": "4.0.0-beta.2",
