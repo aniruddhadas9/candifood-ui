@@ -3,26 +3,27 @@ import {CommonModule} from '@angular/common';
 import {DisplayRestaurantComponent} from './components/display-restaurant/display-restaurant.component';
 import {RestaurantService} from './service/restaurant.service';
 import {HttpClientModule} from '@angular/common/http';
-import {ConfigService} from '../core/services/config.service';
-import {MapService} from '../core/services/map.service';
-import {AppService} from '../services/app.service';
+import {AppService, MapService} from '@candifood/core';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule,
+    NgbModule
   ],
   declarations: [
-    DisplayRestaurantComponent,
+    DisplayRestaurantComponent
   ],
   providers: [
     AppService,
     RestaurantService,
-    ConfigService,
     MapService
   ],
   exports: [
-    DisplayRestaurantComponent,
+    DisplayRestaurantComponent
   ]
 })
 export class RestaurantModule {

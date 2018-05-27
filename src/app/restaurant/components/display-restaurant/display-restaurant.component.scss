@@ -1,8 +1,34 @@
 .list-restaurant {
-  .restaurant-card {
-    margin: 3px 0;
-    .card-header {
-      background-color: #F5F5F5;
+  margin: 3px 0;
+  .card-header {
+    background-color: #F5F5F5;
+    .row {
+      .utensils {
+        width: 200px;
+        height: 200px;
+      }
+
     }
   }
+  .card {
+    margin-bottom: 5px;
+  }
+}
+
+.star {
+  position: relative;
+  display: inline-block;
+  font-size: 15px;
+  color: #d3d3d3;
+}
+
+.full {
+  color: red;
+}
+
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  color: red;
 }

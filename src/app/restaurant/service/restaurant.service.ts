@@ -1,13 +1,18 @@
 import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ConfigService} from '../../core/services/config.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class RestaurantService implements OnInit {
 
   public location;
-  public restaurant;
+  public restaurant = {
+    after: '',
+    items: []
+  };
+  private busy;
+  private finish;
   public records = {
     runningStage: 'sublocality_level_2',
     sublocality_level_2Finish: false,
@@ -34,108 +39,86 @@ export class RestaurantService implements OnInit {
   // public restaurants: Observable<any>;
   public restaurants: any = [];
 
-  constructor(private httpClient: HttpClient, private configService: ConfigService) {
+  constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
   }
 
-  getRestaurants(): Observable<any> {
-    return this.httpClient.get(this.configService.config.restUrl + '/restaurant/all/0/20');
-  }
-
   addRestaurants(restaurants: any): Observable<any> {
-    return this.httpClient.post(this.configService.config.restUrl + '/restaurant/addList', restaurants);
+    return this.httpClient.post(environment.restUrl + '/restaurant/addList', restaurants);
   }
 
   getRestaurantsBySubLocality(locality2: string): Observable<any> {
     // https://andycandifood.appspot.com/restaurant/sublocality_level_2/undefined/0/10/
-    return this.httpClient.get(this.configService.config.restUrl + '/restaurant/sublocality_level_2/' + locality2 + '/0/20');
+    return this.httpClient.get(environment.restUrl + '/restaurant/sublocality_level_2/' + locality2 + '/0/20');
   }
 
 
-  public allItems() {
-    // console.log('_allrestaurantController|allItems|this.location: %o', this.location);
+  public getRestaurants(location) {
+    this.location = location;
+    console.log('restaurant.service|getRestaurants|this.location: %o', this.location);
 
-    // console.log('showallitemcontroller|allItems function|start:%o', this.items);
-    if (this.restaurant.busy) {
+    if (this.busy) {
       return;
     }
-    if (this.restaurant.finish) {
+    if (this.finish) {
       return;
     }
-    this.restaurant.busy = true;
-    /*//console.log('showallitemcontroller|allItems function|just before baseSerive.get call:%o', this.restaurant.items);
-    baseService._get('restaurant/all/'+this.restaurant.after+'/'+this.restaurant.noOfRecord).then(function(results) {
-      console.log('_allrestaurantController|all|restaurants|results:%o', results);
-      if (results.length <= 0 ) this.restaurant.finish = true;
-      for (var i = 0; i < results.length; i++) {
-        this.restaurant.items.push(results[i]);
-      }*/
+    this.busy = true;
 
     if (!this.records.sublocality_level_2Finish) {
       this.records.runningStage = 'sublocality_level_2';
       this.records.url = 'sublocality_level_2';
       this.records.param = this.location.sublocality_level_2;
-      this._getRestaurants();
     } else if (!this.records.sublocality_level_1Finish) {
       this.records.runningStage = 'sublocality_level_1';
       this.records.url = 'sublocality_level_1';
       this.records.param = this.location.sublocality_level_1;
-      this._getRestaurants();
     } else if (!this.records.localityFinish) {
       this.records.runningStage = 'locality';
       this.records.url = 'locality';
       this.records.param = this.location.locality;
-      this._getRestaurants();
     } else if (!this.records.locality2Finish) {
       this.records.runningStage = 'locality2';
       this.records.url = 'locality2';
       this.records.param = this.location.locality2;
-      this._getRestaurants();
     } else if (!this.records.locality1Finish) {
       this.records.runningStage = 'locality1';
       this.records.url = 'locality1';
       this.records.param = this.location.locality1;
-      this._getRestaurants();
     } else if (!this.records.routeFinish) {
       this.records.runningStage = 'route';
       this.records.url = 'route';
       this.records.param = this.location.route;
-      this._getRestaurants();
     } else if (!this.records.postalCodeFinish) {
       this.records.runningStage = 'postalCode';
       this.records.url = 'postalCode';
       this.records.param = this.location.postal_code;
-      this._getRestaurants();
     } else if (!this.records.city) {
       this.records.runningStage = 'city';
       this.records.url = 'city';
       this.records.param = this.location.city;
-      this._getRestaurants();
     } else if (!this.records.state) {
       this.records.runningStage = 'state';
       this.records.url = 'state';
       this.records.param = this.location.state;
-      this._getRestaurants();
     }
-
+    this._getRestaurants();
     this.restaurant.after += 20;
-    this.restaurant.busy = false;
+    this.busy = false;
 
-    //  });
-    // console.log('showallitemcontroller|allItems function|just after baseSerive.get call:%o', this.restaurant.items);
   }
 
   public _getRestaurants() {
-    this.httpClient.get('restaurant/' + this.records.url + '/' + this.records.param + '/' + this.records.after
+    this.httpClient.get(environment.restUrl + 'restaurant/' + this.records.url + '/' + this.records.param + '/' + this.records.after
       + '/' + this.records.noOfRecord).subscribe(function (results: any) {
       console.log('_allrestaurantController|' + 'url: restaurant/' + this.records.url + '/' + this.records.param
         + '/' + this.records.after + '/' + this.records.noOfRecord + '|results:%o', results);
 
-      for (let i = 0; i < results.length; i++) {
-        this.restaurant.items.push(results[i]);
-      }
+      results.map((restaurant) => {
+        this.restaurant.items.push(restaurant);
+      });
 
       // this.restaurant.items = _.unique(this.restaurant.items, 'name');
 
@@ -168,12 +151,12 @@ export class RestaurantService implements OnInit {
           this.records.after = 0;
           this.records.stateFinish = true;
         } else {
-          this.restaurant.finish = true;
+          this.finish = true;
         }
       }
 
       this.restaurant.after += 10;
-      this.restaurant.busy = false;
+      this.busy = false;
 
     });
   }

@@ -1,49 +1,143 @@
-import {Component, OnInit} from '@angular/core';
-import {MapService} from './core/services/map.service';
+import {ChangeDetectorRef, Component} from '@angular/core';
+// import {ChangeLocationModelComponent, MapService} from '@candifood/core';
+import {HttpClient} from '@angular/common/http';
 import {RestaurantService} from './restaurant/service/restaurant.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
-import {HttpClient} from '@angular/common/http';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
+import {
+  ChangeLocationModelComponent
+} from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
 
 @Component({
-  selector: 'cfs-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  title = 'candifood';
+  public modalRef;
+  public coordinates;
+  public location;
 
-  coordinates: Coordinates;
-  title = 'cfs';
+  // header links
+  public middleButton;
+  public headerBrand;
+  public headerLeftLinks;
 
-  constructor(private restaurantService: RestaurantService,
-              private httpClient: HttpClient,
-              private mapService: MapService) {
+  // footer links
+  public year: string;
+  public social;
+  public brand;
+  public contact;
+  public message;
+  public columnOneLinks;
+  public columnTwoLinks;
+
+  constructor(
+    private restaurantService: RestaurantService,
+    private httpClient: HttpClient,
+    private mapService: MapService,
+    private modalService: NgbModal,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
+
+    this.middleButton = {
+      display: true,
+      label: 'please choose your location'
+    };
+
+    this.headerLeftLinks = [
+      {label: 'Privacy', url: '/privacy', display: false},
+      {label: 'Profile', url: '/profile', display: true},
+      {label: 'login', url: '/login', display: true},
+    ];
+    this.headerBrand = {
+      label: 'candifood',
+      url: '/'
+    };
+
+    this.year = '2018';
+    this.social = {
+      facebook: 'http://www.facebook.com',
+      googlePlus: 'http://www.plus.google.com',
+      twitter: 'http://www.twitter.com',
+      linkedin: 'http://www.linkedin.com',
+    };
+
+    this.brand = {
+      label: 'candifood team',
+      url: 'https://www.candifood.com'
+    };
+
+    this.contact = {
+      name: 'Aniruddha Das',
+      email: 'aniruddhadas9@gmail.com',
+      phone: '+1 415 650 9102',
+      fax: '+x xxx xxx xxxx'
+    };
+    this.message = {
+      heading: 'All your eating solution',
+      desc: 'What we eat, it makes a difference in our life. Healthy food does not always comes with good test.' +
+      'We are here to help you to be health as well as take care of your test. Just let us know you.'
+    };
+    this.columnOneLinks = [
+      {label: 'login', url: '/login'}
+    ];
+    this.columnTwoLinks = [
+      {label: 'profile', url: '/profile'}
+    ];
+
   }
 
-  ngOnInit() {
+
+  openLocationChangeModel(event) {
+    this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
+    this.modalRef.componentInstance.input = this.location;
+    this.modalRef.componentInstance.output.subscribe((location) => {
+      this.location = this.mapService.processFullLocation(location);
+      console.log('this.mapService.processFullLocation(location):%o', this.mapService.processFullLocation(location));
+      this.middleButton.label = location.formatted_address;
+      this.modalRef.componentInstance.input = this.location;
+      this.coordinates = {
+        latitude: this.location.latitude,
+        longitude: this.location.longitude
+      };
+      this.restaurantService.restaurants = [];
+      this._getRestaurantsFromMap(this.location);
+    });
   }
 
   mapReady(map: GoogleMap) {
     this.mapService.map = map;
-    this.mapService.getLocation({}).subscribe((position: Position) => {
+    this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
       this.coordinates = position && position.coords;
-      this.mapService.getUserLocation({
+      this.mapService.getAddressFromCoordinates({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location) => {
-        this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
-          this.restaurantService.restaurants = [ ...restaurants];
-          const request = {
-            location: [location],
-            restaurant: restaurants
-          };
-          this.restaurantService.addRestaurants(request).subscribe(function (results) {
-            console.log('stored restaurants into datastore:%o', results);
-          }, function (error) {
-            console.log('Error while storing fetched restaurants from google map! error: %o ', error);
-          });
-          console.log('getUserFromMap|restaurants:%o', restaurants);
-        });
+        this.middleButton.label = location.formatted_address;
+        this.changeDetectorRef.detectChanges();
+        this._getRestaurantsFromMap(location);
       });
+    });
+  }
+
+  _getRestaurantsFromMap(location) {
+    this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
+      this.restaurantService.restaurants = [...restaurants];
+      this.changeDetectorRef.detectChanges();
+      const request = {
+        location: [location],
+        restaurant: restaurants
+      };
+      this.restaurantService.addRestaurants(request).subscribe(function (results) {
+        console.log('app.component|map restaurants stored:%o', results);
+      }, function (error) {
+        console.log('Error while storing fetched restaurants from google map! error: %o ', error);
+      });
+      console.log('getUserFromMap|restaurants:%o', restaurants);
+
     });
   }
 }

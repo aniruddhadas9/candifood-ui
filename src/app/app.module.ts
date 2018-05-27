@@ -1,16 +1,13 @@
-import {BrowserModule} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 
-import {AppRoutingModule} from './app-routing.module';
-
-import {AppComponent} from './app.component';
-import {CoreModule} from './core/core.module';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {RestaurantModule} from './restaurant/restaurant.module';
-import {SafeHtmlPipe} from './pipes/safe-html.pipe';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {appInitFactory, AppInitService} from './core/services/app-init.service';
+import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
-import {ConfigService} from './core/services/config.service';
+import {CoreModule} from '../../projects/candifood/core/src/lib/core.module';
 
 @NgModule({
   declarations: [
@@ -18,9 +15,10 @@ import {ConfigService} from './core/services/config.service';
   ],
   imports: [
     BrowserModule,
-    NgbModule,
     AppRoutingModule,
-    CoreModule,
+    NgbModule.forRoot(),
+    CoreModule.forRoot(),
+    HomeModule,
     RestaurantModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8',
@@ -30,16 +28,15 @@ import {ConfigService} from './core/services/config.service';
     })
   ],
   providers: [
-    {
+    /*{
       provide: APP_INITIALIZER,
       useFactory: appInitFactory,
       deps: [AppInitService],
       multi: true
-    },
-    SafeHtmlPipe,
-    ConfigService
+    }*/
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [
+    AppComponent
+  ]
 })
-export class AppModule {
-}
+export class AppModule { }

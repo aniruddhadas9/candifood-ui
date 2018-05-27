@@ -1,0 +1,55 @@
+<div class="header">
+
+  <cfs-alerts></cfs-alerts>
+
+  <div class="container">
+
+    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+
+      <a [routerLink]="brand.url" class="navbar-brand d-flex w-50 mr-auto">
+        <img src="/assets/{{logo}}" width="30" height="30" class="d-inline-block align-top" alt="">{{brand.label}}
+      </a>
+
+      <button
+        class="navbar-toggler btn btn-outline-primary" type="button" data-toggle="collapse"
+        data-target="#candifoodtoggle" aria-expanded="false" aria-label="Toggle navigation"
+        (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="candifoodtoggle">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="navbar-collapse collapse w-100" id="candifoodtoggle"  [ngbCollapse]="isCollapsed">
+
+        <ul class="navbar-nav w-100 justify-content-center">
+          <li class="nav-item active" *ngIf="middleButton.display">
+            <button type="button" class="btn btn-warning ng-binding street-button" (click)="open()">
+              <fa-icon [icon]="['fas', 'street-view']"></fa-icon><span></span>
+              {{location.formatted_address || middleButton.label}}
+            </button>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+          <li class="nav-item" *ngFor="let link of leftLinks">
+            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active">{{link.label}}</a>
+          </li>
+          <!--<li class="nav-item">
+            <div ngbDropdown class="d-inline-block">
+              <a class="nav-link" ngbDropdownToggle
+
+                 routerLinkActive="active">Admin</a>
+              <div ngbDropdownMenu aria-labelledby="profile">
+                <button class="dropdown-item" [routerLink]="'/user-manage'">Manage user</button>
+                <button class="dropdown-item" [routerLink]="'/holi-statics'">Event statics</button>
+                <button class="dropdown-item" [routerLink]="'/holi'">Holi 2018 guest entry</button>
+                <button class="dropdown-item" [routerLink]="'/holi-manage'">Name search</button>
+                <button class="dropdown-item" [routerLink]="'/csv-upload'">Upload CSV file</button>
+              </div>
+            </div>
+          </li>-->
+        </ul>
+      </div>
+    </nav>
+
+  </div>
+
+</div>

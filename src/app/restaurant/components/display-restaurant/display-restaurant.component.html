@@ -1,42 +1,63 @@
 <div class="list-restaurant">
-  <div class="card restaurant-card" *ngFor="let restaurant of restaurantService.restaurants">
+  <div class="card" *ngFor="let restaurant of restaurantService.restaurants">
+
     <div class="card-header">
       <div class="row">
-        <div class="col-md-1" style="padding: 23px 0 0 25px">
-          <p class="glyphicon glyphicon-cutlery" style="font-size: 40px;color:#F36F24" aria-hidden="true"></p>
-          <i class="fa fa-cutlery" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+        <div class="col-md-1">
+          <fa-icon [icon]="['fas', 'utensils']" [size]="'5x'" [styles]="{color:'#F36F24'}"></fa-icon>
         </div>
-        <div class="col-md-7 ng-scope" ng-controller="RatingController as rating">
+        <div class="col-md-7 ng-scope">
           <h4 class="ng-binding">{{restaurant.name}}</h4>
-          <div class="ngrateit ng-pristine ng-untouched ng-valid ng-isolate-scope ngrateit-readonly ng-not-empty"
-               ng-class="{'ngrateit-readonly': readOnly()}" ng-model="item.rating" read-only="true">
-            <div class="ngrateit-star_wrapper" ng-click="setValue()" ng-mouseenter="onEnter($event)"
-                 ng-mousemove="onHover($event)" ng-mouseleave="onLeave();"
-                 ng-style="{'width': ((max-min)*starWidth)+'px', 'height': starHeight+'px'}"
-                 style="width: 80px; height: 16px;">
-              <div class="ngrateit-background"></div>
-              <div class="ngrateit-value"
-                   ng-hide="!readOnly() &amp;&amp; hoverValue>0 &amp;&amp; hoverValue!==(ngModel-min)"
-                   ng-style="{'width': (ngModel-min)*starWidth+'px', 'background-position': '0 '+(-2*starHeight)+'px'}"
-                   style="width: 72px; background-position: 0px -32px;"></div>
-            </div>
-          </div>
-          <p class="ng-binding">{{restaurant.address}}, {{restaurant.city}}</p></div>
-        <div class="col-md-4" style="padding: 23px 0 0 11px">
-          <p class="glyphicon glyphicon-glass" style="font-size: 30px;color:#F36F24" aria-hidden="true">
+          <p class="ng-binding">{{restaurant.address}}, {{restaurant.city}}</p>
+          <p class="card-text">Time: {{restaurant.openTime}} - {{restaurant.closeTime}}</p>
+          <ng-template #t let-fill="fill">
+            <span class="star" [class.full]="fill === 100">
+              <span class="half" [style.width.%]="fill">
+                &#9734;
+              </span>
+              &#9733;
+            </span>
+          </ng-template>
+          <ngb-rating [(rate)]="restaurant.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+        </div>
 
-          </p>
-          <i class="fa fa-glass" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
-          <i class="fa fa-truck" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
-          <i class="fa fa-heart" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
-          <i class="fa fa-coffee" style="color:#F36F24;font-size:40px" aria-hidden="true"></i>
+        <div class="col-md-4">
+
+          <!--// These are default types, so not provided icons for them-->
+          <!--<fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types.includes('food')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types.includes('restaurant')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types.includes('establishment')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types.includes('point-of-interest')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>-->
+
+          <fa-icon [icon]="['fas', 'beer']" [size]="'2x'" *ngIf="restaurant.types.includes('bar')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types.includes('night_club')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'truck-moving']" [size]="'2x'" *ngIf="restaurant.types.includes('shopping-cart')" [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'truck-moving']" [size]="'2x'" *ngIf="restaurant.types.includes('meal_delivery')" [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'coffee']" [size]="'2x'" *ngIf="restaurant.types.includes('cafe')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'gamepad']" [size]="'2x'" *ngIf="restaurant.types.includes('bowling_alley')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'birthday-cake']" [size]="'2x'" *ngIf="restaurant.types.includes('bakery')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'2x'" *ngIf="restaurant.types.includes('store')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
+          <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'2x'" *ngIf="restaurant.types.includes('home_goods_store')"
+                   [styles]="{color:'#F36F24'}"></fa-icon>
         </div>
       </div>
-    </div>
-    <div class="card-block">
-      <h4 class="card-title">{{restaurant.address}}, {{restaurant.city}}</h4>
-      <p class="card-text">{{restaurant.description}}{{restaurant.type}}</p>
-      <a href="#" class="btn btn-primary">{{restaurant.phone}}</a>
+      <div class="row">
+        <div class="container">
+
+          <a href="#" class="btn btn-warning">Order</a>
+        </div>
+
+      </div>
     </div>
   </div>
 

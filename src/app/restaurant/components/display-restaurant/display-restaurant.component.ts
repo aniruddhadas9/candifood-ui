@@ -1,9 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {RestaurantService} from '../../service/restaurant.service';
-import {MapService} from '../../../core/services/map.service';
-import {ConfigService} from '../../../core/services/config.service';
-import {AppService} from '../../../services/app.service';
-import {WarningAlert} from '../../../core/services/alert.service';
+import {MapService} from '@candifood/core';
+import {
+  faUtensils,
+  faGlassMartini,
+  faTruckMoving,
+  faWineGlass,
+  faCoffee,
+  faShoppingCart,
+  faGamepad,
+  faBirthdayCake,
+  faBeer,
+  faStar,
+  faStarHalf, faMagic, faSquare
+} from '@fortawesome/free-solid-svg-icons';
+import {library} from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'cfs-display-restaurant',
@@ -14,35 +25,39 @@ export class DisplayRestaurantComponent implements OnInit {
 
   public location: any = null;
 
-  constructor(public restaurantService: RestaurantService, private mapService: MapService) {
+  constructor(
+    public restaurantService: RestaurantService,
+    private mapService: MapService
+  ) {
+    library.add(
+      faUtensils,
+      faGlassMartini,
+      faTruckMoving,
+      faCoffee,
+      faWineGlass,
+      faShoppingCart,
+      faGamepad,
+      faBirthdayCake,
+      faBeer,
+      faStar,
+      faStarHalf,
+      faMagic,
+      faSquare
+    );
   }
 
   ngOnInit() {
-    this.mapService.getLocation({}).subscribe((position: Position) => {
-      this.mapService.getUserLocation({
+    this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
+      this.mapService.getAddressFromCoordinates({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location) => {
-        console.log('displayrestaurant|ngInit|location:%o', location);
-        this.restaurantService.getRestaurantsBySubLocality(location.locality).subscribe((restaurants) => {
+        this.restaurantService.getRestaurants(location)/*.subscribe((restaurants) => {
           this.restaurantService.restaurants = [...this.restaurantService.restaurants, ...restaurants];
-        });
+        })*/;
         this.location = location;
       });
     });
   }
-
-  getUserFromMap() {
-    this.mapService.getLocation({}).subscribe((position: Position) => {
-      this.mapService.getUserLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }).subscribe((location) => {
-        console.log('getUserFromMap|location:%o', location);
-        this.location = location;
-      });
-    });
-  }
-
 
 }
