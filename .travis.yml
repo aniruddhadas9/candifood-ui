@@ -1,0 +1,32 @@
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+
+language: node_js
+
+node_js:
+  - node
+
+install:
+  - npm install
+
+cache:
+  directories:
+    - "node_modules"
+
+script:
+  - ng -v
+  - ng build
+  - ng test --code-coverage true --watch false
+  - npm test
+
+notifications:
+  slack:
+    on_failure: change
+  email:
+    recipients:
+      - candifoodindia@gmail.com
+    on_success: change # default: change
+    on_failure: always # default: always
