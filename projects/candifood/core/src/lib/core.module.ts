@@ -25,6 +25,7 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {CoreRoutingModule} from './core-routing.module';
 import {CorouselComponent} from './components/corousel/corousel.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { ContentLoadingComponent } from './components/content-loading/content-loading.component';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
@@ -51,7 +52,8 @@ export function windowFactory() {
     PrivacyComponent,
     ChangeLocationModelComponent,
     CorouselComponent,
-    FilterPipe
+    FilterPipe,
+    ContentLoadingComponent
   ],
   exports: [
     HeaderComponent,
@@ -62,6 +64,7 @@ export function windowFactory() {
     PrivacyComponent,
     ChangeLocationModelComponent,
     CorouselComponent,
+    ContentLoadingComponent,
     FontAwesomeModule
   ],
   entryComponents: [

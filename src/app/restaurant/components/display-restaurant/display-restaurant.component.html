@@ -1,4 +1,5 @@
 <div class="list-restaurant">
+  <cfs-content-loading [hidden]="restaurantService.restaurants.length > 0" [repeats]="5"></cfs-content-loading>
   <div class="card" *ngFor="let restaurant of restaurantService.restaurants">
 
     <div class="card-header">

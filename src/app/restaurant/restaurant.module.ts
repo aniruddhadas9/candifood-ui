@@ -6,13 +6,15 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppService, MapService} from '@candifood/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CoreModule } from '../../../projects/candifood/core/src/lib/core.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     FontAwesomeModule,
-    NgbModule
+    NgbModule,
+    CoreModule
   ],
   declarations: [
     DisplayRestaurantComponent
