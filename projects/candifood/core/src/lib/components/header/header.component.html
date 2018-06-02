@@ -22,7 +22,8 @@
         <ul class="navbar-nav w-100 justify-content-center">
           <li class="nav-item active" *ngIf="middleButton.display">
             <button type="button" class="btn btn-warning ng-binding street-button" (click)="open()">
-              <fa-icon [icon]="['fas', 'street-view']"></fa-icon><span></span>
+              <fa-icon [hidden]="middleButton.loading" [icon]="['fas', 'street-view']"></fa-icon>
+              <fa-icon [hidden]="!middleButton.loading" [icon]="['fas', 'utensil-spoon']" [spin]="true"></fa-icon>
               {{location.formatted_address || middleButton.label}}
             </button>
           </li>

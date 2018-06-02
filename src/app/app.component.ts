@@ -4,6 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from './restaurant/service/restaurant.service';
 import { GoogleMap } from '@agm/core/services/google-maps-types';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+/*import {
+  ChangeLocationModelComponent
+} from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
+import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';*/
 
 
 @Component({
@@ -42,7 +46,8 @@ export class AppComponent {
 
     this.middleButton = {
       display: true,
-      label: 'please choose your location'
+      label: 'Trying to get location from device...',
+      loading: true
     };
 
     this.headerLeftLinks = [
@@ -115,9 +120,16 @@ export class AppComponent {
         longitude: position.coords.longitude
       }).subscribe((location) => {
         this.middleButton.label = location.formatted_address;
+        this.middleButton.loading = false;
         this.changeDetectorRef.detectChanges();
         this._getRestaurantsFromMap(location);
+      }, (error) => {
+        this.middleButton.label = 'select location here.';
+        this.middleButton.loading = false;
       });
+    }, (error) => {
+      this.middleButton.label = 'select location here.';
+      this.middleButton.loading = false;
     });
   }
 

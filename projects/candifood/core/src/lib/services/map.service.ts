@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
+import {ElementRef, EventEmitter, Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs';
+import {MapsAPILoader} from '@agm/core';
 
 const GEOLOCATION_ERRORS = {
   'errors.location.unsupportedBrowser': 'Browser does not support location services',
@@ -21,7 +22,10 @@ export class MapService {
   private type = 'restaurant';
   private keyword = 'restaurant';
 
-  constructor() {
+  constructor(
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
+  ) {
   }
 
   public getBrowserCoordinates(opts): Observable<Position> {
@@ -52,6 +56,30 @@ export class MapService {
         observer.error(GEOLOCATION_ERRORS['errors.location.unsupportedBrowser']);
       }
 
+    });
+  }
+
+  public autoComplete(searchElementRef: ElementRef, output: EventEmitter<string>) {
+    // load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+
+      const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
+        types: ['address']
+      });
+
+      autoComplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          const place = autoComplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+          // send changed address back
+          output.emit(place);
+        });
+      });
     });
   }
 

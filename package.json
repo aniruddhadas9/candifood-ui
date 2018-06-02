@@ -23,7 +23,7 @@
     "@angular/platform-browser": "6.0.2",
     "@angular/platform-browser-dynamic": "6.0.2",
     "@angular/router": "6.0.2",
-    "@candifood/core": "0.0.10",
+    "@candifood/core": "0.0.11",
     "@fortawesome/angular-fontawesome": "0.1.0-9",
     "@fortawesome/fontawesome-svg-core": "^1.2.0-11",
     "@fortawesome/free-regular-svg-icons": "^5.1.0-8",

@@ -11,7 +11,6 @@
         <div class="input-group-prepend">
           <div class="input-group-text">
             <fa-icon [icon]="['fas', 'street-view']"></fa-icon>
-            <i class="fa fa-street-view street-view" aria-hidden="true"></i>
           </div>
         </div>
         <input type="text" name="term" placeholder="Start typing address..."
@@ -19,7 +18,7 @@
                #search [formControl]="searchControl">
 
       </div>
-      <small><b>Current location:</b> {{input && input.formatted_address || 'Not selected'}}</small>
+      <small><b>Current location:</b> {{input && input.formatted_address || 'Please select your location'}}</small>
     </div>
   </form>
 </div>

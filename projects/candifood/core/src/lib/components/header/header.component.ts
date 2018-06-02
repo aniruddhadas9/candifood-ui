@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
-import {faStreetView} from '@fortawesome/free-solid-svg-icons';
+import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 
 @Component({
@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   @Input() brand: { label: string, url: string };
   @Input() leftLinks: Array<{ label: string, url: string, display: boolean }>;
   @Input() rightLinks: Array<{ label: string, url: string, display: boolean }>;
-  @Input() middleButton: { display: boolean, label: string };
+  @Input() middleButton: { display: boolean, label: string, loading: boolean};
   @Output() middleButtonClick = new EventEmitter<string>();
 
   public isCollapsed = true;
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   constructor() {
     // add fontawesome icons to use
-    library.add(faStreetView);
+    library.add(faStreetView, faUtensilSpoon);
 
     this.searchForm = new FormGroup({
       term: new FormControl('', [Validators.required]),

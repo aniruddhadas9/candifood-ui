@@ -1,9 +1,8 @@
-import {Component, ElementRef, EventEmitter, Input, NgZone, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {MapsAPILoader} from '@agm/core';
 import {MapService} from '../../services/map.service';
-import {faStreetView} from '@fortawesome/free-solid-svg-icons';
+import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
 
 @Component({
@@ -26,11 +25,9 @@ export class ChangeLocationModelComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private mapService: MapService,
-    private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone
   ) {
     // add fontawesome icons to use
-    library.add(faStreetView);
+    library.add(faStreetView, faUtensilSpoon);
     this.searchForm = new FormGroup({
       term: new FormControl('', [Validators.required]),
     });
@@ -38,31 +35,9 @@ export class ChangeLocationModelComponent implements OnInit {
   }
 
   ngOnInit() {
-
     // create search FormControl
     this.searchControl = new FormControl();
-
-    // load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-
-      const autoComplete = new (<any>window).google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ['address']
-      });
-
-      autoComplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          const place = autoComplete.getPlace();
-
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          // send changed address back
-          this.output.emit(place);
-        });
-      });
-    });
+    this.mapService.autoComplete(this.searchElementRef, this.output);
   }
 
   onSubmit() {
