@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { ChangeLocationModelComponent, MapService } from '@candifood/core';
+// import { ChangeLocationModelComponent, MapService } from '@candifood/core';
 import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from './restaurant/service/restaurant.service';
 import { GoogleMap } from '@agm/core/services/google-maps-types';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-/*import {
+import {
   ChangeLocationModelComponent
 } from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
-import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';*/
+import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
 
 
 @Component({
@@ -99,7 +99,6 @@ export class AppComponent {
     this.modalRef.componentInstance.input = this.location;
     this.modalRef.componentInstance.output.subscribe((location) => {
       this.location = this.mapService.processFullLocation(location);
-      console.log('this.mapService.processFullLocation(location):%o', this.mapService.processFullLocation(location));
       this.middleButton.label = location.formatted_address;
       this.modalRef.componentInstance.input = this.location;
       this.coordinates = {
@@ -134,7 +133,7 @@ export class AppComponent {
   }
 
   _getRestaurantsFromMap(location) {
-    this.mapService.getUserRestaurants(location).subscribe((restaurants) => {
+    this.mapService.getRestaurantsFromGoogleMap(location).subscribe((restaurants) => {
       this.restaurantService.restaurants = [...restaurants];
       this.changeDetectorRef.detectChanges();
       const request = {
@@ -142,12 +141,9 @@ export class AppComponent {
         restaurant: restaurants
       };
       this.restaurantService.addRestaurants(request).subscribe(function (results) {
-        console.log('app.component|map restaurants stored:%o', results);
       }, function (error) {
         console.log('Error while storing fetched restaurants from google map! error: %o ', error);
       });
-      console.log('getUserFromMap|restaurants:%o', restaurants);
-
     });
   }
 }

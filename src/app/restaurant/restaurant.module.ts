@@ -6,6 +6,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppService, CoreModule, MapService} from '@candifood/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ScrollingModule} from '@angular/cdk-experimental';
+import {VirtualScrollDemoComponent} from './components/virtual-scroll/virtual-scroll-demo';
 
 @NgModule({
   imports: [
@@ -13,10 +15,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     FontAwesomeModule,
     NgbModule,
-    CoreModule
+    CoreModule,
+    ScrollingModule,
   ],
   declarations: [
-    DisplayRestaurantComponent
+    DisplayRestaurantComponent,
+    VirtualScrollDemoComponent
   ],
   providers: [
     AppService,

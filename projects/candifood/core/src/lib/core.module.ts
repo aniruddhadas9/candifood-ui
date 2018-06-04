@@ -26,6 +26,7 @@ import {CoreRoutingModule} from './core-routing.module';
 import {CorouselComponent} from './components/corousel/corousel.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { ContentLoadingComponent } from './components/content-loading/content-loading.component';
+import { AutoScrollDirective } from './directives/auto-scroll.directive';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
@@ -53,7 +54,8 @@ export function windowFactory() {
     ChangeLocationModelComponent,
     CorouselComponent,
     FilterPipe,
-    ContentLoadingComponent
+    ContentLoadingComponent,
+    AutoScrollDirective
   ],
   exports: [
     HeaderComponent,
@@ -65,6 +67,7 @@ export function windowFactory() {
     ChangeLocationModelComponent,
     CorouselComponent,
     ContentLoadingComponent,
+    AutoScrollDirective,
     FontAwesomeModule
   ],
   entryComponents: [

@@ -23,6 +23,9 @@ export * from './lib/components/login/login.component';
 export * from './lib/components/privacy/privacy.component';
 export * from './lib/components/profile/profile.component';
 
+// directives
+export * from './lib/directives/auto-scroll.directive';
+
 // routing and module
 export * from './lib/core-routing.module';
 export * from './lib/core.module';

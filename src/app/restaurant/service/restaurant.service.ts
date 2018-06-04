@@ -111,10 +111,10 @@ export class RestaurantService implements OnInit {
   }
 
   public _getRestaurants() {
-    this.httpClient.get(environment.restUrl + 'restaurant/' + this.records.url + '/' + this.records.param + '/' + this.records.after
-      + '/' + this.records.noOfRecord).subscribe(function (results: any) {
-      console.log('_allrestaurantController|' + 'url: restaurant/' + this.records.url + '/' + this.records.param
-        + '/' + this.records.after + '/' + this.records.noOfRecord + '|results:%o', results);
+    const url = environment.restUrl
+      + '/restaurant/' + this.records.url
+      + '/' + this.records.param + '/' + this.records.after + '/' + this.records.noOfRecord;
+    this.httpClient.get(url).subscribe((results: any) => {
 
       results.map((restaurant) => {
         this.restaurant.items.push(restaurant);
@@ -158,6 +158,8 @@ export class RestaurantService implements OnInit {
       this.restaurant.after += 10;
       this.busy = false;
 
+    }, (error) => {
+      console.log('unable to get restaurants from datastore| error:%o', error);
     });
   }
 }

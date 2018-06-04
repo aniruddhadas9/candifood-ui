@@ -24,6 +24,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 export class DisplayRestaurantComponent implements OnInit {
 
   public location: any = null;
+  fixedSizeData = Array(10000).fill(30);
 
   constructor(
     public restaurantService: RestaurantService,
@@ -44,6 +45,7 @@ export class DisplayRestaurantComponent implements OnInit {
       faMagic,
       faSquare
     );
+
   }
 
   ngOnInit() {
@@ -54,6 +56,8 @@ export class DisplayRestaurantComponent implements OnInit {
       }).subscribe((location) => {
         this.restaurantService.getRestaurants(location)/*.subscribe((restaurants) => {
           this.restaurantService.restaurants = [...this.restaurantService.restaurants, ...restaurants];
+        }, (error)=>{
+
         })*/;
         this.location = location;
       });

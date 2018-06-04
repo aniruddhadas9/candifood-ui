@@ -59,30 +59,6 @@ export class MapService {
     });
   }
 
-  public autoComplete(searchElementRef: ElementRef, output: EventEmitter<string>) {
-    // load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
-
-      const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
-        types: ['address']
-      });
-
-      autoComplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          const place = autoComplete.getPlace();
-
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          // send changed address back
-          output.emit(place);
-        });
-      });
-    });
-  }
-
   public getAddressFromCoordinates(latLngValue) {
     return this.location || Observable.create(observer => {
       this.geocoder = this.geocoder || new (<any>window).google.maps.Geocoder();
@@ -103,7 +79,7 @@ export class MapService {
   }
 
 
-  public getUserRestaurants(userLocation) {
+  public getRestaurantsFromGoogleMap(userLocation) {
     return Observable.create(observer => {
       const keyword = 'restaurant';
       const rankBy = 'distance';
@@ -147,12 +123,8 @@ export class MapService {
       places.nearbySearch(search, (results, status) => {
         if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
           for (let i = 0; i < results.length; i++) {
-            console.log(typeof results[i].types);
             const location = results[i].vicinity.split(',');
-            /*for (let i = 0; i < location.length; i++) {
-             location[i] = location[i].trim();
-             }*/
-            // console.log('restaurant::::%o and address: %o', results[i], location);
+
             const restaurant = {
               name: results[i].name,
               types: results[i].types,
@@ -279,9 +251,34 @@ export class MapService {
     });
   }*/
 
+
+  public autoComplete(searchElementRef: ElementRef, output: EventEmitter<string>) {
+    // load Places Autocomplete
+    this.mapsAPILoader.load().then(() => {
+
+      const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
+        types: ['address']
+      });
+
+      autoComplete.addListener('place_changed', () => {
+        this.ngZone.run(() => {
+          // get the place result
+          const place = autoComplete.getPlace();
+
+          // verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+          // send changed address back
+          output.emit(place);
+        });
+      });
+    });
+  }
+
   public storeAndUpdateRestaurantsManual(userLocation) {
     return Observable.create(observer => {
-      this.getUserRestaurants(userLocation).then(function (userNearbyRestaurants) {
+      this.getRestaurantsFromGoogleMap(userLocation).then(function (userNearbyRestaurants) {
         console.log('storeAndUpdateRestaurantsManual|userNearbyRestaurants:%o', userNearbyRestaurants);
         for (let i = 0; i < userNearbyRestaurants.restaurant.length; i++) {
           // $rootScope.restaurant.items.splice(0, 0, userNearbyRestaurants.restaurant[i]);
