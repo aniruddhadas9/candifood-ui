@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 // import { ChangeLocationModelComponent, MapService } from '@candifood/core';
 import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from './restaurant/service/restaurant.service';
@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ChangeLocationModelComponent
 } from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
-import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
+import { MapService } from '../../projects/candifood/core/src/lib/services/map.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ import {MapService} from '../../projects/candifood/core/src/lib/services/map.ser
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'candifood';
   public modalRef;
@@ -94,17 +94,21 @@ export class AppComponent {
   }
 
 
+  ngOnInit() {
+    this.mapService.locationBehaviorSubject.subscribe((location) => {
+      this.restaurantService.restaurants = [];
+      this._getRestaurantsFromMap(location);
+    });
+  }
+
+
   openLocationChangeModel(event) {
     this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
     this.modalRef.componentInstance.input = this.location;
     this.modalRef.componentInstance.output.subscribe((location) => {
-      this.location = location;
       this.middleButton.label = location.formatted_address;
       this.modalRef.componentInstance.input = this.location;
-      this.coordinates = {
-        latitude: this.location.latitude,
-        longitude: this.location.longitude
-      };
+      this.mapService.locationBehaviorSubject.next(location);
       this.restaurantService.restaurants = [];
       this._getRestaurantsFromMap(this.location);
     });

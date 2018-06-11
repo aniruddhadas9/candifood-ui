@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {RestaurantService} from '../../service/restaurant.service';
+import { Component, OnInit } from '@angular/core';
+import { RestaurantService } from '../../service/restaurant.service';
 import {
   faUtensils,
   faGlassMartini,
@@ -13,8 +13,8 @@ import {
   faStar,
   faStarHalf, faMagic, faSquare
 } from '@fortawesome/free-solid-svg-icons';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {MapService} from '../../../../../projects/candifood/core/src/lib/services/map.service';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { MapService } from '../../../../../projects/candifood/core/src/lib/services/map.service';
 
 @Component({
   selector: 'cfs-display-restaurant',
@@ -50,17 +50,13 @@ export class DisplayRestaurantComponent implements OnInit {
 
   onScroll(event) {
     console.log(event);
-    return this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
-      this.mapService.getAddressFromCoordinates({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }).subscribe((location) => {
-        this.restaurantService.getRestaurants(location)/*.subscribe((restaurants) => {
+    return this.mapService.locationBehaviorSubject.subscribe((location) => {
+      console.log('started hitting the on scroll|location=', location);
+      this.restaurantService.getRestaurants(location)/*.subscribe((restaurants) => {
           this.restaurantService.restaurants = [...this.restaurantService.restaurants, ...restaurants];
         }, (error)=>{
 
         })*/;
-      });
     });
   }
 

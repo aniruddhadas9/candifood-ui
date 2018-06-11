@@ -1,5 +1,5 @@
 import {ElementRef, EventEmitter, Injectable, NgZone} from '@angular/core';
-import {Observable} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 
 const GEOLOCATION_ERRORS = {
@@ -16,12 +16,12 @@ export class MapService {
   public map: any;
   public geocoder;
   public latLng;
-  private location: Observable<any>;
-  private locationBehaviorSubject: BehaviorSubject<any>;
-  private coordinatesBehaviorSubject: BehaviorSubject<any>;
-  private nearByPlaces: Observable<any>;
-  private type = 'restaurant';
-  private keyword = 'restaurant';
+  public location: Observable<any>;
+  public locationBehaviorSubject = new Subject<any>();
+  public coordinatesBehaviorSubject = new  Subject<any>();
+  public nearByPlaces: Observable<any>;
+  public type = 'restaurant';
+  public keyword = 'restaurant';
 
   constructor(
     // private mapsAPILoader: MapsAPILoader,
@@ -33,12 +33,13 @@ export class MapService {
     return new Observable(observer => {
       if (window.navigator && window.navigator.geolocation) {
         window.navigator.geolocation.getCurrentPosition(
-          (position: Position) => {
-            this.coordinates = position.coords;
-            observer.next(position);
-            this.locationBehaviorSubject.next(position);
+          (coordinates: Position) => {
+            this.coordinates = coordinates.coords;
+            observer.next(coordinates);
+            this.coordinatesBehaviorSubject.next(coordinates);
+
             // we are not completing the observable as we will call it multiple time
-            // observer.complete();
+            observer.complete();
           },
           (error) => {
             switch (error.code) {
@@ -70,9 +71,10 @@ export class MapService {
           const newLocation: any = this.processFullLocation(results[0]);
           newLocation.latitude = latLngValue.latitude;
           newLocation.longitude = latLngValue.longitude;
-          this.location = new Observable(newLocation);
+          this.location = newLocation;
+          this.locationBehaviorSubject.next(newLocation);
           observer.next(newLocation);
-          // observer.complete();
+          observer.complete();
         } else {
           observer.error('LatLng: ' + JSON.stringify(latLngValue) + ', status : ' + status);
         }
