@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {MapService} from '@candifood/core';
 
 @Injectable()
 export class RestaurantService implements OnInit {
@@ -39,7 +40,10 @@ export class RestaurantService implements OnInit {
   // public restaurants: Observable<any>;
   public restaurants: any = [];
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    // private mapService: MapService
+  ) {
   }
 
   ngOnInit(): void {
@@ -55,9 +59,13 @@ export class RestaurantService implements OnInit {
   }
 
 
-  public getRestaurants(location) {
-    this.location = location;
-    console.log('restaurant.service|getRestaurants|this.location: %o', this.location);
+  public getRestaurants(location?) {
+    // this.location = location;
+    console.log('restaurant.service|getRestaurants|this.location: %o', location);
+
+    if (!location) {
+      return;
+    }
 
     if (this.busy) {
       return;
@@ -70,54 +78,54 @@ export class RestaurantService implements OnInit {
     if (!this.records.sublocality_level_2Finish) {
       this.records.runningStage = 'sublocality_level_2';
       this.records.url = 'sublocality_level_2';
-      this.records.param = this.location.sublocality_level_2;
+      this.records.param = location && location.sublocality_level_2 || null;
     } else if (!this.records.sublocality_level_1Finish) {
       this.records.runningStage = 'sublocality_level_1';
       this.records.url = 'sublocality_level_1';
-      this.records.param = this.location.sublocality_level_1;
+      this.records.param = location && location.sublocality_level_1 || null;
     } else if (!this.records.localityFinish) {
       this.records.runningStage = 'locality';
       this.records.url = 'locality';
-      this.records.param = this.location.locality;
+      this.records.param = location && location.locality || null;
     } else if (!this.records.locality2Finish) {
       this.records.runningStage = 'locality2';
       this.records.url = 'locality2';
-      this.records.param = this.location.locality2;
+      this.records.param = location && location.locality2 || null;
     } else if (!this.records.locality1Finish) {
       this.records.runningStage = 'locality1';
       this.records.url = 'locality1';
-      this.records.param = this.location.locality1;
+      this.records.param = location && location.locality1 || null;
     } else if (!this.records.routeFinish) {
       this.records.runningStage = 'route';
       this.records.url = 'route';
-      this.records.param = this.location.route;
+      this.records.param = location && location.route || null;
     } else if (!this.records.postalCodeFinish) {
       this.records.runningStage = 'postalCode';
       this.records.url = 'postalCode';
-      this.records.param = this.location.postal_code;
-    } else if (!this.records.city) {
+      this.records.param = location && location.postal_code || null;
+    } else if (!this.records.cityFinish) {
       this.records.runningStage = 'city';
       this.records.url = 'city';
-      this.records.param = this.location.city;
-    } else if (!this.records.state) {
+      this.records.param = location && location.city || null;
+    } else if (!this.records.stateFinish) {
       this.records.runningStage = 'state';
       this.records.url = 'state';
-      this.records.param = this.location.state;
+      this.records.param = location && location.state || null;
     }
-    this._getRestaurants();
+    this._getRestaurants(location);
     this.restaurant.after += 20;
     this.busy = false;
 
   }
 
-  public _getRestaurants() {
+  public _getRestaurants(location) {
     const url = environment.restUrl
       + '/restaurant/' + this.records.url
       + '/' + this.records.param + '/' + this.records.after + '/' + this.records.noOfRecord;
     this.httpClient.get(url).subscribe((results: any) => {
 
       results.map((restaurant) => {
-        this.restaurant.items.push(restaurant);
+        this.restaurants.push(restaurant);
       });
 
       // this.restaurant.items = _.unique(this.restaurant.items, 'name');
@@ -150,9 +158,11 @@ export class RestaurantService implements OnInit {
         } else if (this.records.runningStage === 'state') {
           this.records.after = 0;
           this.records.stateFinish = true;
-        } else {
+
+          // state finish means we searched all. So finish the search now.
           this.finish = true;
         }
+        this.getRestaurants(location);
       }
 
       this.restaurant.after += 10;

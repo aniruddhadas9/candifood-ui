@@ -1,6 +1,6 @@
 import {ElementRef, EventEmitter, Injectable, NgZone} from '@angular/core';
 import {Observable} from 'rxjs';
-import {MapsAPILoader} from '@agm/core';
+import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 
 const GEOLOCATION_ERRORS = {
   'errors.location.unsupportedBrowser': 'Browser does not support location services',
@@ -12,31 +12,33 @@ const GEOLOCATION_ERRORS = {
 @Injectable()
 export class MapService {
 
-  public position: Observable<Position>;
   public coordinates: Coordinates;
   public map: any;
   public geocoder;
   public latLng;
   private location: Observable<any>;
+  private locationBehaviorSubject: BehaviorSubject<any>;
+  private coordinatesBehaviorSubject: BehaviorSubject<any>;
   private nearByPlaces: Observable<any>;
   private type = 'restaurant';
   private keyword = 'restaurant';
 
   constructor(
-    private mapsAPILoader: MapsAPILoader,
+    // private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
   ) {
   }
 
   public getBrowserCoordinates(opts): Observable<Position> {
-    return this.position || Observable.create(observer => {
+    return new Observable(observer => {
       if (window.navigator && window.navigator.geolocation) {
         window.navigator.geolocation.getCurrentPosition(
           (position: Position) => {
             this.coordinates = position.coords;
-            this.position = Observable.create(position);
             observer.next(position);
-            observer.complete();
+            this.locationBehaviorSubject.next(position);
+            // we are not completing the observable as we will call it multiple time
+            // observer.complete();
           },
           (error) => {
             switch (error.code) {
@@ -60,7 +62,7 @@ export class MapService {
   }
 
   public getAddressFromCoordinates(latLngValue) {
-    return this.location || Observable.create(observer => {
+    return new Observable(observer => {
       this.geocoder = this.geocoder || new (<any>window).google.maps.Geocoder();
       this.latLng = this.latLng || new (<any>window).google.maps.LatLng(latLngValue.latitude, latLngValue.longitude);
       this.geocoder.geocode({'latLng': this.latLng}, (results, status) => {
@@ -68,9 +70,9 @@ export class MapService {
           const newLocation: any = this.processFullLocation(results[0]);
           newLocation.latitude = latLngValue.latitude;
           newLocation.longitude = latLngValue.longitude;
-          this.location = Observable.create(newLocation);
+          this.location = new Observable(newLocation);
           observer.next(newLocation);
-          observer.complete();
+          // observer.complete();
         } else {
           observer.error('LatLng: ' + JSON.stringify(latLngValue) + ', status : ' + status);
         }
@@ -80,7 +82,7 @@ export class MapService {
 
 
   public getRestaurantsFromGoogleMap(userLocation) {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       const keyword = 'restaurant';
       const rankBy = 'distance';
       const search = {
@@ -143,20 +145,19 @@ export class MapService {
             restaurants.push(restaurant);
           }
           observer.next(restaurants);
-          observer.complete();
         } else {
           const restaurant = {'name': null};
           restaurants.push(restaurant);
           observer.next(restaurants);
-          observer.complete();
         }
+        observer.complete();
       });
 
     });
   }
 
   public getGoogleMapPlaceDetail(googlePlaceId) {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       // console.log('getGoogleMapPlaceDetail|parameter:%o', googlePlaceId);
       const places = new (<any>window).google.maps.places.PlacesService(this.map);
       places.getDetails({placeId: googlePlaceId}, function (place, status) {
@@ -178,10 +179,10 @@ export class MapService {
             website: place.website,
             url: place.url
           };
-          observer.resolve(restro);
+          observer.next(restro);
         } else {
           console.log('Unable to get phone number, email, url, website from google. error: %o', status);
-          observer.reject('Unable to get phone number, email, url, website from google. error:' + status);
+          observer.error('Unable to get phone number, email, url, website from google. error:' + status);
         }
       });
     });
@@ -189,7 +190,7 @@ export class MapService {
 
 
   public getGoogleMapPhotos(googlePlaceId) {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       // console.log('getGoogleMapPlaceDetail|parameter:%o', googlePlaceId);
       const map = new (<any>window).google.maps.Map(document.getElementById('map-canvas'));
       const places = new (<any>window).google.maps.places.PlacesService(map);
@@ -212,10 +213,10 @@ export class MapService {
             website: place.website,
             url: place.url
           };
-          observer.resolve(restro);
+          observer.next(restro);
         } else {
           console.log('Unable to get phone number, email, url, website from google. error: %o', status);
-          observer.reject('Unable to get phone number, email, url, website from google. error:' + status);
+          observer.error('Unable to get phone number, email, url, website from google. error:' + status);
         }
       });
     });
@@ -254,7 +255,7 @@ export class MapService {
 
   public autoComplete(searchElementRef: ElementRef, output: EventEmitter<string>) {
     // load Places Autocomplete
-    this.mapsAPILoader.load().then(() => {
+    // this.mapsAPILoader.load().then(() => {
 
       const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
         types: ['address']
@@ -263,33 +264,39 @@ export class MapService {
       autoComplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           // get the place result
-          const place = autoComplete.getPlace();
+          let place = autoComplete.getPlace();
 
           // verify result
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
+          place = this.processFullLocation(place);
+
+          // change the location to new location
+          this.location = new Observable((observer) => {
+            observer.next(place);
+          });
           // send changed address back
           output.emit(place);
         });
       });
-    });
+    // });
   }
 
   public storeAndUpdateRestaurantsManual(userLocation) {
     return Observable.create(observer => {
-      this.getRestaurantsFromGoogleMap(userLocation).then(function (userNearbyRestaurants) {
+      this.getRestaurantsFromGoogleMap(userLocation).subscribe( (userNearbyRestaurants: any) => {
         console.log('storeAndUpdateRestaurantsManual|userNearbyRestaurants:%o', userNearbyRestaurants);
         for (let i = 0; i < userNearbyRestaurants.restaurant.length; i++) {
           // $rootScope.restaurant.items.splice(0, 0, userNearbyRestaurants.restaurant[i]);
           // console.log("map restaurant added:%0", userNearbyRestaurants.restaurant[i]);
         }
-        this.httpClient.post('restaurant/addList', userNearbyRestaurants).then(function (results) {
+        /*this.httpClient.post('restaurant/addList', userNearbyRestaurants).sunscribe( (results) => {
           observer.resolve(results.data);
-        }, function (error) {
+        }, (error) => {
           console.log('Error while storing fetched restaurants from google map! :: ' + error);
           observer.reject(error);
-        });
+        });*/
       });
     });
   }

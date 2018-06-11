@@ -98,7 +98,7 @@ export class AppComponent {
     this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
     this.modalRef.componentInstance.input = this.location;
     this.modalRef.componentInstance.output.subscribe((location) => {
-      this.location = this.mapService.processFullLocation(location);
+      this.location = location;
       this.middleButton.label = location.formatted_address;
       this.modalRef.componentInstance.input = this.location;
       this.coordinates = {
@@ -117,7 +117,7 @@ export class AppComponent {
       this.mapService.getAddressFromCoordinates({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
-      }).subscribe((location) => {
+      }).subscribe((location: any) => {
         this.middleButton.label = location.formatted_address;
         this.middleButton.loading = false;
         this.changeDetectorRef.detectChanges();
@@ -133,7 +133,7 @@ export class AppComponent {
   }
 
   _getRestaurantsFromMap(location) {
-    this.mapService.getRestaurantsFromGoogleMap(location).subscribe((restaurants) => {
+    this.mapService.getRestaurantsFromGoogleMap(location).subscribe((restaurants: any) => {
       this.restaurantService.restaurants = [...restaurants];
       this.changeDetectorRef.detectChanges();
       const request = {

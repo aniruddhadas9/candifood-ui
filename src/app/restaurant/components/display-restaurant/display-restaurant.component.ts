@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {RestaurantService} from '../../service/restaurant.service';
-import {MapService} from '@candifood/core';
 import {
   faUtensils,
   faGlassMartini,
@@ -15,6 +14,7 @@ import {
   faStarHalf, faMagic, faSquare
 } from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
+import {MapService} from '../../../../../projects/candifood/core/src/lib/services/map.service';
 
 @Component({
   selector: 'cfs-display-restaurant',
@@ -22,9 +22,6 @@ import {library} from '@fortawesome/fontawesome-svg-core';
   styleUrls: ['./display-restaurant.component.scss']
 })
 export class DisplayRestaurantComponent implements OnInit {
-
-  public location: any = null;
-  fixedSizeData = Array(10000).fill(30);
 
   constructor(
     public restaurantService: RestaurantService,
@@ -45,11 +42,15 @@ export class DisplayRestaurantComponent implements OnInit {
       faMagic,
       faSquare
     );
-
   }
 
   ngOnInit() {
-    this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
+
+  }
+
+  onScroll(event) {
+    console.log(event);
+    return this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
       this.mapService.getAddressFromCoordinates({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -59,7 +60,6 @@ export class DisplayRestaurantComponent implements OnInit {
         }, (error)=>{
 
         })*/;
-        this.location = location;
       });
     });
   }
