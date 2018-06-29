@@ -28,9 +28,9 @@ export class ChangeLocationModelComponent implements OnInit {
   ) {
     // add fontawesome icons to use
     library.add(faStreetView, faUtensilSpoon);
-    this.searchForm = new FormGroup({
+    /*this.searchForm = new FormGroup({
       term: new FormControl('', [Validators.required]),
-    });
+    });*/
 
   }
 

@@ -5,22 +5,20 @@
   </button>
 </div>
 <div class="modal-body">
-  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <fa-icon [icon]="['fas', 'street-view']"></fa-icon>
-          </div>
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <fa-icon [icon]="['fas', 'street-view']"></fa-icon>
         </div>
-        <input type="text" name="term" placeholder="Start typing address..."
-               autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"
-               #search [formControl]="searchControl">
-
       </div>
-      <small><b>Current location:</b> {{input && input.formatted_address || 'Please select your location'}}</small>
+      <input type="text" name="term" placeholder="Start typing address..."
+             autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control"
+             #search [formControl]="searchControl">
+
     </div>
-  </form>
+    <small><b>Current location:</b> {{input && input.formatted_address || 'Please select your location'}}</small>
+  </div>
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" (click)="activeModal.dismiss('Done')">Done</button>

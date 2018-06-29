@@ -2,7 +2,6 @@ import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {MapService} from '@candifood/core';
 
 @Injectable()
 export class RestaurantService implements OnInit {

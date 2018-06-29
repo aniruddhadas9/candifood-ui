@@ -8,12 +8,12 @@ import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class CorouselComponent implements OnInit {
 
-  @Input() slides: {
+  @Input() slides: Array<{
     header: string,
     desc: string,
     url: string,
     alt: string
-  };
+  }>;
   constructor(ngbCarouselConfig: NgbCarouselConfig) {
     ngbCarouselConfig.interval = 3000;
     ngbCarouselConfig.wrap = true;

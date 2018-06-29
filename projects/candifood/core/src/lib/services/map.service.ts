@@ -19,12 +19,10 @@ export class MapService {
   public location: Observable<any>;
   public locationBehaviorSubject = new Subject<any>();
   public coordinatesBehaviorSubject = new  Subject<any>();
-  public nearByPlaces: Observable<any>;
   public type = 'restaurant';
   public keyword = 'restaurant';
 
   constructor(
-    // private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
   ) {
   }
