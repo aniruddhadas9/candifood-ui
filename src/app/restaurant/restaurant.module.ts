@@ -6,7 +6,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {CoreModule} from '../../../projects/candifood/core/src/lib/core.module';
+import { CoreModule } from '@candifood/core';
+
 
 @NgModule({
   imports: [
@@ -14,8 +15,8 @@ import {CoreModule} from '../../../projects/candifood/core/src/lib/core.module';
     HttpClientModule,
     FontAwesomeModule,
     NgbModule,
-    CoreModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    CoreModule
   ],
   declarations: [
     DisplayRestaurantComponent,

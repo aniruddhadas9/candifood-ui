@@ -1,13 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-// import { ChangeLocationModelComponent, MapService } from '@candifood/core';
+import { ChangeLocationModelComponent, MapService } from '@candifood/core';
 import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from './restaurant/service/restaurant.service';
 import { GoogleMap } from '@agm/core/services/google-maps-types';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+/*
 import {
   ChangeLocationModelComponent
 } from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
-import { MapService } from '../../projects/candifood/core/src/lib/services/map.service';
+import { MapService } from '@candifood/core';
+*/
 
 
 @Component({

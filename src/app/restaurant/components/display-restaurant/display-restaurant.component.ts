@@ -14,7 +14,7 @@ import {
   faStarHalf, faMagic, faSquare
 } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { MapService } from '../../../../../projects/candifood/core/src/lib/services/map.service';
+import { MapService } from '@candifood/core';
 
 @Component({
   selector: 'cfs-display-restaurant',

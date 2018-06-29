@@ -5,7 +5,7 @@ cd ../../..
 pwd
 ng build @candifood/core --prod
 pwd
-cd dist/@candifood/core
+cd dist/lib
 pwd
 npm publish --access public
 cd ../../..

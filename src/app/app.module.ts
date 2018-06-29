@@ -7,7 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {RestaurantModule} from './restaurant/restaurant.module';
 import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
-import {CoreModule} from '../../projects/candifood/core/src/lib/core.module';
+// import { CoreModule } from '../../projects/candifood/core/src/lib/core.module';
+import { CoreModule } from '@candifood/core';
+
 
 @NgModule({
   declarations: [

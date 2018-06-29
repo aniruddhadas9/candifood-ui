@@ -1,33 +1,35 @@
-import {InjectionToken, ModuleWithProviders, NgModule, Optional, SkipSelf} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {HeaderComponent} from './components/header/header.component';
-import {FooterComponent} from './components/footer/footer.component';
-import {AlertService} from './services/alert.service';
-import {AppInitService} from './services/app-init.service';
-import {AuthGuardService} from './services/auth-guard.service';
-import {UserService} from './services/user.service';
-import {AlertsComponent} from './components/alerts/alerts.component';
-import {LoginComponent} from './components/login/login.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {EncryptionService} from './services/encryption.service';
-import {MapService} from './services/map.service';
-import {HttpClientModule} from '@angular/common/http';
-import {AppService} from './services/app.service';
-import {NoAuthGuardService} from './services/no-auth-guard.service';
-import {GoogleAnalyticsService} from './services/google-analytics.service';
-import {RouterModule} from '@angular/router';
+import { InjectionToken, Injector, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { AlertService } from './services/alert.service';
+import { AppInitService } from './services/app-init.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { UserService } from './services/user.service';
+import { AlertsComponent } from './components/alerts/alerts.component';
+import { LoginComponent } from './components/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { EncryptionService } from './services/encryption.service';
+import { MapService } from './services/map.service';
+import { HttpClientModule } from '@angular/common/http';
+import { AppService } from './services/app.service';
+import { NoAuthGuardService } from './services/no-auth-guard.service';
+import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { RouterModule } from '@angular/router';
 import { PrivacyComponent } from './components/privacy/privacy.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {CoreService} from './services/core.service';
-import {FilterPipe} from './services/filter-pipe.service';
-import {ChangeLocationModelComponent} from './components/change-location-model/change-location-model.component';
-import {ProfileComponent} from './components/profile/profile.component';
-import {CoreRoutingModule} from './core-routing.module';
-import {CorouselComponent} from './components/corousel/corousel.component';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CoreService } from './services/core.service';
+import { FilterPipe } from './services/filter-pipe.service';
+import { ChangeLocationModelComponent } from './components/change-location-model/change-location-model.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { CoreRoutingModule } from './core-routing.module';
+import { CorouselComponent } from './components/corousel/corousel.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ContentLoadingComponent } from './components/content-loading/content-loading.component';
 import { AutoScrollDirective } from './directives/auto-scroll.directive';
 import { ModelComponent } from './components/model/model.component';
+import { createCustomElement } from '@angular/elements';
+import { NgElementConstructor } from '@angular/elements/src/create-custom-element';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
@@ -39,7 +41,6 @@ export function windowFactory() {
   imports: [
     RouterModule,
     CommonModule,
-    HttpClientModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
     CoreRoutingModule,
@@ -70,10 +71,18 @@ export function windowFactory() {
     CorouselComponent,
     ContentLoadingComponent,
     AutoScrollDirective,
-    FontAwesomeModule
   ],
   entryComponents: [
-    ChangeLocationModelComponent
+    HeaderComponent,
+    FooterComponent,
+    AlertsComponent,
+    LoginComponent,
+    ProfileComponent,
+    PrivacyComponent,
+    ChangeLocationModelComponent,
+    CorouselComponent,
+    ContentLoadingComponent,
+    ModelComponent
   ]
 })
 export class CoreModule {
@@ -99,10 +108,40 @@ export class CoreModule {
     };
   }
 
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule, private injector: Injector) {
     if (parentModule) {
       throw new Error(
         'CoreModule is already loaded. Import it in the AppModule only');
     }
+
+    // this.registerCustomElements();
+
   }
+
+  /*ngDoBootstrap() {}*/
+
+  registerCustomElements() {
+    const cfheader: NgElementConstructor = createCustomElement(HeaderComponent, {injector: this.injector});
+    const cffooter: NgElementConstructor = createCustomElement(FooterComponent, {injector: this.injector});
+    const cfalert: NgElementConstructor = createCustomElement(AlertsComponent, {injector: this.injector});
+    const cflogin: NgElementConstructor = createCustomElement(LoginComponent, {injector: this.injector});
+    const cfprofile: NgElementConstructor = createCustomElement(ProfileComponent, {injector: this.injector});
+    const cfprivacy: NgElementConstructor = createCustomElement(PrivacyComponent, {injector: this.injector});
+    const cfchangelocationmodel: NgElementConstructor = createCustomElement(ChangeLocationModelComponent, {injector: this.injector});
+    const cfcorousel: NgElementConstructor = createCustomElement(CorouselComponent, {injector: this.injector});
+    const cfcontentloading: NgElementConstructor = createCustomElement(ContentLoadingComponent, {injector: this.injector});
+    const cfmodel: NgElementConstructor = createCustomElement(ModelComponent, {injector: this.injector});
+
+    customElements.define('cf-header', cfheader);
+    customElements.define('cf-footer', cffooter);
+    customElements.define('cf-alert', cfalert);
+    customElements.define('cf-login', cflogin);
+    customElements.define('cf-profile', cfprofile);
+    customElements.define('cf-privacy', cfprivacy);
+    customElements.define('cf-change-location-model', cfchangelocationmodel);
+    customElements.define('cf-corousel', cfcorousel);
+    customElements.define('cf-content-loading', cfcontentloading);
+    customElements.define('cf-model', cfmodel);
+  }
+
 }
