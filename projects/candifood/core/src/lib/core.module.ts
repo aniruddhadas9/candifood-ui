@@ -30,6 +30,7 @@ import { AutoScrollDirective } from './directives/auto-scroll.directive';
 import { ModelComponent } from './components/model/model.component';
 import { createCustomElement } from '@angular/elements';
 import { NgElementConstructor } from '@angular/elements/src/create-custom-element';
+import {CfsInfiniteScrollService} from './services/cfs-infinite-scroll.service';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
@@ -103,7 +104,8 @@ export class CoreModule {
           useFactory: windowFactory
         },
         UserService,
-        GoogleAnalyticsService
+        GoogleAnalyticsService,
+        CfsInfiniteScrollService
       ]
     };
   }
@@ -121,16 +123,16 @@ export class CoreModule {
   /*ngDoBootstrap() {}*/
 
   registerCustomElements() {
-    const cfheader: NgElementConstructor = createCustomElement(HeaderComponent, {injector: this.injector});
-    const cffooter: NgElementConstructor = createCustomElement(FooterComponent, {injector: this.injector});
-    const cfalert: NgElementConstructor = createCustomElement(AlertsComponent, {injector: this.injector});
-    const cflogin: NgElementConstructor = createCustomElement(LoginComponent, {injector: this.injector});
-    const cfprofile: NgElementConstructor = createCustomElement(ProfileComponent, {injector: this.injector});
-    const cfprivacy: NgElementConstructor = createCustomElement(PrivacyComponent, {injector: this.injector});
-    const cfchangelocationmodel: NgElementConstructor = createCustomElement(ChangeLocationModelComponent, {injector: this.injector});
-    const cfcorousel: NgElementConstructor = createCustomElement(CorouselComponent, {injector: this.injector});
-    const cfcontentloading: NgElementConstructor = createCustomElement(ContentLoadingComponent, {injector: this.injector});
-    const cfmodel: NgElementConstructor = createCustomElement(ModelComponent, {injector: this.injector});
+    const cfheader = createCustomElement(HeaderComponent, {injector: this.injector});
+    const cffooter = createCustomElement(FooterComponent, {injector: this.injector});
+    const cfalert = createCustomElement(AlertsComponent, {injector: this.injector});
+    const cflogin = createCustomElement(LoginComponent, {injector: this.injector});
+    const cfprofile = createCustomElement(ProfileComponent, {injector: this.injector});
+    const cfprivacy = createCustomElement(PrivacyComponent, {injector: this.injector});
+    const cfchangelocationmodel = createCustomElement(ChangeLocationModelComponent, {injector: this.injector});
+    const cfcorousel = createCustomElement(CorouselComponent, {injector: this.injector});
+    const cfcontentloading = createCustomElement(ContentLoadingComponent, {injector: this.injector});
+    const cfmodel = createCustomElement(ModelComponent, {injector: this.injector});
 
     customElements.define('cf-header', cfheader);
     customElements.define('cf-footer', cffooter);

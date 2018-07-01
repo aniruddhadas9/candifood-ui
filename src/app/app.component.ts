@@ -1,16 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ChangeLocationModelComponent, MapService } from '@candifood/core';
 import { HttpClient } from '@angular/common/http';
 import { RestaurantService } from './restaurant/service/restaurant.service';
 import { GoogleMap } from '@agm/core/services/google-maps-types';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-/*
 import {
   ChangeLocationModelComponent
 } from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
-import { MapService } from '@candifood/core';
-*/
-
+import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
+import {CfsInfiniteScrollService} from '../../projects/candifood/core/src/lib/services/cfs-infinite-scroll.service';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +40,8 @@ export class AppComponent implements OnInit {
     private httpClient: HttpClient,
     private mapService: MapService,
     private modalService: NgbModal,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private cfsInfiniteScrollService: CfsInfiniteScrollService
   ) {
 
     this.middleButton = {
@@ -97,27 +95,8 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    this.mapService.locationBehaviorSubject.subscribe((location) => {
-      this.restaurantService.restaurants = [];
-      this._getRestaurantsFromMap(location);
-    });
-  }
 
-
-  openLocationChangeModel(event) {
-    this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
-    this.modalRef.componentInstance.input = this.location;
-    this.modalRef.componentInstance.output.subscribe((location) => {
-      this.middleButton.label = location.formatted_address;
-      this.modalRef.componentInstance.input = this.location;
-      this.mapService.locationBehaviorSubject.next(location);
-      this.restaurantService.restaurants = [];
-      this._getRestaurantsFromMap(this.location);
-    });
-  }
-
-  mapReady(map: GoogleMap) {
-    this.mapService.map = map;
+    // gets the coordinates from the browser and address from google map. this happens first time
     this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
       this.coordinates = position && position.coords;
       this.mapService.getAddressFromCoordinates({
@@ -136,6 +115,35 @@ export class AppComponent implements OnInit {
       this.middleButton.label = 'select location here.';
       this.middleButton.loading = false;
     });
+
+
+    // loading restaurant on change of address
+    this.mapService.locationBehaviorSubject.subscribe((location) => {
+      this.location = location;
+      this.restaurantService.restaurants = [];
+      this._getRestaurantsFromMap(location);
+    });
+
+    // loading restaurants on autoscroll
+    this.cfsInfiniteScrollService.scrolledBehaviorSubject.subscribe((position) => {
+      this.restaurantService.getRestaurants(this.location);
+    });
+  }
+
+
+  openLocationChangeModel(event) {
+    this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
+    this.modalRef.componentInstance.input = this.location;
+    this.modalRef.componentInstance.output.subscribe((location) => {
+      this.location = location;
+      this.middleButton.label = location.formatted_address;
+      this.modalRef.componentInstance.input = this.location;
+      this.mapService.locationBehaviorSubject.next(location);
+    });
+  }
+
+  mapReady(map: GoogleMap) {
+    this.mapService.map = map;
   }
 
   _getRestaurantsFromMap(location) {

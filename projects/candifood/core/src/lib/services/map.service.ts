@@ -102,7 +102,6 @@ export class MapService {
       const places = new (<any>window).google.maps.places.PlacesService(this.map);
       if (keyword) {
         search.keyword = keyword;
-        console.log('keyword found and setting it to filter that particular types of restaurant!');
       }
 
       search.types = ['restaurant'];

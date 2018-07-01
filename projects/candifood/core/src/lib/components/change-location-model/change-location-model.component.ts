@@ -17,7 +17,6 @@ export class ChangeLocationModelComponent implements OnInit {
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
-  public searchControl: FormControl;
 
   @Input() input: any;
   @Output() output = new EventEmitter<string>();
@@ -28,15 +27,11 @@ export class ChangeLocationModelComponent implements OnInit {
   ) {
     // add fontawesome icons to use
     library.add(faStreetView, faUtensilSpoon);
-    /*this.searchForm = new FormGroup({
-      term: new FormControl('', [Validators.required]),
-    });*/
 
   }
 
   ngOnInit() {
     // create search FormControl
-    this.searchControl = new FormControl();
     this.mapService.autoComplete(this.searchElementRef, this.output);
   }
 

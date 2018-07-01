@@ -15,17 +15,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { MapService } from '@candifood/core';
+import {CfsInfiniteScrollService} from '../../../../../projects/candifood/core/src/lib/services/cfs-infinite-scroll.service';
 
 @Component({
   selector: 'cfs-display-restaurant',
-  templateUrl: './display-restaurant.component.html',
-  styleUrls: ['./display-restaurant.component.scss']
+  templateUrl: './restaurants.component.html',
+  styleUrls: ['./restaurants.component.scss']
 })
-export class DisplayRestaurantComponent implements OnInit {
+export class RestaurantsComponent implements OnInit {
 
   constructor(
     public restaurantService: RestaurantService,
-    private mapService: MapService
+    private cfsInfiniteScrollService: CfsInfiniteScrollService
   ) {
     library.add(
       faUtensils,
@@ -50,14 +51,7 @@ export class DisplayRestaurantComponent implements OnInit {
 
   onScroll(event) {
     console.log(event);
-    return this.mapService.locationBehaviorSubject.subscribe((location) => {
-      console.log('started hitting the on scroll|location=', location);
-      this.restaurantService.getRestaurants(location)/*.subscribe((restaurants) => {
-          this.restaurantService.restaurants = [...this.restaurantService.restaurants, ...restaurants];
-        }, (error)=>{
-
-        })*/;
-    });
+    this.cfsInfiniteScrollService.scrolledBehaviorSubject.next(event);
   }
 
 }
