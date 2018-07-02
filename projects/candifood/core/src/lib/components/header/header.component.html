@@ -7,7 +7,8 @@
     <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
 
       <a [routerLink]="brand.url" class="navbar-brand d-flex w-50 mr-auto">
-        <img src="/assets/{{logo}}" width="30" height="30" class="d-inline-block align-top" alt="">{{brand.label}}
+        <img src="/assets/{{logo}}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <span class="brand-text">{{brand.label}}</span>
       </a>
 
       <button
@@ -33,20 +34,6 @@
           <li class="nav-item" *ngFor="let link of leftLinks">
             <a class="nav-link" [routerLink]="link.url" routerLinkActive="active">{{link.label}}</a>
           </li>
-          <!--<li class="nav-item">
-            <div ngbDropdown class="d-inline-block">
-              <a class="nav-link" ngbDropdownToggle
-
-                 routerLinkActive="active">Admin</a>
-              <div ngbDropdownMenu aria-labelledby="profile">
-                <button class="dropdown-item" [routerLink]="'/user-manage'">Manage user</button>
-                <button class="dropdown-item" [routerLink]="'/holi-statics'">Event statics</button>
-                <button class="dropdown-item" [routerLink]="'/holi'">Holi 2018 guest entry</button>
-                <button class="dropdown-item" [routerLink]="'/holi-manage'">Name search</button>
-                <button class="dropdown-item" [routerLink]="'/csv-upload'">Upload CSV file</button>
-              </div>
-            </div>
-          </li>-->
         </ul>
       </div>
     </nav>

@@ -1,5 +1,5 @@
 .header {
-  background-color: #ec8e49;
+  background-color: #ec5f1b;
   .gauramarg-left {
     position: absolute;
     top: 0px;
@@ -10,13 +10,41 @@
     right: 0px;
   }
   .container {
-    background-color: #ec8e49;
+    background-color: #ec5f1b;
+    nav {
+      background-color: #ec5f1b;
+      padding-left: 0;
+      padding-right: 0;
+      ul {
+        li {
+          a:link {
+            color: #ffffff;
+          }
+
+          /* visited link */
+          a:visited {
+            color: #ffffff;
+          }
+
+          /* mouse over link */
+          a:hover {
+            color: red;
+          }
+
+          /* selected link */
+          a:active {
+            color: #ec7a39;
+          }
+        }
+      }
+    }
+    .brand-text {
+      color: #ffffff;
+    }
   }
 }
 
-nav {
-  background-color: #ec8e49;
-}
+
 
 .street-button {
   color: #ffffff;
