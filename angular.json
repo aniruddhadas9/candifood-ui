@@ -207,6 +207,46 @@
           }
         }
       }
+    },
+    "cfs-infinite-scroll": {
+      "root": "projects/cfs-infinite-scroll",
+      "sourceRoot": "projects/cfs-infinite-scroll/src",
+      "projectType": "library",
+      "prefix": "cfs",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/cfs-infinite-scroll/tsconfig.lib.json",
+            "project": "projects/cfs-infinite-scroll/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/cfs-infinite-scroll/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/cfs-infinite-scroll/src/test.ts",
+            "tsConfig": "projects/cfs-infinite-scroll/tsconfig.spec.json",
+            "karmaConfig": "projects/cfs-infinite-scroll/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/cfs-infinite-scroll/tsconfig.lib.json",
+              "projects/cfs-infinite-scroll/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "candifood-ui"

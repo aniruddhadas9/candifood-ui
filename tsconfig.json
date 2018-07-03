@@ -22,6 +22,12 @@
       ],
       "map": [
         "dist/map"
+      ],
+      "cfs-infinite-scroll": [
+        "dist/cfs-infinite-scroll"
+      ],
+      "cfs-infinite-scroll/*": [
+        "dist/cfs-infinite-scroll/*"
       ]
     }
   },
