@@ -1,14 +1,21 @@
 .list-restaurant {
   height: 100%;
   margin: 3px 0;
-  .card-header {
+  .card-body {
     background-color: #F5F5F5;
     .row {
       .utensils {
         width: 200px;
         height: 200px;
       }
-
+      .restaurant-details {
+        p {
+          margin-bottom: 0;
+        }
+      }
+      button {
+        margin-right: 3px;
+      }
     }
   }
   .card {

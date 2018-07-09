@@ -3,30 +3,44 @@
      [infiniteScrollDistance]="2"
      [immediateCheck]="true"
      (scrolled)="onScroll($event)">
+
   <cfs-content-loading [hidden]="restaurantService.restaurants.length > 0" [repeats]="5"></cfs-content-loading>
-  <div class="card" *ngFor="let restaurant of restaurantService.restaurants">
 
-    <div class="card-header">
-      <div class="row">
-        <div class="col-md-1">
-          <fa-icon [icon]="['fas', 'utensils']" [size]="'5x'" [styles]="{color:'#F36F24'}"></fa-icon>
-        </div>
-        <div class="col-md-7 ng-scope">
-          <h4 class="ng-binding">{{restaurant.name}}</h4>
-          <p class="ng-binding">{{restaurant.address}}, {{restaurant.city}}</p>
-          <p class="card-text">Time: {{restaurant.openTime}} - {{restaurant.closeTime}}</p>
-          <ng-template #t let-fill="fill">
-            <span class="star" [class.full]="fill === 100">
-              <span class="half" [style.width.%]="fill">
-                &#9734;
+  <div class="card" *ngFor="let restaurant of restaurantService.restaurants; let i = index;">
+
+    <div class="card-body">
+
+      <div class="row d-flex justify-content-between">
+
+        <div class="col-10">
+          <div class="row">
+            <div class="col-md-1">
+              <fa-icon [icon]="['fas', 'utensils']" [size]="'5x'" [styles]="{color:'#F36F24'}"></fa-icon>
+            </div>
+
+            <div class="col-md-7 ng-scope restaurant-details">
+              <h4 class="ng-binding">{{restaurant.name}}</h4>
+              <p class="ng-binding">{{restaurant.address}}, {{restaurant.city}}</p>
+              <p class="card-text">Time: {{restaurant.openTime}} - {{restaurant.closeTime}}</p>
+              <ngb-rating [(rate)]="restaurant.rating" [starTemplate]="restRating" [readonly]="true"
+                          max="5"></ngb-rating>
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="(restaurant && restaurant.place)">
+            <div class="col">
+              <span class="badge badge-warning">{{restaurant.place && restaurant.place.phone}}</span>
+              &nbsp;&nbsp;
+              <span class="badge badge-warning">
+                <a target="_blank" href="{{restaurant.place && restaurant.place.website}}">web site</a>
               </span>
-              &#9733;
-            </span>
-          </ng-template>
-          <ngb-rating [(rate)]="restaurant.rating" [starTemplate]="t" [readonly]="true" max="5"></ngb-rating>
+            </div>
+          </div>
+
         </div>
 
-        <div class="col-md-4">
+        <div class="col-2 d-flex justify-content-end">
 
           <!--// These are default types, so not provided icons for them-->
           <!--<fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('food')"
@@ -67,12 +81,14 @@
                    [styles]="{color:'#F36F24'}"></fa-icon>
         </div>
       </div>
-      <div class="row">
-        <div class="container">
 
-          <a href="#" class="btn btn-warning">Order</a>
-        </div>
+      <cfs-photos *ngIf="(restaurant && restaurant.place)" [photos]="restaurant.place.photos"></cfs-photos>
+      <cfs-reviews *ngIf="(restaurant && restaurant.place)" [reviews]="restaurant.place.reviews"></cfs-reviews>
 
+      <div class="row d-flex justify-content-start">
+        <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">More details</button>
+        <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">Order</button>
+        <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">Call</button>
       </div>
     </div>
   </div>
@@ -80,3 +96,9 @@
 
 </div>
 
+
+<ng-template #restRating let-fill="fill">
+  <span class="star" [class.full]="fill === 100">
+    <span class="half" [style.width.%]="fill">&#9734;</span>&#9733;
+  </span>
+</ng-template>

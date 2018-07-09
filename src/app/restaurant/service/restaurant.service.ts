@@ -126,7 +126,7 @@ export class RestaurantService implements OnInit {
       results.map((restaurant) => {
         this.restaurants.push(restaurant);
       });
-
+      console.log('restaurants from datastore', results);
       // this.restaurant.items = _.unique(this.restaurant.items, 'name');
 
       if (results.length <= 0) {

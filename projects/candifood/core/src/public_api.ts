@@ -23,9 +23,13 @@ export * from './lib/components/header/header.component';
 export * from './lib/components/login/login.component';
 export * from './lib/components/privacy/privacy.component';
 export * from './lib/components/profile/profile.component';
+export * from './lib/components/read-more/read-more.component';
 
 // directives
 export * from './lib/directives/auto-scroll.directive';
+
+// pipes
+export * from './lib/pipes/safe-html.pipe';
 
 // routing and module
 export * from './lib/core-routing.module';

@@ -8,6 +8,7 @@ import {RestaurantModule} from './restaurant/restaurant.module';
 import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
 import { CoreModule } from '../../projects/candifood/core/src/lib/core.module';
+import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
 
 
 @NgModule({

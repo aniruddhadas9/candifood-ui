@@ -51,7 +51,6 @@ export class AppComponent implements OnInit {
     };
 
     this.headerLeftLinks = [
-      {label: 'Privacy', url: '/privacy', display: false},
       {label: 'Profile', url: '/profile', display: true},
       {label: 'login', url: '/login', display: true},
     ];
@@ -85,7 +84,8 @@ export class AppComponent implements OnInit {
       'We are here to help you to be health as well as take care of your test. Just let us know you.'
     };
     this.columnOneLinks = [
-      {label: 'login', url: '/login'}
+      {label: 'login', url: '/login'},
+      {label: 'Privacy', url: '/privacy'}
     ];
     this.columnTwoLinks = [
       {label: 'profile', url: '/profile'}
@@ -148,6 +148,7 @@ export class AppComponent implements OnInit {
 
   _getRestaurantsFromMap(location) {
     this.mapService.getRestaurantsFromGoogleMap(location).subscribe((restaurants: any) => {
+      console.log('restaurants from map', restaurants);
       this.restaurantService.restaurants = [...restaurants];
       this.changeDetectorRef.detectChanges();
       const request = {

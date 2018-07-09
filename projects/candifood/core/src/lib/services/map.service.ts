@@ -160,25 +160,18 @@ export class MapService {
       // console.log('getGoogleMapPlaceDetail|parameter:%o', googlePlaceId);
       const places = new (<any>window).google.maps.places.PlacesService(this.map);
       places.getDetails({placeId: googlePlaceId}, function (place, status) {
-        console.log('_mapService|fetched from map|place::::%o and status: %o', place, status);
+        console.log('MapService|place-detail: %o | status:%o', place, status);
         if (status === (<any>window).google.maps.places.PlacesServiceStatus.OK) {
-          let phone;
 
           if (typeof place.international_phone_number !== 'undefined') {
-            phone = place.international_phone_number;
+            place.phone = place.international_phone_number;
           } else if (typeof place.formatted_phone_number !== 'undefined') {
-            phone = place.formatted_phone_number;
+            place.phone = place.formatted_phone_number;
           } else {
-            phone = '+14156509102';
+            place.phone = '+14156509102';
           }
 
-          const restro = {
-            place_id: place.place_id,
-            phone: phone,
-            website: place.website,
-            url: place.url
-          };
-          observer.next(restro);
+          observer.next(place);
         } else {
           console.log('Unable to get phone number, email, url, website from google. error: %o', status);
           observer.error('Unable to get phone number, email, url, website from google. error:' + status);
@@ -253,8 +246,6 @@ export class MapService {
 
 
   public autoComplete(searchElementRef: ElementRef, output: EventEmitter<string>) {
-    // load Places Autocomplete
-    // this.mapsAPILoader.load().then(() => {
 
       const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
         types: ['address']
@@ -271,15 +262,10 @@ export class MapService {
           }
           place = this.processFullLocation(place);
 
-          // change the location to new location
-          this.location = new Observable((observer) => {
-            observer.next(place);
-          });
           // send changed address back
           output.emit(place);
         });
       });
-    // });
   }
 
   public storeAndUpdateRestaurantsManual(userLocation) {
