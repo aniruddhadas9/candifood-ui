@@ -1,0 +1,101 @@
+<div class="container" *ngIf="photos.length > 0">
+  <h6>Photos</h6>
+
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row d-inline-flex justify-content-start">
+        <div class="col" *ngFor="let photo of photos">
+          <img [src]="photo.url" alt="Restaurant photo">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--<ngb-carousel>
+
+    <ng-container *ngFor="let photo of photos; let i=index;">
+      <ng-template ngbSlide class="carousel-item col-md-3  active">
+        <div class="panel panel-default">
+          <div class="panel-thumbnail">
+            <img class="img-fluid mx-auto d-block" [src]="photo.url" alt="photo">
+          </div>
+        </div>
+
+      </ng-template>
+    </ng-container>
+
+  </ngb-carousel>-->
+
+  <!--<div class="row">
+    <div class="col restaurant-photos" *ngFor="let photo of photos">
+      <img [src]="photo.url"/>
+    </div>
+  </div>-->
+
+  <!--<ng-template ngbSlide *ngFor="let photo of photos">
+    <img [src]="photo.url" alt="Restaurant photo">
+    <div class="carousel-caption">
+      <h3>{{photo.name || ''}}</h3>
+      <p>{{photo.address || ''}}</p>
+    </div>
+  </ng-template>-->
+</div>
+
+<!--<div class="container-fluid">
+  <div id="carouselExample" class="carousel slide" [attr.data-ride]="'carousel'" data-interval="1000">
+    <div class="carousel-inner row w-100 mx-auto" [attr.role]="'listbox'">
+
+      <div class="carousel-item col-md-3  active" *ngFor="let photo of photos; let i=index;">
+        <div class="panel panel-default">
+          <div class="panel-thumbnail">
+            <a href="#" title="image 1" class="thumb">
+              <img class="img-fluid mx-auto d-block" [src]="photo.url" alt="photo">
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <a class="carousel-control-prev" [attr.role]="'button'" [attr.data-slide]="'prev'">
+      <span class="carousel-control-prev-icon" [attr.aria-hidden]="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next text-faded" [attr.role]="'button'" [attr.data-slide]="'next'">
+      <span class="carousel-control-next-icon" [attr.aria-hidden]="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>-->
+
+
+<!--<div class="container">
+  <div class="container text-center my-3">
+    <h3>Bootstrap 4 Multiple Item Carousel</h3>
+    <div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
+      <div class="carousel-inner w-100" role="listbox">
+        <div class="carousel-item row no-gutters active">
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/222/fff?text=1"></div>
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/444?text=2"></div>
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/888?text=3"></div>
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/111/fff?text=4"></div>
+        </div>
+        <div class="carousel-item row no-gutters">
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280?text=5"></div>
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/555?text=6"></div>
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/333/fff?text=7"></div>
+          <div class="col-3 float-left"><img class="img-fluid" src="http://placehold.it/350x280/bbb?text=8"></div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" (click)="ngbCarousel.prev()" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" (click)="ngbCarousel.next()" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+  </div>
+</div>-->

@@ -7,10 +7,6 @@ import {environment} from '../../../environments/environment';
 export class RestaurantService implements OnInit {
 
   public location;
-  public restaurant = {
-    after: '',
-    items: []
-  };
   private busy;
   private finish;
   public records = {
@@ -112,7 +108,6 @@ export class RestaurantService implements OnInit {
       this.records.param = location && location.state || null;
     }
     this._getRestaurants(location);
-    this.restaurant.after += 20;
     this.busy = false;
 
   }
@@ -164,7 +159,7 @@ export class RestaurantService implements OnInit {
         this.getRestaurants(location);
       }
 
-      this.restaurant.after += 10;
+      this.records.after += 10;
       this.busy = false;
 
     }, (error) => {
