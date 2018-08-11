@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
@@ -11,8 +11,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() logo;
-  @Input() brand: { label: string, url: string };
+  @Input() brand: { label: string, url: string, logo: { url: string, width: string, height: string, alt: string} };
   @Input() leftLinks: Array<{ label: string, url: string, display: boolean }>;
   @Input() rightLinks: Array<{ label: string, url: string, display: boolean }>;
   @Input() middleButton: { display: boolean, label: string, loading: boolean};
@@ -25,7 +24,7 @@ export class HeaderComponent implements OnInit {
   public loading: boolean;
   public modalRef;
 
-  constructor() {
+  constructor(private elementRef: ElementRef) {
     // add fontawesome icons to use
     library.add(faStreetView, faUtensilSpoon);
 
