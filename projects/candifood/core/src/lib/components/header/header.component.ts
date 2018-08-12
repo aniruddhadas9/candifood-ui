@@ -1,7 +1,41 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
+
+export interface Link {
+  label: string;
+  url: string;
+  display: boolean;
+}
+
+export interface Logo {
+  imageInAsset: string;
+  width?: string | number;
+  height?: string | number;
+  alt?: string;
+  style?: Object | any;
+}
+
+export interface Brand {
+  label: string;
+  url: string;
+  logo: Logo;
+  style?: Object | any;
+}
+
+export interface Header {
+  brand: Brand;
+  leftLinks: Array<Link>;
+  rightLinks: Array<Link>;
+  middleButton?: {
+    display: boolean;
+    label: string;
+    loading: boolean;
+    style?: Object | any;
+  };
+  style?: Object | any;
+}
 
 @Component({
   selector: 'cfs-header',
@@ -11,10 +45,8 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() brand: { label: string, url: string, logo: { url: string, width: string, height: string, alt: string} };
-  @Input() leftLinks: Array<{ label: string, url: string, display: boolean }>;
-  @Input() rightLinks: Array<{ label: string, url: string, display: boolean }>;
-  @Input() middleButton: { display: boolean, label: string, loading: boolean};
+  @Input() header: Header;
+  @Input() middleButton: { display: boolean, label: string, loading: boolean };
   @Output() middleButtonClick = new EventEmitter<string>();
 
   public isCollapsed = true;
@@ -24,8 +56,7 @@ export class HeaderComponent implements OnInit {
   public loading: boolean;
   public modalRef;
 
-  constructor(private elementRef: ElementRef) {
-    // add fontawesome icons to use
+  constructor() {
     library.add(faStreetView, faUtensilSpoon);
 
     this.searchForm = new FormGroup({

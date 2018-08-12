@@ -1,13 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { RestaurantService } from './restaurant/service/restaurant.service';
-import { GoogleMap } from '@agm/core/services/google-maps-types';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {RestaurantService} from './restaurant/service/restaurant.service';
+import {GoogleMap} from '@agm/core/services/google-maps-types';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   ChangeLocationModelComponent
 } from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
 import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
 import {CfsInfiniteScrollService} from '../../projects/candifood/core/src/lib/services/cfs-infinite-scroll.service';
+import {Header} from '../../projects/candifood/core/src/lib/components/header/header.component';
 
 @Component({
   selector: 'app-root',
@@ -23,13 +24,12 @@ export class AppComponent implements OnInit {
 
   // header links
   public middleButton;
-  public headerBrand;
-  public headerLeftLinks;
+  public header: Header;
 
   // footer links
   public year: string;
   public social;
-  public brand;
+  public footerBrand;
   public contact;
   public message;
   public columnOneLinks;
@@ -50,13 +50,40 @@ export class AppComponent implements OnInit {
       loading: true
     };
 
-    this.headerLeftLinks = [
-      {label: 'Profile', url: '/profile', display: true},
-      {label: 'login', url: '/login', display: true},
-    ];
-    this.headerBrand = {
-      label: 'candifood',
-      url: '/'
+    this.header = {
+      brand: {
+        label: 'candifood',
+        url: '/',
+        logo: {
+          imageInAsset: 'candilogo_icon32x32.png',
+          style: {
+            width: '30px',
+            height: '30px'
+          }
+        },
+        style: {
+          'color': '#ffe90f'
+        }
+      },
+      rightLinks: [
+        {label: 'Profile', url: '/profile', display: true},
+      ],
+      leftLinks: null,
+      style: {
+        'background-color': '#367aec',
+        'a:link': {
+          'color': '#ffffff'
+        },
+        'a:visited': {
+          'color': '#ffffff'
+        },
+        'a:hover': {
+          'color': 'red'
+        },
+        'a:active': {
+          'color': '#ec7a39'
+        }
+      }
     };
 
     this.year = '2018';
@@ -67,7 +94,7 @@ export class AppComponent implements OnInit {
       linkedin: 'http://www.linkedin.com',
     };
 
-    this.brand = {
+    this.footerBrand = {
       label: 'candifood team',
       url: 'https://www.candifood.com'
     };
@@ -81,7 +108,7 @@ export class AppComponent implements OnInit {
     this.message = {
       heading: 'All your eating solution',
       desc: 'What we eat, it makes a difference in our life. Healthy food does not always comes with good test.' +
-      'We are here to help you to be health as well as take care of your test. Just let us know you.'
+        'We are here to help you to be health as well as take care of your test. Just let us know you.'
     };
     this.columnOneLinks = [
       {label: 'login', url: '/login'},

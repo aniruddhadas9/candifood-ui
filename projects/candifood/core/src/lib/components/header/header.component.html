@@ -1,15 +1,17 @@
-<div class="header">
+<div class="header" [ngStyle]="header.style">
 
   <cfs-alerts></cfs-alerts>
 
-  <div class="container" [style.backgroundColor]="">
+  <div class="container" [ngStyle]="header.style">
 
-    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center" [ngStyle]="header.style">
 
-      <a [routerLink]="brand.url" class="navbar-brand d-flex w-50 mr-auto">
-        <img  *ngIf="brand.logo" src="/assets/{{brand.logo.url}}" width="{{brand.logo.width || 30}}"
-              height="{{brand.logo.height || 30" class="d-inline-block align-top" alt="{{brand.logo.alt || brand.label}}">
-        <span class="brand-text">{{brand.label}}</span>
+      <a [routerLink]="header.brand.url" class="navbar-header.brand d-flex w-25 mr-auto">
+        <img  *ngIf="header.brand.logo && header.brand.logo.imageInAsset"
+              src="/assets/{{header.brand.logo.imageInAsset}}" class="d-inline-block align-top"
+              width="{{header.brand.logo.width || 30}}" height="{{header.brand.logo.height || 30}}"
+              alt="{{header.brand.logo.alt || header.brand.label}}" [ngStyle]="header.brand.logo.style">&nbsp;
+        <span class="brand-text" [ngStyle]="header.brand.style">{{header.brand.label}}</span>
       </a>
 
       <button
@@ -21,6 +23,12 @@
 
       <div class="navbar-collapse collapse w-100" id="candifoodtoggle"  [ngbCollapse]="isCollapsed">
 
+        <ul *ngIf="header.leftLinks" class="nav navbar-nav ml-auto w-100 justify-content-start">
+          <li class="nav-item" *ngFor="let link of header.leftLinks">
+            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active">{{link.label}}</a>
+          </li>
+        </ul>
+
         <ul class="navbar-nav w-100 justify-content-center">
           <li class="nav-item active" *ngIf="middleButton.display">
             <button type="button" class="btn btn-warning ng-binding street-button" (click)="open()">
@@ -31,8 +39,8 @@
           </li>
         </ul>
 
-        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
-          <li class="nav-item" *ngFor="let link of leftLinks">
+        <ul *ngIf="header.rightLinks"  class="nav navbar-nav ml-auto w-100 justify-content-end">
+          <li class="nav-item" *ngFor="let link of header.rightLinks">
             <a class="nav-link" [routerLink]="link.url" routerLinkActive="active">{{link.label}}</a>
           </li>
         </ul>
