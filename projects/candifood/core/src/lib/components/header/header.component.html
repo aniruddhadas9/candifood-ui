@@ -6,7 +6,7 @@
 
     <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center" [ngStyle]="header.style">
 
-      <a [routerLink]="header.brand.url" class="navbar-header.brand d-flex w-25 mr-auto">
+      <a [routerLink]="header.brand.url" class="navbar-header.brand d-flex w-25 mr-auto" [ngStyle]="header.brand.style">
         <img  *ngIf="header.brand.logo && header.brand.logo.imageInAsset"
               src="/assets/{{header.brand.logo.imageInAsset}}" class="d-inline-block align-top"
               width="{{header.brand.logo.width || 30}}" height="{{header.brand.logo.height || 30}}"
@@ -23,25 +23,30 @@
 
       <div class="navbar-collapse collapse w-100" id="candifoodtoggle"  [ngbCollapse]="isCollapsed">
 
-        <ul *ngIf="header.leftLinks" class="nav navbar-nav ml-auto w-100 justify-content-start">
-          <li class="nav-item" *ngFor="let link of header.leftLinks">
-            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active">{{link.label}}</a>
+        <ul *ngIf="header.links.leftLinks" class="nav navbar-nav ml-auto w-100 justify-content-start">
+          <li class="nav-item" *ngFor="let link of header.links.leftLinks" [ngStyle]="header.links.style">
+            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active" [ngStyle]="header.links.style">
+              {{link.label}}
+            </a>
           </li>
         </ul>
 
         <ul class="navbar-nav w-100 justify-content-center">
-          <li class="nav-item active" *ngIf="middleButton.display">
-            <button type="button" class="btn btn-warning ng-binding street-button" (click)="open()">
-              <fa-icon [hidden]="middleButton.loading" [icon]="['fas', 'street-view']"></fa-icon>
-              <fa-icon [hidden]="!middleButton.loading" [icon]="['fas', 'utensil-spoon']" [spin]="true"></fa-icon>
-              {{location.formatted_address || middleButton.label}}
+          <li class="nav-item active" *ngIf="header.middleButton.display">
+            <button type="button" class="btn btn-warning ng-binding street-button"
+                    [ngStyle]="header.middleButton.style" (click)="open()">
+              <fa-icon [hidden]="header.middleButton.loading" [icon]="['fas', 'street-view']"></fa-icon>
+              <fa-icon [hidden]="!header.middleButton.loading" [icon]="['fas', 'utensil-spoon']" [spin]="true"></fa-icon>
+              {{location.formatted_address || header.middleButton.label}}
             </button>
           </li>
         </ul>
 
-        <ul *ngIf="header.rightLinks"  class="nav navbar-nav ml-auto w-100 justify-content-end">
-          <li class="nav-item" *ngFor="let link of header.rightLinks">
-            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active">{{link.label}}</a>
+        <ul *ngIf="header.links.rightLinks"  class="nav navbar-nav ml-auto w-100 justify-content-end">
+          <li class="nav-item" *ngFor="let link of header.links.rightLinks" [ngStyle]="header.links.style">
+            <a [routerLink]="link.url" routerLinkActive="active"  [ngStyle]="header.links.style">
+              {{link.label}}
+            </a>
           </li>
         </ul>
       </div>

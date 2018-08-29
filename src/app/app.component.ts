@@ -9,6 +9,7 @@ import {
 import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
 import {CfsInfiniteScrollService} from '../../projects/candifood/core/src/lib/services/cfs-infinite-scroll.service';
 import {Header} from '../../projects/candifood/core/src/lib/components/header/header.component';
+import {Footer} from '../../projects/candifood/core/src/lib/components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
@@ -27,13 +28,8 @@ export class AppComponent implements OnInit {
   public header: Header;
 
   // footer links
-  public year: string;
-  public social;
-  public footerBrand;
-  public contact;
-  public message;
-  public columnOneLinks;
-  public columnTwoLinks;
+  public footer: Footer;
+
 
   constructor(
     private restaurantService: RestaurantService,
@@ -43,12 +39,6 @@ export class AppComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private cfsInfiniteScrollService: CfsInfiniteScrollService
   ) {
-
-    this.middleButton = {
-      display: true,
-      label: 'Trying to get location from device...',
-      loading: true
-    };
 
     this.header = {
       brand: {
@@ -62,61 +52,96 @@ export class AppComponent implements OnInit {
           }
         },
         style: {
-          'color': '#ffe90f'
+          'color': '#ffe90f',
+          'text-decoration': 'none'
         }
       },
-      rightLinks: [
-        {label: 'Profile', url: '/profile', display: true},
-      ],
-      leftLinks: null,
-      style: {
-        'background-color': '#367aec',
-        'a:link': {
-          'color': '#ffffff'
-        },
-        'a:visited': {
-          'color': '#ffffff'
-        },
-        'a:hover': {
-          'color': 'red'
-        },
-        'a:active': {
-          'color': '#ec7a39'
+      links: {
+        rightLinks: [
+          {label: 'Profile', url: '/profile', display: true},
+        ],
+        leftLinks: null,
+        style: {
+          'background-color': '#367aec',
+          'color': '#ec8559',
+          'text-decoration': 'none',
+          'a:link': {
+            'color': '#3eff77'
+          },
+          'a:visited': {
+            'color': '#ff9d19'
+          },
+          'a:hover': {
+            'color': '#fe4d0e'
+          },
+          'a:active': {
+            'color': '#ec7a39'
+          }
         }
+      },
+      middleButton: {
+        display: true,
+        label: 'Trying to get location from device...',
+        loading: true,
+        style: {
+          'background-color': '#ec9a0a',
+          'color': '#ec0b26'
+        }
+      },
+      style: {
+        'background-color': '#367aec'
       }
     };
 
-    this.year = '2018';
-    this.social = {
-      facebook: 'http://www.facebook.com',
-      googlePlus: 'http://www.plus.google.com',
-      twitter: 'http://www.twitter.com',
-      linkedin: 'http://www.linkedin.com',
-    };
 
-    this.footerBrand = {
-      label: 'candifood team',
-      url: 'https://www.candifood.com'
+    this.footer = {
+      displayTopSection: true,
+      social: {
+        facebook: 'http://www.facebook.com',
+        googlePlus: 'http://www.plus.google.com',
+        twitter: 'http://www.twitter.com',
+        linkedIn: 'http://www.linkedin.com',
+      },
+      copyright: {
+        year: 2018,
+        label: 'candifood team',
+        url: 'https://www.candifood.com'
+      },
+      contact: {
+        name: 'Aniruddha Das',
+        email: 'aniruddhadas9@gmail.com',
+        phone: '+1 415 650 9102',
+        fax: '+x xxx xxx xxxx'
+      },
+      message: {
+        heading: 'All your eating solution',
+        desc: 'What we eat, it makes a difference in our life. Healthy food does not always comes with good test.' +
+          'We are here to help you to be health as well as take care of your test. Just let us know you.'
+      },
+      columnOneLinks: [
+        {label: 'login', url: '/login'},
+        {label: 'Privacy', url: '/privacy'}
+      ],
+      columnTwoLinks: [
+        {label: 'profile', url: '/profile'}
+      ],
+      style: {
+        'background-color': '#7a690b',
+        'color': '#f99d00',
+        'a:link': {
+          'color': '#ffc11a'
+        },
+        'a:visited': {
+          'color': '#16d3ff'
+        },
+        'a:hover': {
+          'color': '#fbfe11'
+        },
+        'a:active': {
+          'color': '#d0eccb'
+        }
+      }
     };
-
-    this.contact = {
-      name: 'Aniruddha Das',
-      email: 'aniruddhadas9@gmail.com',
-      phone: '+1 415 650 9102',
-      fax: '+x xxx xxx xxxx'
-    };
-    this.message = {
-      heading: 'All your eating solution',
-      desc: 'What we eat, it makes a difference in our life. Healthy food does not always comes with good test.' +
-        'We are here to help you to be health as well as take care of your test. Just let us know you.'
-    };
-    this.columnOneLinks = [
-      {label: 'login', url: '/login'},
-      {label: 'Privacy', url: '/privacy'}
-    ];
-    this.columnTwoLinks = [
-      {label: 'profile', url: '/profile'}
-    ];
 
   }
 
@@ -130,17 +155,17 @@ export class AppComponent implements OnInit {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location: any) => {
-        this.middleButton.label = location.formatted_address;
-        this.middleButton.loading = false;
+        this.header.middleButton.label = location.formatted_address;
+        this.header.middleButton.loading = false;
         this.changeDetectorRef.detectChanges();
         this._getRestaurantsFromMap(location);
       }, (error) => {
-        this.middleButton.label = 'select location here.';
-        this.middleButton.loading = false;
+        this.header.middleButton.label = 'select location here.';
+        this.header.middleButton.loading = false;
       });
     }, (error) => {
-      this.middleButton.label = 'select location here.';
-      this.middleButton.loading = false;
+      this.header.middleButton.label = 'select location here.';
+      this.header.middleButton.loading = false;
     });
 
 
@@ -163,7 +188,7 @@ export class AppComponent implements OnInit {
     this.modalRef.componentInstance.input = this.location;
     this.modalRef.componentInstance.output.subscribe((location) => {
       this.location = location;
-      this.middleButton.label = location.formatted_address;
+      this.header.middleButton.label = location.formatted_address;
       this.modalRef.componentInstance.input = this.location;
       this.mapService.locationBehaviorSubject.next(location);
     });

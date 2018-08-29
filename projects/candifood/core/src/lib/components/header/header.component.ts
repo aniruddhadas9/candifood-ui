@@ -26,8 +26,11 @@ export interface Brand {
 
 export interface Header {
   brand: Brand;
-  leftLinks: Array<Link>;
-  rightLinks: Array<Link>;
+  links: {
+    leftLinks: Array<Link>;
+    rightLinks: Array<Link>;
+    style?: Object | any;
+  };
   middleButton?: {
     display: boolean;
     label: string;

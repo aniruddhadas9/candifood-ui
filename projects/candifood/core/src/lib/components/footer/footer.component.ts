@@ -5,6 +5,22 @@ import {faFacebook, faGooglePlus, faLinkedin, faTwitter} from '@fortawesome/free
 import {faUser, faHome, faFax, faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 
 
+export interface Footer {
+  displayTopSection: boolean;
+  social: {
+    facebook: string,
+    googlePlus: string,
+    twitter: string,
+    linkedIn: string,
+  };
+  copyright: {label: string, url: string, year: number};
+  contact: {name: string, email: string, phone: string, fax: string};
+  message: {heading: string, desc: string};
+  columnOneLinks: Array<{label: string, url: string}>;
+  columnTwoLinks: Array<{label: string, url: string}>;
+  style?: Object | any;
+}
+
 @Component({
   selector: 'cfs-footer',
   templateUrl: './footer.component.html',
@@ -12,20 +28,7 @@ import {faUser, faHome, faFax, faPhone, faEnvelope} from '@fortawesome/free-soli
 })
 export class FooterComponent implements OnInit {
 
-  @Input() social: {
-    facebook: string,
-    googlePlus: string,
-    twitter: string,
-    linkedin: string,
-  };
-  @Input() year: string;
-  @Input() brand: {label: string, url: string};
-  @Input() copyright: string;
-  @Input() contact: {name: string, email: string, phone: string, fax: string};
-  @Input() message: {heading: string, desc: string};
-  @Input() columnOneLinks: Array<{label: string, url: string}>;
-  @Input() columnTwoLinks: Array<{label: string, url: string}>;
-
+  @Input() footer: Footer;
 
   constructor() {
     library.add(faUser, faHome, faFax, faPhone, faEnvelope, faTwitter, faFacebook, faGooglePlus, faLinkedin);
