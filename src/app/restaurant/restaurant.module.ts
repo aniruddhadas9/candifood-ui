@@ -7,8 +7,8 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CoreModule} from '../../../projects/candifood/core/src/lib/core.module';
-import { ReviewsComponent } from './components/reviews/reviews.component';
-import { PhotosComponent } from './components/photos/photos.component';
+import {ReviewsComponent} from './components/reviews/reviews.component';
+import {PhotosComponent} from './components/photos/photos.component';
 
 
 @NgModule({

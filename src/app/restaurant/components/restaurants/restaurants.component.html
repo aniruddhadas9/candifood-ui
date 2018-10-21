@@ -86,7 +86,8 @@
       <cfs-reviews *ngIf="(restaurant && restaurant.place)" [reviews]="restaurant.place.reviews"></cfs-reviews>
 
       <div class="row d-flex justify-content-start">
-        <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">More details</button>
+        <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">More details
+        </button>
         <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">Order</button>
         <button class="btn btn-warning" (click)="getGoogleMapPhotos(restaurant.googlePlaceId, i)">Call</button>
       </div>
@@ -95,7 +96,6 @@
 
 
 </div>
-
 
 <ng-template #restRating let-fill="fill">
   <span class="star" [class.full]="fill === 100">

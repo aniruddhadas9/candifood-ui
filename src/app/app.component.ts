@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
         ],
         leftLinks: null,
         style: {
-          'background-color': '#367aec',
-          'color': '#ec8559',
+          'background-color': '#ec7a39',
+          'color': '#f6f6f6',
           'text-decoration': 'none',
           'a:link': {
             'color': '#3eff77'
@@ -85,11 +85,11 @@ export class AppComponent implements OnInit {
         loading: true,
         style: {
           'background-color': '#ec9a0a',
-          'color': '#ec0b26'
+          'color': '#ffffff'
         }
       },
       style: {
-        'background-color': '#367aec'
+        'background-color': '#ec7a39'
       }
     };
 
