@@ -11,7 +11,6 @@ import {LoginComponent} from './components/login/login.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {EncryptionService} from './services/encryption.service';
 import {MapService} from './services/map.service';
-import {HttpClientModule} from '@angular/common/http';
 import {AppService} from './services/app.service';
 import {NoAuthGuardService} from './services/no-auth-guard.service';
 import {GoogleAnalyticsService} from './services/google-analytics.service';
@@ -45,7 +44,7 @@ export function windowFactory() {
     RouterModule,
     CommonModule,
     ReactiveFormsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     CoreRoutingModule,
     FontAwesomeModule
   ],
@@ -128,7 +127,8 @@ export class CoreModule {
 
   }
 
-  /*ngDoBootstrap() {}*/
+  // ngDoBootstrap() {
+  // }
 
   registerCustomElements() {
     const cfheader: NgElementConstructor<HeaderComponent> = createCustomElement(HeaderComponent, {injector: this.injector});

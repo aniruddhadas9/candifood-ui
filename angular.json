@@ -137,6 +137,14 @@
       "sourceRoot": "projects/candifood/core/src",
       "projectType": "library",
       "prefix": "cfs",
+      "schematics": {
+        "@schematics/angular:component": {
+          "prefix": "cfs"
+        },
+        "@schematics/angular:directive": {
+          "prefix": "cfs"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
