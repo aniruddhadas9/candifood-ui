@@ -1,14 +1,13 @@
-import { BrowserModule } from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {RestaurantModule} from './restaurant/restaurant.module';
 import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
-import { CoreModule } from '../../projects/candifood/core/src/lib/core.module';
-import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
+import {WebsiteModule} from '@candiman/website';
 
 
 @NgModule({
@@ -19,7 +18,7 @@ import {MapService} from '../../projects/candifood/core/src/lib/services/map.ser
     BrowserModule,
     AppRoutingModule,
     NgbModule.forRoot(),
-    CoreModule.forRoot(),
+    WebsiteModule.forRoot(),
     HomeModule,
     RestaurantModule,
     AgmCoreModule.forRoot({
