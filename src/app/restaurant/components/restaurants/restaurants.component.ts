@@ -14,8 +14,8 @@ import {
   faStarHalf, faMagic, faSquare
 } from '@fortawesome/free-solid-svg-icons';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {CfsInfiniteScrollService} from '../../../../../projects/candifood/core/src/lib/services/cfs-infinite-scroll.service';
-import {MapService} from '../../../../../projects/candifood/core/src/lib/services/map.service';
+import {CfsInfiniteScrollService} from '@candiman/website';
+import {MapService} from '@candiman/website';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

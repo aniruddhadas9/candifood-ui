@@ -3,13 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {RestaurantService} from './restaurant/service/restaurant.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {
-  ChangeLocationModelComponent
-} from '../../projects/candifood/core/src/lib/components/change-location-model/change-location-model.component';
-import {MapService} from '../../projects/candifood/core/src/lib/services/map.service';
-import {CfsInfiniteScrollService} from '../../projects/candifood/core/src/lib/services/cfs-infinite-scroll.service';
-import {Header} from '../../projects/candifood/core/src/lib/components/header/header.component';
-import {Footer} from '../../projects/candifood/core/src/lib/components/footer/footer.component';
+import {CfsInfiniteScrollService, ChangeLocationModelComponent, Footer, Header, MapService} from '@candiman/website';
 
 @Component({
   selector: 'app-root',

@@ -11,7 +11,8 @@ export class PhotosComponent implements OnInit {
   @Input() photos: string;
   showNavigationArrows = false;
   showNavigationIndicators = false;
-  constructor(public ngbCarousel: NgbCarousel) { }
+  constructor(public ngbCarousel: NgbCarousel) {
+  }
 
   ngOnInit() {
   }

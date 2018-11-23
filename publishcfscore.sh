@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-cd projects/candifood/core
+cd projects/candiman/website
 npm version patch
 cd ../../..
 pwd
-ng build @candifood/core --prod
+ng build @candiman/website
 pwd
-cd dist/lib
+cd dist/candiman/website
 pwd
 npm publish --access public
 cd ../../..
