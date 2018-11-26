@@ -16,7 +16,7 @@ import {PhotosComponent} from './components/photos/photos.component';
     CommonModule,
     HttpClientModule,
     FontAwesomeModule,
-    NgbModule.forRoot(),
+    NgbModule,
     InfiniteScrollModule,
     WebsiteModule
   ],

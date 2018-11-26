@@ -123,7 +123,7 @@ export class WebsiteModule {
         'CoreModule is already loaded. Import it in the AppModule only');
     }
 
-    // this.registerCustomElements();
+    this.registerCustomElements();
 
   }
 

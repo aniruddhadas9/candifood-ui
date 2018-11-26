@@ -5,19 +5,24 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-prod": "ng build --prod --aot",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "@candiman/website": "ng build @candiman/website",
+    "gcloud-deploy": "gcloud app deploy --no-promote"
   },
   "private": true,
   "dependencies": {
     "@agm/core": "1.0.0-beta.5",
     "@angular/animations": "7.1.0",
+    "@angular/cdk": "7.1.0",
     "@angular/common": "7.1.0",
     "@angular/compiler": "7.1.0",
     "@angular/core": "7.1.0",
     "@angular/elements": "7.1.0",
     "@angular/forms": "7.1.0",
+    "@angular/material": "7.1.0",
     "@angular/platform-browser": "7.1.0",
     "@angular/platform-browser-dynamic": "7.1.0",
     "@angular/router": "7.1.0",
@@ -27,13 +32,15 @@
     "@fortawesome/free-regular-svg-icons": "5.5.0",
     "@fortawesome/free-solid-svg-icons": "5.5.0",
     "@ng-bootstrap/ng-bootstrap": "4.0.0",
+    "@webcomponents/custom-elements": "1.2.1",
     "bootstrap": "4.1.3",
     "core-js": "2.5.7",
+    "document-register-element": "1.13.1",
+    "hammerjs": "^2.0.8",
     "ngx-infinite-scroll": "6.0.1",
     "rxjs": "6.3.3",
     "tslib": "1.9.0",
-    "zone.js": "0.8.26",
-    "document-register-element": "1.13.1"
+    "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.11.0-rc.0",

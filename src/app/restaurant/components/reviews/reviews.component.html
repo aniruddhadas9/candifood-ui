@@ -1,7 +1,7 @@
 <div class="container" *ngIf="reviews.length > 0">
   <h6>Reviews</h6>
-  <div class="d-flex justify-content-around">
-    <div class="card" style="margin-right: 3px;" *ngFor="let review of reviews">
+  <div class="d-flex row d-inline-flex justify-content-start">
+    <div class="card col" style="margin-right: 3px;" *ngFor="let review of reviews">
       <img class="card-img-top" [src]="review.profile_photo_url" alt="{{review.author_name}}">
       <div class="card-body">
         <h5 class="card-title">{{review.author_name}}</h5>

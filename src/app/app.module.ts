@@ -8,6 +8,7 @@ import {RestaurantModule} from './restaurant/restaurant.module';
 import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
 import {WebsiteModule} from '@candiman/website';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {WebsiteModule} from '@candiman/website';
       libraries: [
         'places'
       ]
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [
     /*{

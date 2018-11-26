@@ -1,0 +1,30 @@
+# [START runtime]
+runtime: python27
+threadsafe: yes
+# [END runtime]
+
+handlers:
+
+  - url: /(.*\.(js|map|css|png))$
+    static_files: dist/candifood-ui/\1
+    upload: dist/candifood-ui/.*\.(js|map|css|png)$
+
+  - url: .*
+    static_files: dist/candifood-ui/index.html
+    upload: dist/candifood-ui/index.html
+
+# Temporary setting to keep gcloud from uploading not required files for deployment
+skip_files:
+  - ^node_modules$
+  - ^app\.yaml
+  - ^README\..*
+  - \.gitignore
+  - ^\.git$
+  - ^grunt\.js
+  - ^src$
+  - ^e2e$
+  - \.editorconfig
+  - ^karma\.config\.js
+  - ^package\.json
+  - ^protractor\.conf\.js
+  - ^tslint\.json
