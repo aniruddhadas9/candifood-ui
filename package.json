@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "@candiman/website": "ng build @candiman/website",
-    "gcloud-deploy": "gcloud app deploy --no-promote"
+    "gcloud-deploy": "gcloud app deploy --no-promote",
+    "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/candifood-ui/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -45,12 +46,12 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "0.11.0-rc.0",
     "@angular-devkit/build-ng-packagr": "0.11.0-rc.0",
-    "@angular/cli": "7.1.0-rc.0 ",
+    "@angular/cli": "7.1.0",
     "@angular/compiler-cli": "7.1.0",
     "@angular/language-service": "7.1.0",
-    "@types/node": "8.9.5",
     "@types/jasmine": "2.8.12",
     "@types/jasminewd2": "2.0.6",
+    "@types/node": "8.9.5",
     "codelyzer": "4.5.0",
     "jasmine-core": "2.99.1",
     "jasmine-spec-reporter": "4.2.1",
@@ -66,6 +67,7 @@
     "tsickle": "0.34.0",
     "tslib": "1.9.0",
     "tslint": "5.11.0",
-    "typescript": "3.1.6"
+    "typescript": "3.1.6",
+    "webpack-bundle-analyzer": "^3.0.3"
   }
 }
