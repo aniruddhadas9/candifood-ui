@@ -2,10 +2,8 @@ import { async, inject, ComponentFixture, TestBed, tick, fakeAsync, flushMicrota
 
 import { AlertsComponent } from './alerts.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
 import { By } from '@angular/platform-browser';
 import {AlertService, SuccessAlert} from '../../services/alert.service';
-import {ConfigService} from '../../services/config.service';
 
 describe('AlertsComponent', () => {
   let component: AlertsComponent;
@@ -17,15 +15,7 @@ describe('AlertsComponent', () => {
         NgbModule.forRoot(),
       ],
       providers: [
-        AlertService,
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {
-            alertDelayInSeconds: 10
-            }
-          }
-        }
+        AlertService
       ],
       declarations: [AlertsComponent]
     })
