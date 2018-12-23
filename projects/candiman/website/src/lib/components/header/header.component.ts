@@ -6,7 +6,7 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 export interface Link {
   label: string;
   url: string;
-  display: boolean;
+  hidden: boolean;
 }
 
 export interface Logo {

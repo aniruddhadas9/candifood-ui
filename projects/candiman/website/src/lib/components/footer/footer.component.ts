@@ -16,8 +16,8 @@ export interface Footer {
   copyright: {label: string, url: string, year: number};
   contact: {name: string, email: string, phone: string, fax: string};
   message: {heading: string, desc: string};
-  columnOneLinks: Array<{label: string, url: string}>;
-  columnTwoLinks: Array<{label: string, url: string}>;
+  columnOneLinks: Array<{label: string, url: string, hidden: boolean}>;
+  columnTwoLinks: Array<{label: string, url: string, hidden: boolean}>;
   style?: Object | any;
 }
 
