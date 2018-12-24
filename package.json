@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "@candiman/website": "ng build @candiman/website",
-    "gcloud-deploy": "gcloud app deploy --no-promote",
+    "gcloud-deploy-no-promot": "gcloud app deploy --no-promote",
+    "gcloud-deploy": "gcloud app deploy",
     "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/candifood-ui/stats.json"
   },
   "private": true,

@@ -36,7 +36,9 @@ import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
 export interface Environment {
-  restUrl: string;
+  restUrl?: string;
+  alertDelayInSeconds?: number;
+  loginUrl: string;
 }
 
 export function windowFactory() {

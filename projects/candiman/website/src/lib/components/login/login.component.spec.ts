@@ -1,12 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { LoginComponent } from './login.component';
-import { ActivatedRouteStub, RouterStub } from '../../../../testing/router-stubs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from '../../services/alert.service';
-import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs/Observable';
-import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { inject } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {LoginComponent} from './login.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AlertService} from '../../services/alert.service';
+import {UserService} from '../../services/user.service';
+import {Observable, of} from 'rxjs';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
+import {inject} from '@angular/core/testing';
 
 import {} from 'jasmine';
 
@@ -23,23 +22,17 @@ describe('Logincomponent', () => {
         LoginComponent
       ],
       providers: [
-        {
-          provide: ActivatedRoute,
-          useClass: ActivatedRouteStub
-        },
+        ActivatedRoute,
         {
           provide: UserService,
           useValue: {
-            getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(Observable.of({}))
+            getCurrentUser: jasmine.createSpy('getCurrentUser').and.returnValue(of({}))
           }
         },
         {
-          provide: AlertService, useValue: { alert: jasmine.createSpy('alert') }
+          provide: AlertService, useValue: {alert: jasmine.createSpy('alert')}
         },
-        {
-          provide: Router,
-          useClass: RouterStub
-        }
+        Router
       ],
     })
       .compileComponents();
@@ -61,17 +54,17 @@ describe('Logincomponent', () => {
     expect(component.password.validator.bind(null).toString()).toBe(Validators.required.bind(null).toString());
   });
 
-  it('should should set returnUrl onInit', inject([ActivatedRoute], (route: ActivatedRouteStub) => {
-    route.testQueryParams = {
+  it('should should set returnUrl onInit', inject([ActivatedRoute], (route: Router) => {
+    /*route..queryParams = {
       returnUrl: 'testUrl/test'
-    };
+    };*/
     fixture.detectChanges();
     // sets the return url properly
     expect(component.returnUrl).toEqual('testUrl/test');
   }));
 
 
-  it('should submit login form on submit', inject([Router, UserService], (r: RouterStub, c: UserService) => {
+  it('should submit login form on submit', inject([Router, UserService], (router: Router, c: UserService) => {
     fixture.detectChanges();
     component.loginForm.controls['username'].setValue('testusername');
     component.loginForm.controls['password'].setValue('testpassword');
@@ -80,12 +73,12 @@ describe('Logincomponent', () => {
     expect(component.loginForm.valid).toBeTruthy();
     expect(c.getCurrentUser).toHaveBeenCalledWith('testusername', 'testpassword');
     // replace the current URL so that /login is not in the state history.
-    expect(r.navigateByUrl).toHaveBeenCalledWith(component.returnUrl, { replaceUrl: true });
+    expect(router.navigateByUrl).toHaveBeenCalledWith(component.returnUrl, {replaceUrl: true});
     expect(component.loading).toBe(false);
   }));
 
   it('should show error on unsucessful login', inject([Router, AlertService, UserService],
-    (r: RouterStub, a: AlertService, c: UserService) => {
+    (r: Router, a: AlertService, c: UserService) => {
       (c.getCurrentUser as jasmine.Spy).and.returnValue(Observable.throw('login http error'));
       fixture.detectChanges();
       component.loginForm.controls['username'].setValue('testusername');

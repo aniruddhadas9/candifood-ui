@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import { take, map } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import {Alert, AlertService} from '../../services/alert.service';
+import {Environment} from '../../website.module';
 
 @Component({
   selector: 'cfs-alerts',
@@ -13,18 +14,22 @@ export class AlertsComponent implements OnInit {
   public alerts: Array<Alert> = [];
   public delay: number;
 
-  constructor(private alerter: AlertService) { }
+  constructor(
+    @Inject('environment') private environment: Environment,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
-    this.alerter.alerts.subscribe((a: Alert) => {
-      this.delay = (a.closeDelay) * 1000;
+    this.alertService.alerts.subscribe((alert: Alert) => {
+      console.log('AlertComponent|alert:%o', alert);
+      this.delay = (alert.closeDelay || this.environment.alertDelayInSeconds || 7) * 1000;
       // push it on to show
-      this.alerts = this.alerts.concat(a);
+      this.alerts = this.alerts.concat(alert);
 
       // close the alert after 5 seconds by default
       // have to use timer -> map instead of delay because delay can't currently
       // be properly unit tested due to fakeAsync issues.
-      timer(this.delay).pipe(take(1), map(() => a)).subscribe((al) => this.closeAlert(al));
+      timer(this.delay).pipe(take(1), map(() => alert)).subscribe((al) => this.closeAlert(al));
     });
   }
 

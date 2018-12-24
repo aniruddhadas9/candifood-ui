@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { AlertService } from '../../services/alert.service';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../../services/user.service';
+import {AlertService} from '../../services/alert.service';
 
 @Component({
   selector: 'cfs-login',
@@ -18,9 +18,9 @@ export class LoginComponent implements OnInit {
   public returnUrl: string;
 
   constructor(private activatedRoute: ActivatedRoute,
-    private alertService: AlertService,
-    private router: Router,
-    private userService: UserService) {
+              private alertService: AlertService,
+              private router: Router,
+              private userService: UserService) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -32,24 +32,30 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
   }
 
   onSubmit() {
     if (this.loginForm.valid) {
       this.loading = true;
-      this.userService.getCurrentUser('/user/login', this.loginForm.value.username, this.loginForm.value.password)
+      this.userService.getCurrentUser({email: this.loginForm.value.username, password: this.loginForm.value.password})
         .subscribe((response) => {
           // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
           // same is true for query params
-          this.router.navigateByUrl(this.returnUrl, { replaceUrl: true });
+          if (response.status === 200) {
+            this.router.navigateByUrl(this.returnUrl, {replaceUrl: true});
+          } else {
+            /*this.alertService.alert({
+              title: 'Login failure!',
+              subTitle: 'Unable to login! Please try again or contact support team.',
+              text: response,
+              type: 'danger',
+              closeDelay: 10
+            });*/
+          }
         }, (error) => {
-          this.alertService.alert({
-            title: 'Login failure!',
-            subTitle: 'Unable to login! Please try again or contact support team.',
-            text: error,
-            type: 'danger'
-          });
+          // mostly this is never execute as error are handled in login service in catchError blocked and converted to obwervable
+          console.log('LoginComponent|login|error:%o', error);
         });
     }
   }

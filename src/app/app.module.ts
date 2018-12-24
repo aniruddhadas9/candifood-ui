@@ -21,7 +21,8 @@ import {environment} from '../environments/environment';
     AppRoutingModule,
     NgbModule,
     WebsiteModule.forRoot({
-      restUrl: environment.restUrl
+      loginUrl: environment.restUrl + '/user/login',
+      alertDelayInSeconds: 7
     }),
     HomeModule,
     RestaurantModule,

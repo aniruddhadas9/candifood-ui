@@ -3,7 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {RestaurantService} from './restaurant/service/restaurant.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CfsInfiniteScrollService, ChangeLocationModelComponent, Footer, Header, MapService} from '@candiman/website';
+import {
+  CfsInfiniteScrollService,
+  ChangeLocationModelComponent,
+  Footer,
+  Header,
+  MapService,
+  UserService,
+  AlertService
+} from '@candiman/website';
 
 @Component({
   selector: 'app-root',
@@ -31,8 +39,26 @@ export class AppComponent implements OnInit {
     private mapService: MapService,
     private modalService: NgbModal,
     private changeDetectorRef: ChangeDetectorRef,
-    private cfsInfiniteScrollService: CfsInfiniteScrollService
+    private cfsInfiniteScrollService: CfsInfiniteScrollService,
+    private userService: UserService,
+    private alertService: AlertService
   ) {
+
+    // Subscribe to the login
+    this.userService.user.subscribe((user: any) => {
+      console.log('AppComponent|loginAtempeted|response: %o', user);
+      if (user.status === 200) {
+        console.log('AppComponent|login Success|response: %o', user);
+      } else {
+        this.alertService.alert({
+          title: 'Login failure!',
+          subTitle: 'Unable to login! Please try again or contact support team.',
+          text: user,
+          type: 'danger',
+          closeDelay: 30
+        });
+      }
+    });
 
     this.header = {
       brand: {
@@ -103,7 +129,7 @@ export class AppComponent implements OnInit {
       },
       contact: {
         name: 'Aniruddha Das',
-        email: 'aniruddhadas9@gmail.com',
+        email: 'candifoodindia@gmail.com',
         phone: '+1 415 650 9102',
         fax: '+x xxx xxx xxxx'
       },

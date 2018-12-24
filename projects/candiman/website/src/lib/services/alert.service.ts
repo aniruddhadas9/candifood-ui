@@ -51,8 +51,8 @@ export class AlertService {
   /**
    * Sends a message to be seen globally.
    */
-  public alert(m: Alert) {
-    this._alerts.next(m);
+  public alert(alert: Alert) {
+    this._alerts.next(alert);
   }
 
   get alerts(): Observable<Alert> {
