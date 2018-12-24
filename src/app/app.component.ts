@@ -46,9 +46,10 @@ export class AppComponent implements OnInit {
 
     // Subscribe to the login
     this.userService.user.subscribe((user: any) => {
-      console.log('AppComponent|loginAtempeted|response: %o', user);
       if (user.status === 200) {
-        console.log('AppComponent|login Success|response: %o', user);
+        this.header.links.rightLinks[0].hidden = false;
+        this.header.links.rightLinks[1].hidden = true;
+
       } else {
         this.alertService.alert({
           title: 'Login failure!',
@@ -79,6 +80,7 @@ export class AppComponent implements OnInit {
       links: {
         rightLinks: [
           {label: 'Profile', url: '/profile', hidden: false},
+          {label: 'login', url: '/login', hidden: true},
         ],
         leftLinks: null,
         style: {

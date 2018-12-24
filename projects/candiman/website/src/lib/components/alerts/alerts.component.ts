@@ -21,7 +21,6 @@ export class AlertsComponent implements OnInit {
 
   ngOnInit() {
     this.alertService.alerts.subscribe((alert: Alert) => {
-      console.log('AlertComponent|alert:%o', alert);
       this.delay = (alert.closeDelay || this.environment.alertDelayInSeconds || 7) * 1000;
       // push it on to show
       this.alerts = this.alerts.concat(alert);
