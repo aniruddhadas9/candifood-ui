@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
       },
       links: {
         rightLinks: [
-          {label: 'Profile', url: '/profile', display: true},
+          {label: 'Profile', url: '/profile', hidden: false},
         ],
         leftLinks: null,
         style: {
@@ -113,11 +113,11 @@ export class AppComponent implements OnInit {
           'We are here to help you to be health as well as take care of your test. Just let us know you.'
       },
       columnOneLinks: [
-        {label: 'login', url: '/login'},
-        {label: 'Privacy', url: '/privacy'}
+        {label: 'login', url: '/login', hidden: false},
+        {label: 'Privacy', url: '/privacy', hidden: false}
       ],
       columnTwoLinks: [
-        {label: 'profile', url: '/profile'}
+        {label: 'profile', url: '/profile', hidden: false}
       ],
       style: {
         'background-color': '#7a690b',

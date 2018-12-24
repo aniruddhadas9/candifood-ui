@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       this.loading = true;
-      this.userService.getCurrentUser(this.loginForm.value.username, this.loginForm.value.password)
+      this.userService.getCurrentUser('/user/login', this.loginForm.value.username, this.loginForm.value.password)
         .subscribe((response) => {
           // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
           // same is true for query params

@@ -9,6 +9,7 @@ import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
 import {WebsiteModule} from '@candiman/website';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {environment} from '../environments/environment';
 
 
 @NgModule({
@@ -18,8 +19,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule.forRoot(),
-    WebsiteModule.forRoot(),
+    NgbModule,
+    WebsiteModule.forRoot({
+      restUrl: environment.restUrl
+    }),
     HomeModule,
     RestaurantModule,
     AgmCoreModule.forRoot({

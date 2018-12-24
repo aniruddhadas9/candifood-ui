@@ -35,6 +35,10 @@ import {SafeHtmlPipe} from './pipes/safe-html.pipe';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
+export interface Environment {
+  restUrl: string;
+}
+
 export function windowFactory() {
   return window;
 }
@@ -93,7 +97,7 @@ export function windowFactory() {
   ]
 })
 export class WebsiteModule {
-  public static forRoot(): ModuleWithProviders {
+  public static forRoot(environment: Environment): ModuleWithProviders {
     return {
       ngModule: WebsiteModule,
       providers: [
@@ -108,6 +112,10 @@ export class WebsiteModule {
         {
           provide: WINDOW,
           useFactory: windowFactory
+        },
+        {
+          provide: 'environment',
+          useValue: environment
         },
         UserService,
         GoogleAnalyticsService,
