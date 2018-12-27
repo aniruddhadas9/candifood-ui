@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'cfs-profile',
@@ -9,12 +10,15 @@ import {UserService} from '../../services/user.service';
 export class ProfileComponent implements OnInit {
 
   loading: boolean;
-  constructor(public userService: UserService) { }
+  constructor(
+    private router: Router,
+    public userService: UserService
+  ) { }
 
   ngOnInit() {
   }
 
-  logout() {
-    this.userService.userAuthorizations = null;
+  makeLogout() {
+    this.userService.makeLogout();
   }
 }

@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit {
         .subscribe((response) => {
           // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
           // same is true for query params
-          if (response.status === 200) {
-            this.router.navigateByUrl(this.returnUrl, {replaceUrl: true});
+          if (response !== null) {
+            this.router.navigate([this.returnUrl || ''], {replaceUrl: true});
           } else {
             /*this.alertService.alert({
               title: 'Login failure!',

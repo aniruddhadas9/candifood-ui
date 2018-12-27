@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // restUrl: 'http://localhost:8080',
-  restUrl: 'https://andycandifood.appspot.com',
+  restUrl: 'http://localhost:8080',
+  // restUrl: 'https://andycandifood.appspot.com',
   trackAnalytics: true,
   useBasicAuth: false,
   alertDelayInSeconds: 7,

@@ -46,11 +46,17 @@ export class AppComponent implements OnInit {
 
     // Subscribe to the login
     this.userService.user.subscribe((user: any) => {
-      if (user.status === 200) {
+
+      if (user === null) {
+        // logout condition
+        this.header.links.rightLinks[0].hidden = true;
+        this.header.links.rightLinks[1].hidden = false;
+      } else if (!user.status || user.status === 200) {
+        // login condition
         this.header.links.rightLinks[0].hidden = false;
         this.header.links.rightLinks[1].hidden = true;
-
-      } else {
+      } else if (user.status === 'login_failure' || user.status !== 200) {
+        // login failure
         this.alertService.alert({
           title: 'Login failure!',
           subTitle: 'Unable to login! Please try again or contact support team.',
@@ -79,8 +85,8 @@ export class AppComponent implements OnInit {
       },
       links: {
         rightLinks: [
-          {label: 'Profile', url: '/profile', hidden: false},
-          {label: 'login', url: '/login', hidden: true},
+          {label: 'Profile', url: '/profile', hidden: true},
+          {label: 'login', url: '/login', hidden: false},
         ],
         leftLinks: null,
         style: {

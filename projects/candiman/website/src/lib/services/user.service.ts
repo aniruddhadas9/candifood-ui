@@ -10,8 +10,19 @@ import {Environment} from '../website.module';
 @Injectable()
 export class UserService {
   private _user = new ReplaySubject();
+  private _login = new ReplaySubject();
+  private _logout = new ReplaySubject();
+
   get user() {
     return this._user.asObservable();
+  }
+
+  get login(): ReplaySubject<any> {
+    return this._login;
+  }
+
+  get logout(): ReplaySubject<any> {
+    return this._logout;
   }
 
   get isAuthenticated() {
@@ -37,17 +48,25 @@ export class UserService {
       .post(this.environment.loginUrl, loginPayload)
       .pipe(
         map((response) => {
-          console.log('UserService|getCurrentUser|pipe|map|resposne: %o', response);
           this.userAuthorizations = response;
           this._user.next(response);
+          this._login.next(true);
           return response;
         }),
         catchError((error) => {
-          console.log('UserService|getCurrentUser|pipe|catchError|resposne: %o', error);
-          this._user.next(error);
+          this._user.next({
+            status: 'login_failure',
+            error: error,
+          });
           return of(error);
         })
       );
+  }
+
+  makeLogout() {
+    this._user.next(null);
+    this._logout.next(true);
+    this.userAuthorizations = undefined;
   }
 
 }
