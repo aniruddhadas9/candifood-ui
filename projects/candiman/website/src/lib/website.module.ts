@@ -130,7 +130,7 @@ export class WebsiteModule {
   constructor(@Optional() @SkipSelf() parentModule: WebsiteModule, private injector: Injector) {
     if (parentModule) {
       throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only');
+        'WebsiteModule is already loaded. Import it in the AppModule only');
     }
 
     this.registerCustomElements();

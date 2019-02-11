@@ -1,0 +1,13 @@
+{
+  "name": "@candiman/auth",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@nebular/auth": "^3.2.1",
+    "@nebular/security": "^3.2.1",
+    "@nebular/theme": "^3.2.1",
+    "@types/gapi": "^0.0.36",
+    "@types/gapi.auth2": "^0.0.49"
+  }
+}

@@ -24,6 +24,12 @@
       ],
       "@candiman/website/*": [
         "dist/candiman/website/*"
+      ],
+      "@candiman/auth": [
+        "dist/candiman/auth"
+      ],
+      "@candiman/auth/*": [
+        "dist/candiman/auth/*"
       ]
     }
   }

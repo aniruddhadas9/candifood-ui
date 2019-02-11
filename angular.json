@@ -189,6 +189,41 @@
           }
         }
       }
+    },
+    "@candiman/auth": {
+      "root": "projects/candiman/auth",
+      "sourceRoot": "projects/candiman/auth/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/candiman/auth/tsconfig.lib.json",
+            "project": "projects/candiman/auth/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/candiman/auth/src/test.ts",
+            "tsConfig": "projects/candiman/auth/tsconfig.spec.json",
+            "karmaConfig": "projects/candiman/auth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/candiman/auth/tsconfig.lib.json",
+              "projects/candiman/auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "candifood-ui"

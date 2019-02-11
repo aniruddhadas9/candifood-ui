@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -10,6 +10,16 @@ import {AgmCoreModule} from '@agm/core';
 import {WebsiteModule} from '@candiman/website';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {environment} from '../environments/environment';
+import {CfsAuthModule} from "./cfs-auth/cfs-auth.module";
+import {AuthModule} from "@candiman/auth";
+import {NbAlertModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbLayoutModule} from "@nebular/theme";
+
+
+export const Window = new InjectionToken<any>('A reference to the window');
+
+export function windowFactory() {
+  return window;
+}
 
 
 @NgModule({
@@ -20,6 +30,11 @@ import {environment} from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    NbLayoutModule,
+    NbAlertModule,
+    NbInputModule,
+    NbButtonModule,
+    NbCheckboxModule,
     WebsiteModule.forRoot({
       loginUrl: environment.restUrl + '/user/login',
       alertDelayInSeconds: 7
@@ -35,6 +50,10 @@ import {environment} from '../environments/environment';
     BrowserAnimationsModule
   ],
   providers: [
+    {
+      provide: Window,
+      useFactory: windowFactory
+    }
     /*{
       provide: APP_INITIALIZER,
       useFactory: appInitFactory,
