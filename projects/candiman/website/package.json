@@ -1,9 +1,9 @@
 {
   "name": "@candiman/website",
-  "version": "0.0.5-beta.4",
-  "schematics": "./src/schematics/collection.json",
+  "version": "0.0.5-beta.5",
+  "schematics": "./schematics/collection.json",
   "ng-update": {
-    "migrations": "./src/schematics/migration.json"
+    "migrations": "./schematics/migration.json"
   },
   "peerDependencies": {
     "@angular/common": "^7.1.0",
