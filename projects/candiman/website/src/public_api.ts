@@ -34,3 +34,7 @@ export * from './lib/pipes/safe-html.pipe';
 // routing and module
 export * from './lib/website-routing.module';
 export * from './lib/website.module';
+
+
+// Schematics sugar
+export * from './schematics/index';

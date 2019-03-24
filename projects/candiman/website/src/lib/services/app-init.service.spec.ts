@@ -1,29 +1,24 @@
 import { inject, TestBed } from '@angular/core/testing';
 
 import { AppInitService, appInitFactory } from './app-init.service';
-import { ConfigService } from './config.service';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {of} from "rxjs/internal/observable/of";
+import {Observable} from "rxjs";
 
 describe('AppInitService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: ConfigService, useValue: { load: jasmine.createSpy('load') } },
         {
           provide: AppInitService,
           useClass: AppInitService,
-          deps: [ConfigService]
         }
       ]
     });
   });
 
-  it('should return config\'s loaded response', inject([AppInitService, ConfigService],
-    (service: AppInitService, conf: ConfigService) => {
-      (conf.load as jasmine.Spy).and.returnValue(Observable.of({
-        'restBaseUri': 'testUri'
-      }));
+  it('should return config\'s loaded response', inject([AppInitService],
+    (service: AppInitService) => {
 
       expect(service).toBeTruthy();
       service.load().subscribe((resp) => {
@@ -32,13 +27,12 @@ describe('AppInitService', () => {
         });
       });
 
-      expect(conf.load).toHaveBeenCalled();
     }));
 
   describe('App Init Factory', () => {
     it('should convert AppInitService load into Promise for the App_Initializer',
       inject([AppInitService], (init: AppInitService) => {
-        spyOn(init, 'load').and.returnValue(Observable.of('test value'));
+        spyOn(init, 'load').and.returnValue(of('test value'));
 
         const promiseFactory = appInitFactory(init);
         expect(typeof promiseFactory).toBe('function');

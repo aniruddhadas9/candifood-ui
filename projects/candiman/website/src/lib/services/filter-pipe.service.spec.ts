@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { FilterPipeService } from './filter-pipe.service';
+import { FilterPipe } from './filter-pipe.service';
 
 describe('FilterPipeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FilterPipeService]
+      providers: [FilterPipe]
     });
   });
 
-  it('should be created', inject([FilterPipeService], (service: FilterPipeService) => {
+  it('should be created', inject([FilterPipe], (service: FilterPipe) => {
     expect(service).toBeTruthy();
   }));
 });

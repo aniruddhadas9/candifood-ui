@@ -30,6 +30,18 @@
       ],
       "@candiman/auth/*": [
         "dist/candiman/auth/*"
+      ],
+      "@candifood/googleauth": [
+        "dist/candifood/googleauth"
+      ],
+      "@candifood/googleauth/*": [
+        "dist/candifood/googleauth/*"
+      ],
+      "@candiman/googleauth": [
+        "dist/candiman/googleauth"
+      ],
+      "@candiman/googleauth/*": [
+        "dist/candiman/googleauth/*"
       ]
     }
   }

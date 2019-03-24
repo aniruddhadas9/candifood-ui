@@ -25,7 +25,7 @@ describe('CurrentUserService', () => {
       service.user.subscribe((userInfo) => {
         expect(userInfo).toEqual(service.userAuthorizations);
       });
-      service.getCurrentUser().subscribe((data) => {
+      service.getCurrentUser({}).subscribe((data) => {
         expect(data).toEqual({
           userId: 'userid'
         });

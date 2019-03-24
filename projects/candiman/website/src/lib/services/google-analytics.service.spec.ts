@@ -1,7 +1,6 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { TestBed, inject } from '@angular/core/testing';
 import {UserService} from './user.service';
-import {ConfigService} from './config.service';
 declare var window: any;
 let ga: jasmine.Spy;
 let warn: jasmine.Spy | Function;
@@ -17,17 +16,6 @@ describe('Google Analytics Service', () => {
           provide: UserService,
           useValue: {
             encryptedUserIdentifier: 'encryptedUserIdentifier'
-          }
-        },
-        {
-          provide: ConfigService,
-          useValue: {
-            config: {
-              trackAnalytics: true,
-              ga: {
-                trackingId: 'testId'
-              }
-            }
           }
         }
       ]
@@ -69,9 +57,6 @@ describe('Google Analytics Service', () => {
 
 
   describe('with trackAnalytics turned off', () => {
-    beforeEach( inject([ConfigService], (conf: ConfigService) => {
-      conf.config.trackAnalytics = false;
-    }));
 
     it('should not initialize google analytics if trackAnalytics is not set or false', inject([GoogleAnalyticsService], () => {
       expect(ga).not.toHaveBeenCalled();

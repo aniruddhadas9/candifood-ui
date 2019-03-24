@@ -41,7 +41,8 @@
               {
                 "input": "node_modules/document-register-element/build/document-register-element.js"
               }
-            ]
+            ],
+            "es5BrowserSupport": false
           },
           "configurations": {
             "production": {
@@ -217,6 +218,41 @@
             "tsConfig": [
               "projects/candiman/auth/tsconfig.lib.json",
               "projects/candiman/auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@candiman/googleauth": {
+      "root": "projects/candiman/googleauth",
+      "sourceRoot": "projects/candiman/googleauth/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/candiman/googleauth/tsconfig.lib.json",
+            "project": "projects/candiman/googleauth/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/candiman/googleauth/src/test.ts",
+            "tsConfig": "projects/candiman/googleauth/tsconfig.spec.json",
+            "karmaConfig": "projects/candiman/googleauth/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/candiman/googleauth/tsconfig.lib.json",
+              "projects/candiman/googleauth/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

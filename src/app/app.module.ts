@@ -10,8 +10,6 @@ import {AgmCoreModule} from '@agm/core';
 import {WebsiteModule} from '@candiman/website';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {environment} from '../environments/environment';
-import {CfsAuthModule} from "./cfs-auth/cfs-auth.module";
-import {AuthModule} from "@candiman/auth";
 import {NbAlertModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbLayoutModule} from "@nebular/theme";
 
 
@@ -32,7 +30,7 @@ export function windowFactory() {
     NgbModule,
     NbLayoutModule,
     NbAlertModule,
-    NbInputModule,
+    // NbInputModule,
     NbButtonModule,
     NbCheckboxModule,
     WebsiteModule.forRoot({
