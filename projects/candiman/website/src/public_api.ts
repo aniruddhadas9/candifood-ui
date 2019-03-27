@@ -35,6 +35,3 @@ export * from './lib/pipes/safe-html.pipe';
 export * from './lib/website-routing.module';
 export * from './lib/website.module';
 
-
-// Schematics sugar
-export * from './schematics/index';

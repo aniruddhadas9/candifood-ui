@@ -1,7 +1,8 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-/*import {
+import {
   CfsInfiniteScrollService,
   ChangeLocationModelComponent,
   Footer,
@@ -9,7 +10,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   MapService,
   UserService,
   AlertService
-} from '@candiman/website';*/
+} from '@candiman/website';
 
 @Component({
   selector: 'app-root',
@@ -19,25 +20,50 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class AppComponent implements OnInit {
 
   title = 'candifood';
-  name = 'candifood';
+  public modalRef;
   public coordinates;
   public location;
 
   // header links
   public middleButton;
-  public header: any;
+  public header: Header;
 
   // footer links
-  public footer: any;
+  public footer: Footer;
 
 
   constructor(
     private httpClient: HttpClient,
+    private mapService: MapService,
     private modalService: NgbModal,
     private changeDetectorRef: ChangeDetectorRef,
+    private cfsInfiniteScrollService: CfsInfiniteScrollService,
+    private userService: UserService,
+    private alertService: AlertService
   ) {
 
     // Subscribe to the login
+    this.userService.user.subscribe((user: any) => {
+
+      if (user === null) {
+        // logout condition
+        this.header.links.rightLinks[0].hidden = true;
+        this.header.links.rightLinks[1].hidden = false;
+      } else if (!user.status || user.status === 200) {
+        // login condition
+        this.header.links.rightLinks[0].hidden = false;
+        this.header.links.rightLinks[1].hidden = true;
+      } else if (user.status === 'login_failure' || user.status !== 200) {
+        // login failure
+        this.alertService.alert({
+          title: 'Login failure!',
+          subTitle: 'Unable to login! Please try again or contact support team.',
+          text: user,
+          type: 'danger',
+          closeDelay: 30
+        });
+      }
+    });
 
     this.header = {
       brand: {
@@ -148,11 +174,30 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+    // gets the coordinates from the browser and address from google map. this happens first time
+    this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
+      this.coordinates = position && position.coords;
+      this.mapService.getAddressFromCoordinates({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      }).subscribe((location: any) => {
+        this.header.middleButton.label = location.formatted_address;
+        this.header.middleButton.loading = false;
+        this.changeDetectorRef.detectChanges();
+      }, (error) => {
+        this.header.middleButton.label = 'select location here.';
+        this.header.middleButton.loading = false;
+      });
+    }, (error) => {
+      this.header.middleButton.label = 'select location here.';
+      this.header.middleButton.loading = false;
+    });
+
 
   }
 
 
-  /*openLocationChangeModel(event) {
+  openLocationChangeModel(event) {
     this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
     this.modalRef.componentInstance.input = this.location;
     this.modalRef.componentInstance.output.subscribe((location) => {
@@ -165,6 +210,6 @@ export class AppComponent implements OnInit {
 
   mapReady(map: GoogleMap) {
     this.mapService.map = map;
-  }*/
+  }
 
 }

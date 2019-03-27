@@ -24,7 +24,7 @@ export function setupOptions(host: Tree, options: any): Tree {
   return host;
 }
 
-export function myComponent(_options: any): Rule {
+export function website(_options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     setupOptions(tree, _options);
 

@@ -1,9 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {InjectionToken, NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {WebsiteModule} from '@candiman/website';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {RouterModule} from "@angular/router";
+import {environment} from '../environments/environment';
+import {NbAlertModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbLayoutModule} from "@nebular/theme";
+
+
+export const Window = new InjectionToken<any>('A reference to the window');
+
+export function windowFactory() {
+  return window;
+}
+
 
 @NgModule({
   declarations: [
@@ -11,14 +22,32 @@ import {RouterModule} from "@angular/router";
   ],
   imports: [
     BrowserModule,
-    RouterModule,
-    BrowserAnimationsModule,
-    // WebsiteModule.forRoot({
-    //   loginUrl: environment.restUrl + '/user/login',
-    //   alertDelayInSeconds: 7
-    // }),
+    NgbModule,
+    NbLayoutModule,
+    NbAlertModule,
+    // NbInputModule,
+    NbButtonModule,
+    NbCheckboxModule,
+    WebsiteModule.forRoot({
+      loginUrl: environment.restUrl + '/user/login',
+      alertDelayInSeconds: 7
+    }),
+    BrowserAnimationsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: Window,
+      useFactory: windowFactory
+    }
+    /*{
+      provide: APP_INITIALIZER,
+      useFactory: appInitFactory,
+      deps: [AppInitService],
+      multi: true
+    }*/
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }

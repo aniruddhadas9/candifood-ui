@@ -34,7 +34,7 @@ const schematicsGlobs = [
 
 
 gulp.task(`assets:schematics-ts`, () => {
-  return tsCompile('tsc', ['-p', path.join(schematicsDir, 'tsconfig-schematics.json')]);
+  return tsCompile('tsc', ['-p', path.join(schematicsDir, 'tsconfig.schematics.json')]);
 });
 
 gulp.task(`assets:schematics`, () => {
