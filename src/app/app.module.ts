@@ -28,11 +28,6 @@ export function windowFactory() {
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    NbLayoutModule,
-    NbAlertModule,
-    // NbInputModule,
-    NbButtonModule,
-    NbCheckboxModule,
     WebsiteModule.forRoot({
       loginUrl: environment.restUrl + '/user/login',
       alertDelayInSeconds: 7

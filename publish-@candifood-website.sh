@@ -15,7 +15,7 @@ fi
 
 # version increase
 cd projects/candiman/website
-npm version patch
+// npm version patch
 cd ../../..
 pwd
 
@@ -39,6 +39,7 @@ echo "----------"
 cd dist/candiman/website
 pwd
 
+$TAG="beta"
 if [ $TAG -nt 0 ];
 then
   npm publish --access public --tag $TAG

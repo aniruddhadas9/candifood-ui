@@ -2,11 +2,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {InjectionToken, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {WebsiteModule} from '@candiman/website';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {environment} from '../environments/environment';
-import {NbAlertModule, NbButtonModule, NbCheckboxModule, NbInputModule, NbLayoutModule} from "@nebular/theme";
 
 
 export const Window = new InjectionToken<any>('A reference to the window');
@@ -22,12 +20,12 @@ export function windowFactory() {
   ],
   imports: [
     BrowserModule,
-    NgbModule,
-    NbLayoutModule,
-    NbAlertModule,
+    // NgbModule,
+    // NbLayoutModule,
+    // NbAlertModule,
     // NbInputModule,
-    NbButtonModule,
-    NbCheckboxModule,
+    // NbButtonModule,
+    // NbCheckboxModule,
     WebsiteModule.forRoot({
       loginUrl: environment.restUrl + '/user/login',
       alertDelayInSeconds: 7
@@ -38,8 +36,7 @@ export function windowFactory() {
     {
       provide: Window,
       useFactory: windowFactory
-    }
-    /*{
+    }/*,{
       provide: APP_INITIALIZER,
       useFactory: appInitFactory,
       deps: [AppInitService],
