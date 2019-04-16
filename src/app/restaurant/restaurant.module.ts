@@ -6,9 +6,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {WebsiteModule} from '@candiman/website';
 import {ReviewsComponent} from './components/reviews/reviews.component';
 import {PhotosComponent} from './components/photos/photos.component';
+import {WebsiteModule} from '@candiman/website';
 
 
 @NgModule({

@@ -1,43 +1,33 @@
 import {
-  apply,
-  MergeStrategy,
-  mergeWith,
-  move,
   Rule,
   SchematicContext,
-  template,
   Tree,
-  url,
-  FileEntry, forEach, chain,
 } from '@angular-devkit/schematics';
 
-import * as ts from 'typescript';
+// import * as ts from 'typescript';
 import {addPackageJsonDependency, NodeDependency, NodeDependencyType} from "@schematics/angular/utility/dependencies";
-import {NodePackageInstallTask, RunSchematicTask} from '@angular-devkit/schematics/tasks';
+import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
 import {getWorkspace} from "@schematics/angular/utility/config";
-import {addImportToModule} from "@schematics/angular/utility/ast-utils";
+// import {addImportToModule} from "@schematics/angular/utility/ast-utils";
 import {getProject} from "@schematics/angular/utility/project";
 import {
-  addModuleImportToModule,
-  addModuleImportToRootModule,
-  getProjectFromWorkspace,
   getProjectMainFile
 } from "@angular/cdk/schematics";
 import {getAppModulePath} from "@schematics/angular/utility/ng-ast-utils";
 
-export class Index {
+export class WebsiteUtil {
 
 
   public addPackageJsonDependencies(): Rule {
     return (tree: Tree, _context: SchematicContext) => {
       const dependencies: NodeDependency[] = [
-        { type: NodeDependencyType.Default, version: '~4.3.1', name: 'bootstrap' },
-        { type: NodeDependencyType.Default, version: '~4.1.0', name: '@ng-bootstrap/ng-bootstrap' },
-        { type: NodeDependencyType.Default, version: '~0.3.0', name: '@fortawesome/angular-fontawesome' },
-        { type: NodeDependencyType.Default, version: '~1.2.17', name: '@fortawesome/fontawesome-svg-core' },
-        { type: NodeDependencyType.Default, version: '~5.8.1', name: '@fortawesome/free-brands-svg-icons' },
-        { type: NodeDependencyType.Default, version: '~5.8.1', name: '@fortawesome/free-regular-svg-icons' },
-        { type: NodeDependencyType.Default, version: '~5.8.1', name: '@fortawesome/free-solid-svg-icons' }
+        {type: NodeDependencyType.Default, version: '~4.3.1', name: 'bootstrap'},
+        {type: NodeDependencyType.Default, version: '~4.1.0', name: '@ng-bootstrap/ng-bootstrap'},
+        {type: NodeDependencyType.Default, version: '~0.3.0', name: '@fortawesome/angular-fontawesome'},
+        {type: NodeDependencyType.Default, version: '~1.2.17', name: '@fortawesome/fontawesome-svg-core'},
+        {type: NodeDependencyType.Default, version: '~5.8.1', name: '@fortawesome/free-brands-svg-icons'},
+        {type: NodeDependencyType.Default, version: '~5.8.1', name: '@fortawesome/free-regular-svg-icons'},
+        {type: NodeDependencyType.Default, version: '~5.8.1', name: '@fortawesome/free-solid-svg-icons'}
       ];
 
       dependencies.forEach(dependency => {
@@ -58,7 +48,7 @@ export class Index {
     };
   }
 
-  addModuleToImports(options: any): Rule {
+  addModuleToImports(tree: Tree, options: any): Rule {
     return (host: Tree, context: SchematicContext) => {
       let project: any;
       const workspace = getWorkspace(host);
@@ -77,10 +67,11 @@ export class Index {
 
       const modulePath = getAppModulePath(host, getProjectMainFile(project));
       const text = host.read(modulePath);
-      const source = ts.createSourceFile(modulePath, text.toString('utf-8'), ts.ScriptTarget.Latest, true);
+      context.logger.log('info', ''+ text);
+      // const source = ts.createSourceFile(modulePath, text.toString('utf-8'), ts.ScriptTarget.Latest, true);
 
       // addModuleImportToModule(host, modulePath, moduleName, src);
-      addImportToModule(source, moduleName, 'angular-made-with-love', project);
+      // addImportToModule(source, moduleName, 'angular-made-with-love', project);
       context.logger.log('info', `✅️ "${moduleName}" is imported`);
 
       return host;
