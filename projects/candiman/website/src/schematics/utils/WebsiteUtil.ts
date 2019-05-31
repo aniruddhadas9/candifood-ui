@@ -1,7 +1,14 @@
 import {
+  apply,
+  MergeStrategy,
+  mergeWith,
+  move,
   Rule,
   SchematicContext,
+  template,
   Tree,
+  url,
+  FileEntry, forEach, chain
 } from '@angular-devkit/schematics';
 
 // import * as ts from 'typescript';
@@ -14,6 +21,8 @@ import {
   getProjectMainFile
 } from "@angular/cdk/schematics";
 import {getAppModulePath} from "@schematics/angular/utility/ng-ast-utils";
+import {normalize} from "path";
+import {setupOptions} from "../website";
 
 export class WebsiteUtil {
 
@@ -106,6 +115,26 @@ export class WebsiteUtil {
       return host;
     };
   }
+
+
+  moveFiles(tree: Tree, _context: SchematicContext) {
+  setupOptions(tree, _options);
+
+  const movePath = normalize(_options.path + '/');
+  const templateSource = apply(url('./files/src'), [
+    template({..._options}),
+    move(movePath),
+    // fix for https://github.com/angular/angular-cli/issues/11337
+    forEach((fileEntry: FileEntry) => {
+      if (tree.exists(fileEntry.path)) {
+        tree.overwrite(fileEntry.path, fileEntry.content);
+      }
+      return fileEntry;
+    }),
+  ]);
+  const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
+  return rule(tree, _context);
+}
 
   // export default function(options: any): Rule {
   // return chain([

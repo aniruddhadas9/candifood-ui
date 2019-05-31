@@ -1,5 +1,6 @@
 import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import {Tree} from '@angular-devkit/schematics';
 
 describe('website', () => {
 
@@ -32,9 +33,19 @@ describe('website', () => {
 
   it('works', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    runner.runSchematicAsync('my-component', schemaOptions, appTree).toPromise().then(tree => {
+    runner.runSchematicAsync('website', schemaOptions, appTree).toPromise().then(tree => {
       const appComponent = tree.readContent('/projects/candiman/website/src/app/app.component.ts');
       expect(appComponent).toContain(`name = '${schemaOptions.name}'`);
+    });
+  });
+
+  describe('simple-schematic', () => {
+    it('works', () => {
+      const runner = new SchematicTestRunner('schematics', collectionPath);
+      const tree = runner.runSchematic('simple-schematic', {}, Tree.empty());
+
+
+      expect(tree.files).toEqual([]);
     });
   });
 });
