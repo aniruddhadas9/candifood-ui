@@ -12,6 +12,7 @@ export * from './lib/services/map.service';
 export * from './lib/services/no-auth-guard.service';
 export * from './lib/services/user.service';
 export * from './lib/services/cfs-infinite-scroll.service';
+export * from './lib/services/website.service';
 
 // components
 export * from './lib/components/alerts/alerts.component';

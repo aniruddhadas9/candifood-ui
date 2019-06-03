@@ -15,7 +15,7 @@ export class ChangeLocationModelComponent implements OnInit {
 
   public searchForm: FormGroup;
 
-  @ViewChild('search')
+  @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
   @Input() input: any;

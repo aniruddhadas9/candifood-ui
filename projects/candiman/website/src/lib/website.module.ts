@@ -31,6 +31,7 @@ import {createCustomElement, NgElementConstructor} from '@angular/elements';
 import {CfsInfiniteScrollService} from './services/cfs-infinite-scroll.service';
 import {ReadMoreComponent} from './components/read-more/read-more.component';
 import {SafeHtmlPipe} from './pipes/safe-html.pipe';
+import {WebsiteComponent} from "./website.component";
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
@@ -67,6 +68,7 @@ export function windowFactory() {
     AutoScrollDirective,
     ModelComponent,
     ReadMoreComponent,
+    WebsiteComponent,
     SafeHtmlPipe,
   ],
   exports: [
@@ -82,6 +84,7 @@ export function windowFactory() {
     ReadMoreComponent,
     AutoScrollDirective,
     SafeHtmlPipe,
+    WebsiteComponent
   ],
   entryComponents: [
     HeaderComponent,
@@ -94,7 +97,8 @@ export function windowFactory() {
     CorouselComponent,
     ContentLoadingComponent,
     ModelComponent,
-    ReadMoreComponent
+    ReadMoreComponent,
+    WebsiteComponent
   ]
 })
 export class WebsiteModule {
