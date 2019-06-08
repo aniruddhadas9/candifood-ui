@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
 
 export interface Link {
   label: string;
@@ -98,7 +98,7 @@ export class HeaderService {
       style: {
         'background-color': '#ec7a39'
       }
-    })
+    });
   }
 
   setLogo() {

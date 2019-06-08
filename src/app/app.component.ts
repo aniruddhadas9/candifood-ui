@@ -6,12 +6,13 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   CfsInfiniteScrollService,
   ChangeLocationModelComponent,
-  Footer,
-  Header,
   MapService,
   UserService,
   AlertService
 } from '@candiman/website';
+import {HeaderService, Header, Footer, FooterService} from '@candiman/website';
+import {} from '../../projects/candiman/website/src/lib/services/header/header.service';
+import {} from '../../projects/candiman/website/src/lib/services/footer/footer.service';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,7 @@ export class AppComponent implements OnInit {
   ) {
 
     // Subscribe to the login
-    this.userService.user.subscribe((user: any) => {
+    this.userService.userSubject.subscribe((user: any) => {
 
       if (user === null) {
         // logout condition

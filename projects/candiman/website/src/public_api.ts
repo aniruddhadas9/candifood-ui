@@ -1,4 +1,6 @@
 // services
+export * from './lib/services/header/header.service';
+export * from './lib/services/footer/footer.service';
 export * from './lib/services/alert/alert.service';
 export * from './lib/services/app/app.service';
 export * from './lib/services/app-init/app-init.service';

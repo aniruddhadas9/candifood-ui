@@ -30,7 +30,7 @@ import {ModelComponent} from './components/model/model.component';
 import {CfsInfiniteScrollService} from './services/cfs-infinite-scroll/cfs-infinite-scroll.service';
 import {ReadMoreComponent} from './components/read-more/read-more.component';
 import {SafeHtmlPipe} from './pipes/safe-html/safe-html.pipe';
-import {WebsiteComponent} from "./components/website/website.component";
+import {WebsiteComponent} from './components/website/website.component';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 

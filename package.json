@@ -12,6 +12,7 @@
     "@candiman/auth": "ng build @candiman/auth",
     "@candiman/website": "ng build @candiman/website",
     "@candiman/website-schematics": "tsc -p projects/candiman/website/tsconfig.schematics.json",
+    "publish-@candiman/website": "./publish-@candifood-website.sh",
     "gcloud-deploy-no-promot": "gcloud app deploy --no-promote",
     "gcloud-deploy": "gcloud app deploy",
     "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/candifood-ui/stats.json"

@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-website',
-  template: `
-    <p>
-      website works!
-    </p>
-  `,
-  styles: []
+  selector: 'cfs-website',
+  templateUrl: './website.component.html',
+  styleUrls: ['./website.component.scss']
 })
 export class WebsiteComponent implements OnInit {
 

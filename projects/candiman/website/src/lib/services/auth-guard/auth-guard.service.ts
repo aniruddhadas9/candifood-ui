@@ -15,7 +15,7 @@ export class AuthGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
 
     // if logged in
-    if (this.userService.isAuthenticated) {
+    if (this.userService.isLoggedIn) {
       return true;
       // If not logged in but we want to attempt to initialize the user information
       // due to APP_INITIALIZER based authentication happening

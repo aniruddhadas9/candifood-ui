@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
 
 
 export interface Footer {
@@ -81,6 +81,6 @@ export class FooterService {
           'color': '#d0eccb'
         }
       }
-    })
+    });
   }
 }
