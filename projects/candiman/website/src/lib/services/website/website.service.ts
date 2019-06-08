@@ -7,7 +7,6 @@ import {BehaviorSubject} from "rxjs";
 export class WebsiteService {
 
   private header: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  private footer: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor() { }
 }

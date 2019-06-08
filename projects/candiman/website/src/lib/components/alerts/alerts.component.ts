@@ -1,7 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import { take, map } from 'rxjs/operators';
 import { timer } from 'rxjs';
-import {Alert, AlertService} from '../../services/alert.service';
+import {Alert, AlertService} from '../../services/alert/alert.service';
 import {Environment} from '../../website.module';
 
 @Component({

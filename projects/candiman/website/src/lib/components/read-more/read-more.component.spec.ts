@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReadMoreComponent} from './read-more.component';
-import {SafeHtmlPipe} from '../../pipes/safe-html.pipe';
+import {SafeHtmlPipe} from '../../pipes/safe-html/safe-html.pipe';
 
 describe('ReadMoreComponent', () => {
   let component: ReadMoreComponent;

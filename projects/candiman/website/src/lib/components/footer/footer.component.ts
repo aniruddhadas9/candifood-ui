@@ -3,23 +3,9 @@ import {library} from '@fortawesome/fontawesome-svg-core';
 import {faFacebook, faGooglePlus, faLinkedin, faTwitter} from '@fortawesome/free-brands-svg-icons';
 
 import {faUser, faHome, faFax, faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import {Footer, FooterService} from "../../services/footer/footer.service";
 
 
-export interface Footer {
-  displayTopSection: boolean;
-  social: {
-    facebook: string,
-    googlePlus: string,
-    twitter: string,
-    linkedIn: string,
-  };
-  copyright: {label: string, url: string, year: number};
-  contact: {name: string, email: string, phone: string, fax: string};
-  message: {heading: string, desc: string};
-  columnOneLinks: Array<{label: string, url: string, hidden: boolean}>;
-  columnTwoLinks: Array<{label: string, url: string, hidden: boolean}>;
-  style?: Object | any;
-}
 
 @Component({
   selector: 'cfs-footer',
@@ -30,8 +16,12 @@ export class FooterComponent implements OnInit {
 
   @Input() footer: Footer;
 
-  constructor() {
+  constructor(private footerService: FooterService) {
     library.add(faUser, faHome, faFax, faPhone, faEnvelope, faTwitter, faFacebook, faGooglePlus, faLinkedin);
+
+    this.footerService.footer.subscribe((footer: Footer)=>{
+
+    });
   }
 
   ngOnInit() {

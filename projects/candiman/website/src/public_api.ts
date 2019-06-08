@@ -1,18 +1,18 @@
 // services
-export * from './lib/services/alert.service';
-export * from './lib/services/app.service';
-export * from './lib/services/app-init.service';
-export * from './lib/services/auth-guard.service';
-export * from './lib/services/core.service';
-export * from './lib/services/encryption.service';
-export * from './lib/services/filter-pipe.service';
-export * from './lib/services/google-analytics.service';
-export * from './lib/services/core.service';
-export * from './lib/services/map.service';
-export * from './lib/services/no-auth-guard.service';
-export * from './lib/services/user.service';
-export * from './lib/services/cfs-infinite-scroll.service';
-export * from './lib/services/website.service';
+export * from './lib/services/alert/alert.service';
+export * from './lib/services/app/app.service';
+export * from './lib/services/app-init/app-init.service';
+export * from './lib/services/auth-guard/auth-guard.service';
+export * from './lib/services/core/core.service';
+export * from './lib/services/encryption/encryption.service';
+export * from './lib/services/filter-pipe/filter-pipe.service';
+export * from './lib/services/google-analytics/google-analytics.service';
+export * from './lib/services/core/core.service';
+export * from './lib/services/map/map.service';
+export * from './lib/services/no-auth-guard/no-auth-guard.service';
+export * from './lib/services/user/user.service';
+export * from './lib/services/cfs-infinite-scroll/cfs-infinite-scroll.service';
+export * from './lib/services/website/website.service';
 
 // components
 export * from './lib/components/alerts/alerts.component';
@@ -30,7 +30,7 @@ export * from './lib/components/read-more/read-more.component';
 export * from './lib/directives/auto-scroll.directive';
 
 // pipes
-export * from './lib/pipes/safe-html.pipe';
+export * from './lib/pipes/safe-html/safe-html.pipe';
 
 // routing and module
 export * from './lib/website-routing.module';

@@ -1,10 +1,10 @@
 import {Inject, Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {ReplaySubject} from 'rxjs';
-import {EncryptionService} from './encryption.service';
+import {EncryptionService} from '../encryption/encryption.service';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
-import {Environment} from '../website.module';
+import {Environment} from '../../website.module';
 
 
 @Injectable()
