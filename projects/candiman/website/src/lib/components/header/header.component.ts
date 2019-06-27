@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     // subscribe to the header object
     this.headerService.header.subscribe( (header: Header) => {
       this.header = header;
-    })
+    });
   }
 
   ngOnInit() {
@@ -44,5 +44,6 @@ export class HeaderComponent implements OnInit {
   open() {
     this.middleButtonClick.emit('click');
   }
+
 
 }

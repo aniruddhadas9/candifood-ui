@@ -45,7 +45,9 @@
 
         <ul *ngIf="header.links.rightLinks"  class="nav navbar-nav ml-auto w-100 justify-content-end">
           <li class="nav-item" *ngFor="let link of header.links.rightLinks" [ngStyle]="header.links.style">
-            <a [routerLink]="link.url" routerLinkActive="active"  [ngStyle]="header.links.style" [hidden]="link.hidden">
+            <a [routerLink]="link.url" routerLinkActive="active"
+               [ngStyle]="header.links.style"
+               [hidden]="link.hidden">
               {{link.label}}
             </a>
           </li>

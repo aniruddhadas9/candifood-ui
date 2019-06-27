@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 export interface Link {
   label: string;
   url: string;
-  hidden: boolean;
+  access: Array<string>;
 }
 
 export interface Logo {
@@ -42,7 +42,12 @@ export interface Header {
   providedIn: 'root'
 })
 export class HeaderService {
-  header: BehaviorSubject<Header> = new BehaviorSubject<any>(null);
+  header: Subject<Header> = new Subject<any>();
+  leftMenu: Subject<Header> = new Subject<any>();
+  rightMenu: Subject<Header> = new Subject<any>();
+  middleButton: Subject<Header> = new Subject<any>();
+  logo: Subject<Header> = new Subject<any>();
+  brand: Subject<Header> = new Subject<any>();
 
 
   constructor() {
@@ -64,8 +69,8 @@ export class HeaderService {
       },
       links: {
         rightLinks: [
-          {label: 'Profile', url: '/profile', hidden: true},
-          {label: 'login', url: '/login', hidden: false},
+          {label: 'Profile', url: '/profile', access: []},
+          {label: 'login', url: '/login', access: []},
         ],
         leftLinks: null,
         style: {
@@ -101,21 +106,8 @@ export class HeaderService {
     });
   }
 
-  setLogo() {
 
-  }
-
-  setBrand() {
-
-  }
-
-  setLeftLink() {
-  }
-
-  setRightLink() {
-  }
-
-  setHeader() {
+  changeLinkText(oldText: string, newText: string) {
 
   }
 }
