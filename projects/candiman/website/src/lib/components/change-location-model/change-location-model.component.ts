@@ -1,9 +1,8 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {MapService} from '../../services/map/map.service';
 import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
-import {library} from '@fortawesome/fontawesome-svg-core';
 
 @Component({
   selector: 'cfs-change-location-model',
@@ -21,12 +20,13 @@ export class ChangeLocationModelComponent implements OnInit {
   @Input() input: any;
   @Output() output = new EventEmitter<string>();
 
+  faStreetView = faStreetView;
+  faUtensilSpoon = faUtensilSpoon;
+
   constructor(
     public activeModal: NgbActiveModal,
     private mapService: MapService,
   ) {
-    // add fontawesome icons to use
-    library.add(faStreetView, faUtensilSpoon);
 
   }
 

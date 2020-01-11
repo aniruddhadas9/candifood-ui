@@ -1,10 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {library} from '@fortawesome/fontawesome-svg-core';
 import {faFacebook, faGooglePlus, faLinkedin, faTwitter} from '@fortawesome/free-brands-svg-icons';
 
-import {faUser, faHome, faFax, faPhone, faEnvelope} from '@fortawesome/free-solid-svg-icons';
-import {Footer, FooterService} from "../../services/footer/footer.service";
-
+import {faEnvelope, faFax, faHome, faPhone, faUser} from '@fortawesome/free-solid-svg-icons';
+import {Footer, FooterService} from '../../services/footer/footer.service';
 
 
 @Component({
@@ -15,11 +13,19 @@ import {Footer, FooterService} from "../../services/footer/footer.service";
 export class FooterComponent implements OnInit {
 
   @Input() footer: Footer;
+  faUser = faUser;
+  faHome = faHome;
+  faFax = faFax;
+  faPhone = faPhone;
+  faEnvelope = faEnvelope;
+  faTwitter = faTwitter;
+  faFacebook = faFacebook;
+  faGooglePlus = faGooglePlus;
+  faLinkedi = faLinkedin;
 
   constructor(private footerService: FooterService) {
-    library.add(faUser, faHome, faFax, faPhone, faEnvelope, faTwitter, faFacebook, faGooglePlus, faLinkedin);
 
-    this.footerService.footer.subscribe((footer: Footer)=>{
+    this.footerService.footer.subscribe((footer: Footer) => {
 
     });
   }
