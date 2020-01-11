@@ -1,21 +1,21 @@
 import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {RestaurantService} from '../../service/restaurant.service';
 import {
-  faUtensils,
-  faGlassMartini,
-  faTruckMoving,
-  faWineGlass,
-  faCoffee,
-  faShoppingCart,
-  faGamepad,
-  faBirthdayCake,
   faBeer,
+  faBirthdayCake,
+  faCoffee,
+  faGamepad,
+  faGlassMartini,
+  faMagic,
+  faShoppingCart,
+  faSquare,
   faStar,
-  faStarHalf, faMagic, faSquare
+  faStarHalf,
+  faTruckMoving,
+  faUtensils,
+  faWineGlass
 } from '@fortawesome/free-solid-svg-icons';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {CfsInfiniteScrollService} from '@candiman/website';
-import {MapService} from '@candiman/website';
+import {CfsInfiniteScrollService, MapService} from '@candiman/website';
 import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -25,6 +25,19 @@ import {NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
   encapsulation: ViewEncapsulation.None
 })
 export class RestaurantsComponent implements OnInit {
+  faUtensils = faUtensils;
+  faGlassMartini = faGlassMartini;
+  faTruckMoving = faTruckMoving;
+  faCoffee = faCoffee;
+  faWineGlass = faWineGlass;
+  faShoppingCart = faShoppingCart;
+  faGamepad = faGamepad;
+  faBirthdayCake = faBirthdayCake;
+  faBeer = faBeer;
+  faStar = faStar;
+  faStarHalf = faStarHalf;
+  faMagic = faMagic;
+  faSquar = faSquare;
 
   constructor(
     public restaurantService: RestaurantService,
@@ -33,21 +46,6 @@ export class RestaurantsComponent implements OnInit {
     public ngbCarouselConfig: NgbCarouselConfig,
     private cfsInfiniteScrollService: CfsInfiniteScrollService
   ) {
-    library.add(
-      faUtensils,
-      faGlassMartini,
-      faTruckMoving,
-      faCoffee,
-      faWineGlass,
-      faShoppingCart,
-      faGamepad,
-      faBirthdayCake,
-      faBeer,
-      faStar,
-      faStarHalf,
-      faMagic,
-      faSquare
-    );
 
     // ngbCarouselConfig.interval = 3000;
     // ngbCarouselConfig.wrap = true;

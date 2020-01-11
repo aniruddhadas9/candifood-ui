@@ -4,18 +4,18 @@ import {RestaurantService} from './restaurant/service/restaurant.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
+  AlertService,
   CfsInfiniteScrollService,
   ChangeLocationModelComponent,
+  Footer,
+  Header,
+  HeaderService,
   MapService,
-  UserService,
-  AlertService
+  UserService
 } from '@candiman/website';
-import {HeaderService, Header, Footer, FooterService} from '@candiman/website';
-import {} from '../../projects/candiman/website/src/lib/services/header/header.service';
-import {} from '../../projects/candiman/website/src/lib/services/footer/footer.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'cfs-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private cfsInfiniteScrollService: CfsInfiniteScrollService,
     private userService: UserService,
+    private headerService: HeaderService,
     private alertService: AlertService
   ) {
 
@@ -50,12 +51,15 @@ export class AppComponent implements OnInit {
 
       if (user === null) {
         // logout condition
-        this.header.links.rightLinks[0].hidden = true;
-        this.header.links.rightLinks[1].hidden = false;
+        this.headerService.rightMenu.next([
+          {label: 'login', url: '/login'},
+        ]);
       } else if (!user.status || user.status === 200) {
         // login condition
-        this.header.links.rightLinks[0].hidden = false;
-        this.header.links.rightLinks[1].hidden = true;
+        this.headerService.rightMenu.next([
+          {label: 'profile', url: '/profile'},
+        ]);
+
       } else if (user.status === 'login_failure' || user.status !== 200) {
         // login failure
         this.alertService.alert({
@@ -68,7 +72,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.header = {
+    this.headerService.header.next({
       brand: {
         label: 'candifood',
         url: '/',
@@ -86,8 +90,8 @@ export class AppComponent implements OnInit {
       },
       links: {
         rightLinks: [
-          {label: 'Profile', url: '/profile', hidden: true},
-          {label: 'login', url: '/login', hidden: false},
+          {label: 'Profile', url: '/profile', access: []},
+          {label: 'login', url: '/login', access: []},
         ],
         leftLinks: null,
         style: {
@@ -120,7 +124,61 @@ export class AppComponent implements OnInit {
       style: {
         'background-color': '#ec7a39'
       }
-    };
+    });
+
+    /*this.header = {
+      brand: {
+        label: 'candifood',
+        url: '/',
+        logo: {
+          imageInAsset: 'candilogo_icon32x32.png',
+          style: {
+            width: '30px',
+            height: '30px'
+          }
+        },
+        style: {
+          'color': '#ffe90f',
+          'text-decoration': 'none'
+        }
+      },
+      links: {
+        rightLinks: [
+          {label: 'Profile', url: '/profile'},
+          {label: 'login', url: '/login'},
+        ],
+        leftLinks: null,
+        style: {
+          'background-color': '#ec7a39',
+          'color': '#f6f6f6',
+          'text-decoration': 'none',
+          'a:link': {
+            'color': '#3eff77'
+          },
+          'a:visited': {
+            'color': '#ff9d19'
+          },
+          'a:hover': {
+            'color': '#fe4d0e'
+          },
+          'a:active': {
+            'color': '#ec7a39'
+          }
+        }
+      },
+      middleButton: {
+        display: true,
+        label: 'Trying to get location from device...',
+        loading: true,
+        style: {
+          'background-color': '#ec9a0a',
+          'color': '#ffffff'
+        }
+      },
+      style: {
+        'background-color': '#ec7a39'
+      }
+    };*/
 
 
     this.footer = {

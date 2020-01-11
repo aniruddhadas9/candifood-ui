@@ -15,7 +15,7 @@
         <div class="col-10">
           <div class="row">
             <div class="col-md-1">
-              <fa-icon [icon]="['fas', 'utensils']" [size]="'5x'" [styles]="{color:'#F36F24'}"></fa-icon>
+              <fa-icon [icon]="faUtensils" [size]="'5x'" [styles]="{color:'#F36F24'}"></fa-icon>
             </div>
 
             <div class="col-md-7 ng-scope restaurant-details">
@@ -43,40 +43,40 @@
         <div class="col-2 d-flex justify-content-end">
 
           <!--// These are default types, so not provided icons for them-->
-          <!--<fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('food')"
+          <!--<fa-icon [icon]="faGlassMartini" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('food')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('restaurant')"
+          <fa-icon [icon]="faGlassMartini" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('restaurant')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('establishment')"
+          <fa-icon [icon]="faGlassMartini" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('establishment')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('point-of-interest')"
+          <fa-icon [icon]="faGlassMartini" [size]="'2x'" *ngIf="restaurant.types && restaurant.types.includes('point-of-interest')"
                    [styles]="{color:'#F36F24'}"></fa-icon>-->
 
-          <fa-icon [icon]="['fas', 'beer']" [size]="'2x'"
+          <fa-icon [icon]="faBeer" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('bar')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'glass-martini']" [size]="'2x'"
+          <fa-icon [icon]="faGlassMartini" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('night_club')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'truck-moving']" [size]="'2x'"
+          <fa-icon [icon]="faTruckMoving" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('shopping-cart')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'truck-moving']" [size]="'2x'"
+          <fa-icon [icon]="faTruckMoving" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('meal_delivery')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'coffee']" [size]="'2x'"
+          <fa-icon [icon]="faCoffee" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('cafe')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'gamepad']" [size]="'2x'"
+          <fa-icon [icon]="faGamepad" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('bowling_alley')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'birthday-cake']" [size]="'2x'"
+          <fa-icon [icon]="faBirthdayCake" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('bakery')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'2x'"
+          <fa-icon [icon]="faShoppingCart" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('store')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
-          <fa-icon [icon]="['fas', 'shopping-cart']" [size]="'2x'"
+          <fa-icon [icon]="faShoppingCart" [size]="'2x'"
                    *ngIf="restaurant.types && restaurant.types.includes('home_goods_store')"
                    [styles]="{color:'#F36F24'}"></fa-icon>
         </div>

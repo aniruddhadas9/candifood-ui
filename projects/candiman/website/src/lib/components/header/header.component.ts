@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {Header, HeaderService} from "../../services/header/header.service";
+import {Brand, Header, HeaderService, Link, Logo, MiddleButton} from '../../services/header/header.service';
+import {Subject} from 'rxjs';
 
 
 @Component({
@@ -24,8 +24,10 @@ export class HeaderComponent implements OnInit {
   public loading: boolean;
   public modalRef;
 
+  faStreetView = faStreetView;
+  faUtensilSpoon = faUtensilSpoon;
+
   constructor(private headerService: HeaderService) {
-    library.add(faStreetView, faUtensilSpoon);
 
     this.searchForm = new FormGroup({
       term: new FormControl('', [Validators.required]),
@@ -33,12 +35,44 @@ export class HeaderComponent implements OnInit {
     this.term = this.searchForm.controls['term'];
 
     // subscribe to the header object
-    this.headerService.header.subscribe( (header: Header) => {
+    this.headerService.header.subscribe((header: Header) => {
       this.header = header;
     });
+
+    this.headerService.leftLinks.subscribe((lefLinks: Array<Link>) => {
+      this.header.links.leftLinks = lefLinks;
+    });
+    this.headerService.rightLinks.subscribe((rightLinks: Array<Link>) => {
+      this.header.links.rightLinks = rightLinks;
+    });
+    this.headerService.middleButton.subscribe((middleButton1: MiddleButton) => {
+      this.header.middleButton = middleButton1;
+    });
+    this.headerService.logo.subscribe((logo: Logo) => {
+      this.header.brand.logo = logo;
+    });
+    this.headerService.brand.subscribe((brand: Brand) => {
+      this.header.brand = brand;
+    });
+
   }
 
   ngOnInit() {
+    this.header = {
+      brand: {
+        label: 'Website',
+        url: '/',
+        logo: null,
+        style: null
+      },
+      links: {
+        rightLinks: null,
+        leftLinks: null,
+        style: null
+      },
+      middleButton: null,
+      style: null
+    };
   }
 
   open() {
