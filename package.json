@@ -49,7 +49,7 @@
     "ngx-infinite-scroll": "7.2.0",
     "rxjs": "6.5.2",
     "tslib": "1.9.3",
-    "zone.js": "0.9.1"
+    "zone.js": "0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.22",
@@ -73,13 +73,13 @@
     "karma-coverage-istanbul-reporter": "2.0.4",
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.0",
-    "ng-packagr": "5.2.0",
+    "ng-packagr": "5.7.1",
     "ngx-build-plus": "8.1.5",
     "protractor": "5.4.2",
     "ts-node": "8.2.0",
     "tslib": "1.9.3",
     "tslint": "5.17.0",
-    "typescript": "3.4.5",
+    "typescript": "3.7.4",
     "webpack-bundle-analyzer": "3.3.2"
   }
 }
