@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: './cfs-auth/cfs-auth.module#CfsAuthModule',
+    loadChildren: () => import('./cfs-auth/cfs-auth.module').then(m => m.CfsAuthModule),
   },
 ];
 

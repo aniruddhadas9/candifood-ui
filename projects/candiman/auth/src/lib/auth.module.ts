@@ -211,7 +211,7 @@ export const defaultSettings: any = {
   ]
 })
 export class AuthModule {
-  public static forRoot(environment: Environment): ModuleWithProviders {
+  public static forRoot(environment: Environment): ModuleWithProviders<AuthModule> {
     return {
       ngModule: AuthModule,
       providers: [

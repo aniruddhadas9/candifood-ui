@@ -101,7 +101,7 @@ export function windowFactory() {
   ]
 })
 export class WebsiteModule {
-  public static forRoot(environment: Environment): ModuleWithProviders {
+  public static forRoot(environment: Environment): ModuleWithProviders<WebsiteModule> {
     return {
       ngModule: WebsiteModule,
       providers: [
