@@ -51,12 +51,12 @@ export class AppComponent implements OnInit {
 
       if (user === null) {
         // logout condition
-        this.headerService.rightMenu.next([
+        this.headerService.rightLinks.next([
           {label: 'login', url: '/login'},
         ]);
       } else if (!user.status || user.status === 200) {
         // login condition
-        this.headerService.rightMenu.next([
+        this.headerService.rightLinks.next([
           {label: 'profile', url: '/profile'},
         ]);
 
