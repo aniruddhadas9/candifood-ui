@@ -1,5 +1,8 @@
 import {
   apply,
+  chain,
+  FileEntry,
+  forEach,
   MergeStrategy,
   mergeWith,
   move,
@@ -7,16 +10,11 @@ import {
   SchematicContext,
   template,
   Tree,
-  url,
-  FileEntry, forEach, chain
+  url
 } from '@angular-devkit/schematics';
 import {join, normalize} from 'path';
 import {getWorkspace} from '@schematics/angular/utility/config';
-import {addPackageJsonDependency, NodeDependency, NodeDependencyType} from "@schematics/angular/utility/dependencies";
-import {WebsiteUtil} from "../utils/WebsiteUtil";
-import {getProject} from "@schematics/angular/utility/project";
-import {getAppModulePath} from "@schematics/angular/utility/ng-ast-utils";
-import {getProjectMainFile} from "@angular/cdk/schematics";
+import {WebsiteUtil} from '../utils/WebsiteUtil';
 
 export function setupOptions(host: Tree, options: any): Tree {
   const workspace = getWorkspace(host);
@@ -29,7 +27,7 @@ export function setupOptions(host: Tree, options: any): Tree {
   return host;
 }
 
-export function website(tree: Tree,_options: any): Rule {
+export function website(tree: Tree, _options: any): Rule {
   console.log('info', `🚫Added "${_options}" provided`);
   const websiteUtil = new WebsiteUtil();
   return chain([

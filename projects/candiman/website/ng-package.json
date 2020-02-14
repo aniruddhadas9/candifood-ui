@@ -3,5 +3,9 @@
   "dest": "../../../dist/candiman/website",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "assets": [
+    "README.md",
+    "scss/style.scss"
+  ]
 }

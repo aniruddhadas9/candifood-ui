@@ -20,7 +20,7 @@ cd ../../..
 pwd
 
 
-ng build @candiman/website
+ng build @candiman/website --prod
 echo "Angular module build done..."
 npm run @candiman/website-schematics
 echo "Schematics module build done..."

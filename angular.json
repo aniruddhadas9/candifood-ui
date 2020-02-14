@@ -10,7 +10,7 @@
       "prefix": "cfs",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss",
+          "style": "scss",
           "prefix": "cfs"
         },
         "@schematics/angular:directive": {
@@ -21,6 +21,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/candifood-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -66,6 +67,10 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ]
             }
@@ -167,6 +172,11 @@
           "options": {
             "tsConfig": "projects/candiman/website/tsconfig.lib.json",
             "project": "projects/candiman/website/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/candiman/website/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -202,6 +212,11 @@
           "options": {
             "tsConfig": "projects/candiman/auth/tsconfig.lib.json",
             "project": "projects/candiman/auth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/candiman/auth/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -237,6 +252,11 @@
           "options": {
             "tsConfig": "projects/candiman/googleauth/tsconfig.lib.json",
             "project": "projects/candiman/googleauth/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/candiman/googleauth/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -262,5 +282,8 @@
       }
     }
   },
-  "defaultProject": "candifood-ui"
+  "defaultProject": "candifood-ui",
+  "cli": {
+    "analytics": "cfba5566-8965-4606-b28c-d4f76b14053d"
+  }
 }

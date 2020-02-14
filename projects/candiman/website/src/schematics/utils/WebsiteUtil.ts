@@ -1,28 +1,23 @@
 import {
   apply,
+  FileEntry,
+  forEach,
   MergeStrategy,
   mergeWith,
-  move,
   Rule,
   SchematicContext,
   template,
   Tree,
-  url,
-  FileEntry, forEach, chain
+  url
 } from '@angular-devkit/schematics';
-
 // import * as ts from 'typescript';
-import {addPackageJsonDependency, NodeDependency, NodeDependencyType} from "@schematics/angular/utility/dependencies";
+import {addPackageJsonDependency, NodeDependency, NodeDependencyType} from '@schematics/angular/utility/dependencies';
 import {NodePackageInstallTask} from '@angular-devkit/schematics/tasks';
-import {getWorkspace} from "@schematics/angular/utility/config";
-// import {addImportToModule} from "@schematics/angular/utility/ast-utils";
-import {getProject} from "@schematics/angular/utility/project";
-import {
-  getProjectMainFile
-} from "@angular/cdk/schematics";
-import {getAppModulePath} from "@schematics/angular/utility/ng-ast-utils";
-import {normalize} from "path";
-import {setupOptions} from "../website";
+import {getWorkspace} from '@schematics/angular/utility/config';
+import {getProject} from '@schematics/angular/utility/project';
+import {getProjectMainFile} from '@angular/cdk/schematics';
+import {getAppModulePath} from '@schematics/angular/utility/ng-ast-utils';
+import {setupOptions} from '../website';
 
 export class WebsiteUtil {
 
@@ -76,7 +71,7 @@ export class WebsiteUtil {
 
       const modulePath = getAppModulePath(host, getProjectMainFile(project));
       const text = host.read(modulePath);
-      context.logger.log('info', ''+ text);
+      context.logger.log('info', '' + text);
       // const source = ts.createSourceFile(modulePath, text.toString('utf-8'), ts.ScriptTarget.Latest, true);
 
       // addModuleImportToModule(host, modulePath, moduleName, src);
@@ -117,24 +112,24 @@ export class WebsiteUtil {
   }
 
 
-  moveFiles(tree: Tree, _context: SchematicContext) {
-  setupOptions(tree, _options);
+  moveFiles(tree: Tree, _context: SchematicContext): Rule {
+    setupOptions(tree, _context);
 
-  const movePath = normalize(_options.path + '/');
-  const templateSource = apply(url('./files/src'), [
-    template({..._options}),
-    move(movePath),
-    // fix for https://github.com/angular/angular-cli/issues/11337
-    forEach((fileEntry: FileEntry) => {
-      if (tree.exists(fileEntry.path)) {
-        tree.overwrite(fileEntry.path, fileEntry.content);
-      }
-      return fileEntry;
-    }),
-  ]);
-  const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
-  return rule(tree, _context);
-}
+    // const movePath = normalize(_context + '/');
+    const templateSource = apply(url('./files/src'), [
+      template({..._context}),
+      // move(movePath),
+      // fix for https://github.com/angular/angular-cli/issues/11337
+      forEach((fileEntry: FileEntry) => {
+        if (tree.exists(fileEntry.path)) {
+          tree.overwrite(fileEntry.path, fileEntry.content);
+        }
+        return fileEntry;
+      }),
+    ]);
+    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);
+    return rule;
+  }
 
   // export default function(options: any): Rule {
   // return chain([

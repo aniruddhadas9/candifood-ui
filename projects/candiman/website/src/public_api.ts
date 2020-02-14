@@ -27,6 +27,7 @@ export * from './lib/components/login/login.component';
 export * from './lib/components/privacy/privacy.component';
 export * from './lib/components/profile/profile.component';
 export * from './lib/components/read-more/read-more.component';
+export * from './lib/components/website/website.component';
 
 // directives
 export * from './lib/directives/auto-scroll.directive';
