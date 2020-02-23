@@ -39,7 +39,9 @@ export class DangerAlert implements Alert {
 export type AlertType = 'success' | 'info' | 'warning' | 'danger';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlertService {
 
   private _alerts: ReplaySubject<Alert>;

@@ -24,12 +24,12 @@ export interface Footer {
 })
 export class FooterService {
   footer: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  backgroundColor: string = '#7a690b';
-  color: string = '#f99d00';
-  linkColor: string = '#ffc11a';
-  linkVisitedColor: string = '#16d3ff';
-  linkHoverColor: string = '#fbfe11';
-  linkActiveColor: string = '#d0eccb';
+  backgroundColor = '#7a690b';
+  color = '#f99d00';
+  linkColor = '#ffc11a';
+  linkVisitedColor = '#16d3ff';
+  linkHoverColor = '#fbfe11';
+  linkActiveColor = '#d0eccb';
 
   constructor() {
   }

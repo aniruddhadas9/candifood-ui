@@ -13,7 +13,7 @@ import {
 } from '@candiman/website';
 
 @Component({
-  selector: 'app-root',
+  selector: 'cfs-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -43,16 +43,12 @@ export class AppComponent implements OnInit {
   ) {
 
     // Subscribe to the login
-    this.userService.user.subscribe((user: any) => {
+    this.userService.userSubject.subscribe((user: any) => {
 
       if (user === null) {
         // logout condition
-        this.header.links.rightLinks[0].hidden = true;
-        this.header.links.rightLinks[1].hidden = false;
       } else if (!user.status || user.status === 200) {
         // login condition
-        this.header.links.rightLinks[0].hidden = false;
-        this.header.links.rightLinks[1].hidden = true;
       } else if (user.status === 'login_failure' || user.status !== 200) {
         // login failure
         this.alertService.alert({
@@ -83,8 +79,8 @@ export class AppComponent implements OnInit {
       },
       links: {
         rightLinks: [
-          {label: 'Profile', url: '/profile', hidden: true},
-          {label: 'login', url: '/login', hidden: false},
+          {label: 'Profile', url: '/profile'},
+          {label: 'login', url: '/login'},
         ],
         leftLinks: null,
         style: {

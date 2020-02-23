@@ -49,14 +49,15 @@ export class AppComponent implements OnInit {
     // Subscribe to the login
     this.userService.userSubject.subscribe((user: any) => {
 
+      console.log('userservice.userSubject called|user:%0', user);
       if (user === null) {
         // logout condition
-        this.headerService.rightLinks.next([
+        this.headerService.changeRightLink([
           {label: 'login', url: '/login'},
         ]);
       } else if (!user.status || user.status === 200) {
         // login condition
-        this.headerService.rightLinks.next([
+        this.headerService.changeRightLink([
           {label: 'profile', url: '/profile'},
         ]);
 
@@ -72,7 +73,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.headerService.header.next({
+    this.header = {
       brand: {
         label: 'candifood',
         url: '/',
@@ -90,61 +91,6 @@ export class AppComponent implements OnInit {
       },
       links: {
         rightLinks: [
-          {label: 'Profile', url: '/profile', access: []},
-          {label: 'login', url: '/login', access: []},
-        ],
-        leftLinks: null,
-        style: {
-          'background-color': '#ec7a39',
-          'color': '#f6f6f6',
-          'text-decoration': 'none',
-          'a:link': {
-            'color': '#3eff77'
-          },
-          'a:visited': {
-            'color': '#ff9d19'
-          },
-          'a:hover': {
-            'color': '#fe4d0e'
-          },
-          'a:active': {
-            'color': '#ec7a39'
-          }
-        }
-      },
-      middleButton: {
-        display: true,
-        label: 'Trying to get location from device...',
-        loading: true,
-        style: {
-          'background-color': '#ec9a0a',
-          'color': '#ffffff'
-        }
-      },
-      style: {
-        'background-color': '#ec7a39'
-      }
-    });
-
-    /*this.header = {
-      brand: {
-        label: 'candifood',
-        url: '/',
-        logo: {
-          imageInAsset: 'candilogo_icon32x32.png',
-          style: {
-            width: '30px',
-            height: '30px'
-          }
-        },
-        style: {
-          'color': '#ffe90f',
-          'text-decoration': 'none'
-        }
-      },
-      links: {
-        rightLinks: [
-          {label: 'Profile', url: '/profile'},
           {label: 'login', url: '/login'},
         ],
         leftLinks: null,
@@ -168,7 +114,7 @@ export class AppComponent implements OnInit {
       },
       middleButton: {
         display: true,
-        label: 'Trying to get location from device...',
+        label: 'finding your location...',
         loading: true,
         style: {
           'background-color': '#ec9a0a',
@@ -178,8 +124,9 @@ export class AppComponent implements OnInit {
       style: {
         'background-color': '#ec7a39'
       }
-    };*/
+    };
 
+    this.headerService.header.next(this.header);
 
     this.footer = {
       displayTopSection: true,
@@ -242,17 +189,26 @@ export class AppComponent implements OnInit {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }).subscribe((location: any) => {
-        this.header.middleButton.label = location.formatted_address;
-        this.header.middleButton.loading = false;
+        this.header.middleButton = {
+          display: true,
+          label: location.formatted_address,
+          loading: false
+        };
         this.changeDetectorRef.detectChanges();
         this._getRestaurantsFromMap(location);
       }, (error) => {
-        this.header.middleButton.label = 'select location here.';
-        this.header.middleButton.loading = false;
+        this.header.middleButton = {
+          display: true,
+          label: 'select location here.',
+          loading: false
+        };
       });
     }, (error) => {
-      this.header.middleButton.label = 'select location here.';
-      this.header.middleButton.loading = false;
+      this.header.middleButton = {
+        display: true,
+        label: 'select location here.',
+        loading: false
+      };
     });
 
 

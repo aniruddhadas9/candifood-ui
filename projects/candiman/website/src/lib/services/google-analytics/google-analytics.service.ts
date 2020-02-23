@@ -3,7 +3,9 @@ import {UserService} from '../user/user.service';
 
 declare let ga: Function;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GoogleAnalyticsService {
 
   ga;

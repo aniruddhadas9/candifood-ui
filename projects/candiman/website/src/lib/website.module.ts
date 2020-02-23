@@ -124,12 +124,12 @@ export class WebsiteModule {
         UserService,
         GoogleAnalyticsService,
         CfsInfiniteScrollService,
-        SafeHtmlPipe,
+        SafeHtmlPipe
       ]
     };
   }
 
-  constructor(@Optional() @SkipSelf() parentModule: WebsiteModule, private injector: Injector) {
+  constructor(@Optional() @SkipSelf() parentModule: WebsiteModule) {
     if (parentModule) {
       throw new Error(
         'WebsiteModule is already loaded. Import it in the AppModule only');

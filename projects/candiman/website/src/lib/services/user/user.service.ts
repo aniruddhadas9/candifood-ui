@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, Optional} from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {ReplaySubject} from 'rxjs';
 import {EncryptionService} from '../encryption/encryption.service';
@@ -7,17 +7,17 @@ import {catchError, map} from 'rxjs/operators';
 import {Environment} from '../../website.module';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
   public userSubject: Subject<any> = new Subject<any>();
   public isLoggedIn = false;
   public authorizedUser;
-  // encrypted user id
   public encryptedUserIdentifier: string;
 
   constructor(
-    // private currentUserApi,
-    @Inject('environment') private environment: Environment,
+    @Optional() @Inject('environment') private environment: Environment,
     private encryptionService: EncryptionService,
     private httpClient: HttpClient
   ) {

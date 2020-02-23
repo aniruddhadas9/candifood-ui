@@ -9,7 +9,9 @@ const GEOLOCATION_ERRORS = {
   'errors.location.timeout': 'Service timeout has been reached'
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class MapService {
 
   public coordinates: Coordinates;
