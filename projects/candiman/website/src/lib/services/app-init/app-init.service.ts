@@ -6,7 +6,9 @@ export function appInitFactory(init: AppInitService): () => Promise<any> {
   return () => init.load().toPromise();
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppInitService {
 
   constructor() {

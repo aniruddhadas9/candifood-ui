@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
 import { take, map } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import {Alert, AlertService} from '../../services/alert/alert.service';
@@ -15,7 +15,7 @@ export class AlertsComponent implements OnInit {
   public delay: number;
 
   constructor(
-    @Inject('environment') private environment: Environment,
+    @Optional() @Inject('environment') private environment: Environment,
     private alertService: AlertService
   ) { }
 

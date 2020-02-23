@@ -1,17 +1,15 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {faStreetView, faUtensilSpoon} from '@fortawesome/free-solid-svg-icons';
 import {Brand, Header, HeaderService, Link, Logo, MiddleButton} from '../../services/header/header.service';
-import {Subject} from 'rxjs';
 
 
 @Component({
   selector: 'cfs-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() header: Header;
   @Input() middleButton: { display: boolean, label: string, loading: boolean };
@@ -35,44 +33,48 @@ export class HeaderComponent implements OnInit {
     this.term = this.searchForm.controls['term'];
 
     // subscribe to the header object
-    this.headerService.header.subscribe((header: Header) => {
+    this.headerService.header.asObservable().subscribe((header: Header) => {
+      console.log('headerService.header.subscribe|%o', header);
       this.header = header;
+      this.headerService.headerChanged.next(header);
     });
 
-    this.headerService.leftLinks.subscribe((lefLinks: Array<Link>) => {
-      this.header.links.leftLinks = lefLinks;
+    this.headerService.leftLinks.asObservable().subscribe((leftLinks: Array<Link>) => {
+      console.log('headerService.leftLinks.subscribe|%o', leftLinks);
+      this.header.links.leftLinks = leftLinks;
+      this.headerService.headerChanged.next({ links: {leftLinks: leftLinks}});
     });
-    this.headerService.rightLinks.subscribe((rightLinks: Array<Link>) => {
+    this.headerService.rightLinks.asObservable().subscribe((rightLinks: Array<Link>) => {
+      console.log('headerService.rightLinks.subscribe|%o', rightLinks);
       this.header.links.rightLinks = rightLinks;
+      this.headerService.headerChanged.next({ links: {rightLinks: rightLinks}});
     });
-    this.headerService.middleButton.subscribe((middleButton1: MiddleButton) => {
+    this.headerService.middleButton.asObservable().subscribe((middleButton1: MiddleButton) => {
+      console.log('headerService.middleButton.subscribe|%o', middleButton1);
       this.header.middleButton = middleButton1;
+      this.headerService.headerChanged.next({ middleButton: middleButton1});
     });
-    this.headerService.logo.subscribe((logo: Logo) => {
+    this.headerService.logo.asObservable().subscribe((logo: Logo) => {
       this.header.brand.logo = logo;
+      this.headerService.headerChanged.next({ brand: {logo: logo}});
     });
     this.headerService.brand.subscribe((brand: Brand) => {
       this.header.brand = brand;
+      this.headerService.headerChanged.next({ brand: brand});
     });
 
   }
 
   ngOnInit() {
-    this.header = {
-      brand: {
-        label: 'Website',
-        url: '/',
-        logo: null,
-        style: null
-      },
-      links: {
-        rightLinks: null,
-        leftLinks: null,
-        style: null
-      },
-      middleButton: null,
-      style: null
-    };
+    console.log('HeaderComponent|ngOnDestroy');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('HeaderComponent|ngOnChanges|changes:%o', changes);
+  }
+
+  ngOnDestroy(): void {
+    console.log('HeaderComponent|ngOnDestroy');
   }
 
   open() {

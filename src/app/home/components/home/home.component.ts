@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {HeaderService} from '@candiman/website';
 
 @Component({
   selector: 'cfs-home',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(headerService: HeaderService) {
+    headerService.headerChanged.asObservable().subscribe((data: any) => {
+      console.log('header changed with data: %o', data);
+    });
+  }
 
   ngOnInit() {
   }

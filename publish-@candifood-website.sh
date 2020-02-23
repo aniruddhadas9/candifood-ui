@@ -6,26 +6,23 @@ echo "BASEDIR=$BASEDIR"
 SRC_SCHEMATICS="project/candiman/website/src/schematics"
 DIST_SCHEMATICS="dist/candiman/website/schematics"
 
-
 if [ -n "$1" ]; then
-  $TAG=${1}
+  TAG=${1}
   echo $TAG
   echo $1
 fi
 
 # version increase
 cd projects/candiman/website
-// npm version patch
+npm version patch
 cd ../../..
 pwd
 
-
 ng build @candiman/website --prod
-echo "Angular module build done..."
+echo "Library build done..."
 npm run @candiman/website-schematics
-echo "Schematics module build done..."
+echo "Schematics build done..."
 echo "==== Moving JSON files ====="
-
 
 pwd
 cp projects/candiman/website/src/schematics/collection.json dist/candiman/website/schematics/collection.json
@@ -34,12 +31,11 @@ cp projects/candiman/website/src/schematics/website/schema.json dist/candiman/we
 cp -R projects/candiman/website/src/schematics/website/files dist/candiman/website/schematics/website/files
 pwd
 
-
-echo "----------"
+echo "-----Publishing artifacts to npm -----"
 cd dist/candiman/website
 pwd
 
-$TAG="beta"
+TAG="beta"
 if [ $TAG -nt 0 ];
 then
   npm publish --access public --tag $TAG
@@ -49,6 +45,5 @@ fi
 
 cd ../../..
 pwd
-
 
 echo "DONE..."

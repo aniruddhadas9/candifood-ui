@@ -1,6 +1,6 @@
 {
   "name": "@candiman/website",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "schematics": "./schematics/collection.json",
   "ng-update": {
     "migrations": "./schematics/migration.json"
