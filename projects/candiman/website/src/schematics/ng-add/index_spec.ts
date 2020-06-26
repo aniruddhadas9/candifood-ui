@@ -23,7 +23,7 @@ describe('website', () => {
     name: 'foo'
   };
 
-  let unitTestTreeGlobal: UnitTestTree;
+  const unitTestTreeGlobal: UnitTestTree;
 
   beforeEach(() => {
     schematicRunner.runExternalSchematicAsync('@schematics/angular', 'workspace', workspaceOptions)
