@@ -16,7 +16,7 @@
                   Phone: {{userService.authorizedUser.phone}}
                 </li>
                 <li class="list-group-item">
-                  Type: {{userService.authorizedUser.type}}
+                  Type: {{userService.authorizedUser.authorized | json}}
                 </li>
                 <li class="list-group-item">
                   <button type="button" class="btn btn-success mb-2" (click)="makeLogout()">

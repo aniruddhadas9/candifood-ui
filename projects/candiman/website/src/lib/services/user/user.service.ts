@@ -25,7 +25,7 @@ export class UserService {
   public userSubject: Subject<User> = new Subject<User>();
   public isLoggedIn = false;
   public authorizedUser: User;
-  private token;
+  public token;
   public encryptedUserIdentifier: string;
 
   constructor(

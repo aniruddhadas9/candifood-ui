@@ -13,7 +13,7 @@ export class HttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // We retrieve the token, if any
-    const token = this.userService?.authorizedUser?.token || null;
+    const token = this.userService?.token || null;
     console.log('%ctoken:%o', 'color:red', token);
     let newHeaders = req.headers;
     if (token) {
