@@ -17,15 +17,16 @@ export class LoginComponent implements OnInit {
   public password: AbstractControl;
   public returnUrl: string;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private alertService: AlertService,
-              private router: Router,
-              private userService: UserService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private alertService: AlertService,
+    private router: Router,
+    private userService: UserService
+  ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
-
     this.username = this.loginForm.controls['username'];
     this.password = this.loginForm.controls['password'];
 
