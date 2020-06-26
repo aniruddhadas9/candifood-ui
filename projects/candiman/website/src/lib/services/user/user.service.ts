@@ -1,9 +1,9 @@
 import {Inject, Injectable, Optional} from '@angular/core';
-import {Observable, of, Subject} from 'rxjs';
 import {EncryptionService} from '../encryption/encryption.service';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Environment} from '../../website.module';
+import {Observable, of, Subject} from 'rxjs';
 
 export interface User {
   authorized?: Array<string>;
@@ -25,7 +25,7 @@ export class UserService {
   public userSubject: Subject<User> = new Subject<User>();
   public isLoggedIn = false;
   public authorizedUser: User;
-  private token;
+  public token;
   public encryptedUserIdentifier: string;
 
   constructor(

@@ -1,0 +1,48 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@candiman/website": [
+        "dist/candiman/website"
+      ],
+      "@candiman/website/*": [
+        "dist/candiman/website/*"
+      ],
+      "@candiman/auth": [
+        "dist/candiman/auth"
+      ],
+      "@candiman/auth/*": [
+        "dist/candiman/auth/*"
+      ],
+      "@candifood/googleauth": [
+        "dist/candifood/googleauth"
+      ],
+      "@candifood/googleauth/*": [
+        "dist/candifood/googleauth/*"
+      ],
+      "@candiman/googleauth": [
+        "dist/candiman/googleauth"
+      ],
+      "@candiman/googleauth/*": [
+        "dist/candiman/googleauth/*"
+      ]
+    }
+  }
+}
