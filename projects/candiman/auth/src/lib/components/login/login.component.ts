@@ -1,6 +1,5 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {NbAuthResult, NbAuthService, NbAuthSocialLink, NbLoginComponent} from '@nebular/auth';
-import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {NbAuthResult, NbAuthSocialLink, NbLoginComponent} from '@nebular/auth';
 import {takeWhile} from 'rxjs/operators';
 
 @Component({

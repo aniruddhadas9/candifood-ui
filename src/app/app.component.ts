@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     // Subscribe to the login
     this.userService.userSubject.subscribe((user: any) => {
 
-      console.log('userservice.userSubject called|user:%0', user);
+      console.log('AppComponent|userservice.userSubject called|user:%0', user);
       if (user === null) {
         // logout condition
         this.headerService.changeRightLink([

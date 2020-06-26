@@ -6,9 +6,10 @@ import {AppComponent} from './app.component';
 import {RestaurantModule} from './restaurant/restaurant.module';
 import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';
-import {WebsiteModule} from '@candiman/website';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {HttpInterceptorService, WebsiteModule} from '@candiman/website';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {environment} from '../environments/environment';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 
 export const Window = new InjectionToken<any>('A reference to the window');
@@ -26,7 +27,8 @@ export function windowFactory() {
     BrowserModule,
     AppRoutingModule,
     WebsiteModule.forRoot({
-      loginUrl: environment.restUrl + '/user/login',
+      restUrl: environment.restUrl,
+      loginUrl: environment.restUrl + '/authentication/login',
       alertDelayInSeconds: 7
     }),
     HomeModule,
@@ -43,7 +45,8 @@ export function windowFactory() {
     {
       provide: Window,
       useFactory: windowFactory
-    }
+    },
+    {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}
     /*{
       provide: APP_INITIALIZER,
       useFactory: appInitFactory,
@@ -55,4 +58,5 @@ export function windowFactory() {
     AppComponent
   ]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -2,7 +2,7 @@
   <div class="container">
     <div *ngIf="userService.isLoggedIn" class="card">
       <div class="card-header d-flex justify-content-between">
-        <h6>{{userService.authorizedUser[0].firstName}} {{userService.authorizedUser[0].lastName}}</h6>
+        <h6>{{userService.authorizedUser.firstName}} {{userService.authorizedUser.lastName}}</h6>
       </div>
       <div class="card-block">
         <div class="container">
@@ -10,13 +10,13 @@
             <div class="col-12">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  Email: {{userService.authorizedUser[0].email}}
+                  Email: {{userService.authorizedUser.email}}
                 </li>
                 <li class="list-group-item">
-                  Phone: {{userService.authorizedUser[0].phone}}
+                  Phone: {{userService.authorizedUser.phone}}
                 </li>
                 <li class="list-group-item">
-                  Type: {{userService.authorizedUser[0].type}}
+                  Type: {{userService.authorizedUser.type}}
                 </li>
                 <li class="list-group-item">
                   <button type="button" class="btn btn-success mb-2" (click)="makeLogout()">

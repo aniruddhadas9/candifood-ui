@@ -9,6 +9,7 @@ export * from './lib/services/core/core.service';
 export * from './lib/services/encryption/encryption.service';
 export * from './lib/services/filter-pipe/filter-pipe.service';
 export * from './lib/services/google-analytics/google-analytics.service';
+export * from './lib/services/http-interceptor/http-interceptor.service';
 export * from './lib/services/core/core.service';
 export * from './lib/services/map/map.service';
 export * from './lib/services/no-auth-guard/no-auth-guard.service';

@@ -11,7 +11,6 @@ export class ProfileComponent implements OnInit {
 
   loading: boolean;
   constructor(
-    private router: Router,
     public userService: UserService
   ) { }
 
