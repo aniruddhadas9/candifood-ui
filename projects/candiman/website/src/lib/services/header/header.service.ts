@@ -22,10 +22,22 @@ export interface MiddleButton {
   style?: Object | any;
 }
 
+export interface BrandImage {
+  display?: boolean;
+  logo?: Logo;
+  style?: Object | any;
+}
+
+export interface BrandText {
+  display?: boolean;
+  style?: Object | any;
+}
+
 export interface Brand {
   label?: string;
   url?: string;
-  logo?: Logo;
+  brandImage?: BrandImage;
+  brandText?: BrandText;
   style?: Object | any;
 }
 

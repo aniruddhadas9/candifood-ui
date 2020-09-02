@@ -77,15 +77,20 @@ export class AppComponent implements OnInit {
       brand: {
         label: 'candifood',
         url: '/',
-        logo: {
-          imageInAsset: 'candilogo_icon32x32.png',
+        brandImage: {
+          logo: {
+            imageInAsset: 'candilogo_icon32x32.png',
+            style: {
+              width: '30px',
+              height: '30px'
+            }
+          },
           style: {
-            width: '30px',
-            height: '30px'
+            'padding-top': '21px'
           }
         },
         style: {
-          'color': '#ffe90f',
+          'color': '#ffffff',
           'text-decoration': 'none'
         }
       },

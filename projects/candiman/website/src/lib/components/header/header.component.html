@@ -7,11 +7,15 @@
     <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center" [ngStyle]="header.style">
 
       <a [routerLink]="header.brand.url" class="navbar-header.brand d-flex w-25 mr-auto" [ngStyle]="header.brand.style">
-        <img  *ngIf="header.brand.logo && header.brand.logo.imageInAsset"
-              src="/assets/{{header.brand.logo.imageInAsset}}" class="d-inline-block align-top"
-              width="{{header.brand.logo.width || 30}}" height="{{header.brand.logo.height || 30}}"
-              alt="{{header.brand.logo.alt || header.brand.label}}" [ngStyle]="header.brand.logo.style"/>&nbsp;
-        <span class="brand-text" [ngStyle]="header.brand.style">{{header.brand.label}}</span>
+
+        <span class="brand-image" [ngStyle]="header.brand.brandImage.style">
+          <img *ngIf="header.brand.brandImage.logo && header.brand.brandImage.logo.imageInAsset"
+               src="/assets/{{header.brand.brandImage.logo.imageInAsset}}" class="d-inline-block align-top"
+               width="{{header.brand.brandImage.logo.width || 30}}" height="{{header.brand.brandImage.logo.height || 30}}"
+               alt="{{header.brand.brandImage.logo.alt || header.brand.label}}" [ngStyle]="header.brand.brandImage.logo.style"/>
+        </span>
+
+        <span class="brand-text" [ngStyle]="header?.brand?.brandText?.style">{{header?.brand?.label}}</span>
       </a>
 
       <button
@@ -21,11 +25,13 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="navbar-collapse collapse w-100" id="candifoodtoggle"  [ngbCollapse]="isCollapsed">
+      <div class="navbar-collapse collapse w-100" id="candifoodtoggle" [ngbCollapse]="isCollapsed">
 
         <ul *ngIf="header.links.leftLinks" class="nav navbar-nav ml-auto w-100 justify-content-start">
-          <li class="nav-item" *ngFor="let link of header.links.leftLinks" [ngStyle]="header && header.links && header.links.style">
-            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active" [ngStyle]="header && header.links && header.links.style">
+          <li class="nav-item" *ngFor="let link of header.links.leftLinks"
+              [ngStyle]="header && header.links && header.links.style">
+            <a class="nav-link" [routerLink]="link.url" routerLinkActive="active"
+               [ngStyle]="header && header.links && header.links.style">
               {{link.label}}
             </a>
           </li>
@@ -42,9 +48,11 @@
           </li>
         </ul>
 
-        <ul *ngIf="header.links.rightLinks"  class="nav navbar-nav ml-auto w-100 justify-content-end">
-          <li class="nav-item" *ngFor="let link of header.links.rightLinks" [ngStyle]="header && header.links && header.links.style || ''">
-            <a [routerLink]="link.url" routerLinkActive="active" [ngStyle]="header && header.links && header.links.style || ''">
+        <ul *ngIf="header.links.rightLinks" class="nav navbar-nav ml-auto w-100 justify-content-end">
+          <li class="nav-item" *ngFor="let link of header.links.rightLinks"
+              [ngStyle]="header && header.links && header.links.style || ''">
+            <a [routerLink]="link.url" routerLinkActive="active"
+               [ngStyle]="header && header.links && header.links.style || ''">
               {{link.label}}
             </a>
           </li>

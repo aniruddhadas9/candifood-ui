@@ -57,8 +57,8 @@ export class HeaderComponent implements OnInit, OnChanges, OnDestroy {
       this.headerService.headerChanged.next({ middleButton: middleButton1});
     }));
     this.subscriptions.push(this.headerService.logo.asObservable().subscribe((logo: Logo) => {
-      this.header.brand.logo = logo;
-      this.headerService.headerChanged.next({ brand: {logo: logo}});
+      this.header.brand.brandImage.logo = logo;
+      this.headerService.headerChanged.next({ brand: { brandImage: {logo: logo}}});
     }));
     this.subscriptions.push(this.headerService.brand.subscribe((brand: Brand) => {
       this.header.brand = brand;
