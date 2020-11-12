@@ -1,4 +1,4 @@
-import { async, inject, ComponentFixture, TestBed, tick, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { inject, ComponentFixture, TestBed, tick, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
 
 import { AlertsComponent } from './alerts.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,11 +9,9 @@ describe('AlertsComponent', () => {
   let component: AlertsComponent;
   let fixture: ComponentFixture<AlertsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgbModule.forRoot(),
-      ],
+      imports: [NgbModule],
       providers: [
         AlertService
       ],
