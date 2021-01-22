@@ -34,10 +34,11 @@ import {WebsiteComponent} from './components/website/website.component';
 
 export const WINDOW = new InjectionToken<any>('A reference to the window');
 
-export interface Environment {
+export interface WebsiteEnvironment {
   restUrl?: string;
   alertDelayInSeconds?: number;
   loginUrl: string;
+  allowTokenToAllDomain?: string;
 }
 
 export function windowFactory() {
@@ -101,7 +102,7 @@ export function windowFactory() {
   ]
 })
 export class WebsiteModule {
-  public static forRoot(environment: Environment): ModuleWithProviders<WebsiteModule> {
+  public static forRoot(websiteEnvironment: WebsiteEnvironment): ModuleWithProviders<WebsiteModule> {
     return {
       ngModule: WebsiteModule,
       providers: [
@@ -118,8 +119,8 @@ export class WebsiteModule {
           useFactory: windowFactory
         },
         {
-          provide: 'environment',
-          useValue: environment
+          provide: 'websiteEnvironment',
+          useValue: websiteEnvironment
         },
         UserService,
         GoogleAnalyticsService,

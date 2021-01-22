@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {RestaurantService} from './restaurant/service/restaurant.service';
+import {RestaurantService} from '../../restaurant/service/restaurant.service';
 import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -11,8 +11,11 @@ import {
   Header,
   HeaderService,
   MapService,
+  User,
   UserService
 } from '@candiman/website';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'cfs-root',
@@ -32,11 +35,11 @@ export class AppComponent implements OnInit {
 
   // footer links
   public footer: Footer;
-
-
+  private routerSubscription: Subscription;
   constructor(
     private restaurantService: RestaurantService,
     private httpClient: HttpClient,
+    private router: Router,
     private mapService: MapService,
     private modalService: NgbModal,
     private changeDetectorRef: ChangeDetectorRef,
@@ -46,8 +49,32 @@ export class AppComponent implements OnInit {
     private alertService: AlertService
   ) {
 
+    // Login users when user submit the email and password
+    this.userService.loginSubmittedUserSubject.subscribe((user: User) => {
+      // do the login as well
+      this.userService.login({email: user.email, password: user.password})
+        .subscribe((response) => {
+          // navigate by url is used due to the fact that the returnUrl may have optional params which need to be parsed.
+          // same is true for query params
+          if (response !== null) {
+            this.router.navigate([''], {replaceUrl: true});
+          } else {
+            /*this.alertService.alert({
+              title: 'Login failure!',
+              subTitle: 'Unable to login! Please try again or contact support team.',
+              text: response,
+              type: 'danger',
+              closeDelay: 10
+            });*/
+          }
+        }, (error) => {
+          // mostly this is never execute as error are handled in login service in catchError blocked and converted to obwervable
+          console.log('LoginComponent|login|error:%o', error);
+        });
+    });
+
     // Subscribe to the login
-    this.userService.userSubject.subscribe((user: any) => {
+    this.userService.authorizedUserSubject.subscribe((user: any) => {
 
       console.log('AppComponent|userservice.userSubject called|user:%0', user);
       if (user === null) {

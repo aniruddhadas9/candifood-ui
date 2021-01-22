@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {InjectionToken, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
+import {AppComponent} from './components/app/app.component';
 import {RestaurantModule} from './restaurant/restaurant.module';
 import {HomeModule} from './home/home.module';
 import {AgmCoreModule} from '@agm/core';

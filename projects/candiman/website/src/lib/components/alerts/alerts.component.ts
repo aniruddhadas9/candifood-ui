@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
 import { take, map } from 'rxjs/operators';
 import { timer } from 'rxjs';
 import {Alert, AlertService} from '../../services/alert/alert.service';
-import {Environment} from '../../website.module';
+import {WebsiteEnvironment} from '../../website.module';
 
 @Component({
   selector: 'cfs-alerts',
@@ -15,7 +15,7 @@ export class AlertsComponent implements OnInit {
   public delay: number;
 
   constructor(
-    @Optional() @Inject('environment') private environment: Environment,
+    @Optional() @Inject('websiteEnvironment') private environment: WebsiteEnvironment,
     private alertService: AlertService
   ) { }
 

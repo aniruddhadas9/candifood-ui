@@ -12,20 +12,20 @@
 
         <div class="form-row">
 
-          <div class="form-group" [ngClass]="{'has-danger': username.invalid && (username.dirty || username.touched)}">
-            <label for="username">User ID</label>
+          <div class="form-group" [ngClass]="{'has-danger': email.invalid && (email.dirty || email.touched)}">
+            <label for="email">User ID</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
 
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
               </div>
 
-              <input type="text" name="username" formControlName="username"
-                     class="form-control form-control-danger" id="username"
+              <input type="text" name="email" formControlName="email"
+                     class="form-control form-control-danger" id="email"
                      placeholder="Username" required
                      autofocus>
             </div>
-            <span *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger align-middle">
+            <span *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger align-middle">
                 <i class="fa fa-close"></i> Username is required
               </span>
           </div>

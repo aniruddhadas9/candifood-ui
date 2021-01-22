@@ -13,13 +13,15 @@ export class HttpInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // We retrieve the token, if any
-    const token = this.userService?.token || null;
-    console.log('%ctoken:%o', 'color:red', token);
+    const token = this.userService?.authorizedUser?.token || null;
+    const tokenType = this.userService?.authorizedUser?.tokenType || 'Bearer';
+    console.log('%authorizedUser:%o', 'color:red', this.userService.authorizedUser);
+    console.log('%ctoken:%o', 'color:red', tokenType + ' ' + token);
     let newHeaders = req.headers;
     if (token) {
       // If we have a token, we append it to our new headers
-      console.log('%Setting token now:%o', 'color:orange', token);
-      newHeaders = newHeaders.append('Authorization', 'Basic ' + token);
+      console.log('%Setting token now:%o', 'color:orange', tokenType + ' ' + token);
+      newHeaders = newHeaders.append('Authorization', tokenType + ' ' + token);
     }
     // Finally we have to clone our request with our new headers
     // This is required because HttpRequests are immutable

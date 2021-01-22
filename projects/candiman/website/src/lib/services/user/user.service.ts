@@ -2,7 +2,7 @@ import {Inject, Injectable, Optional} from '@angular/core';
 import {EncryptionService} from '../encryption/encryption.service';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
-import {Environment} from '../../website.module';
+import {WebsiteEnvironment} from '../../website.module';
 import {Observable, of, Subject} from 'rxjs';
 
 export interface User {
@@ -18,18 +18,35 @@ export interface User {
   status?: string;
 }
 
+export interface AuthorizedUser {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  token?: string;
+  tokenType?: string;
+  scope?: string;
+  expiresIn?: number;
+  state?: string;
+  idToken?: string;
+  authorized?: Array<string>;
+  accessToken?: string;
+  error?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  public userSubject: Subject<User> = new Subject<User>();
+  public loginSubmittedUserSubject: Subject<User> = new Subject<User>();
+  public authorizedUserSubject: Subject<AuthorizedUser> = new Subject<AuthorizedUser>();
   public isLoggedIn = false;
-  public authorizedUser: User;
-  public token;
+  public authorizedUser: AuthorizedUser;
   public encryptedUserIdentifier: string;
+  public allowedDomainToAddToken: Array<string>;
 
   constructor(
-    @Optional() @Inject('environment') private environment: Environment,
+    @Optional() @Inject('websiteEnvironment') private websiteEnvironment: WebsiteEnvironment,
     private encryptionService: EncryptionService,
     private httpClient: HttpClient
   ) {
@@ -37,18 +54,17 @@ export class UserService {
 
   login(loginPayload: Object): Observable<any> {
     return this.httpClient
-      .post(this.environment.loginUrl, loginPayload)
+      .post(this.websiteEnvironment.loginUrl, loginPayload)
       .pipe(
-        map((response) => {
+        map((response: AuthorizedUser) => {
+          localStorage.setItem('authorizedUser', JSON.stringify(response));
           this.authorizedUser = response;
-          this.token = response['token'] as any;
-          this.userSubject.next(response);
+          this.authorizedUserSubject.next(response);
           this.isLoggedIn = true;
           return response;
         }),
         catchError((error) => {
-          this.userSubject.next({
-            status: 'login_failure',
+          this.authorizedUserSubject.next({
             error: error.toString(),
           });
           return of(error);
@@ -57,7 +73,8 @@ export class UserService {
   }
 
   makeLogout() {
-    this.userSubject.next(null);
+    localStorage.removeItem('authorizedUser');
+    this.authorizedUserSubject.next(null);
     this.isLoggedIn = false;
     this.authorizedUser = undefined;
   }
