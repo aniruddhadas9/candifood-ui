@@ -10,6 +10,7 @@ import {HttpInterceptorService, WebsiteModule} from '@candiman/website';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {environment} from '../environments/environment';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {GoogleMapsModule} from '@angular/google-maps';
 
 
 export const Window = new InjectionToken<any>('A reference to the window');
@@ -33,6 +34,7 @@ export function windowFactory() {
     }),
     HomeModule,
     RestaurantModule,
+    GoogleMapsModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBMIoVYsqVdrlm_IwdKSkLEhpMH7JtEIT8',
       libraries: [

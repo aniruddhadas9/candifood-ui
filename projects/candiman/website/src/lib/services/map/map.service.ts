@@ -1,6 +1,5 @@
 import {ElementRef, EventEmitter, Injectable, NgZone} from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import {Observable, Subject} from 'rxjs';
 
 const GEOLOCATION_ERRORS = {
   'errors.location.unsupportedBrowser': 'Browser does not support location services',
@@ -20,13 +19,20 @@ export class MapService {
   public latLng;
   public location: Observable<any>;
   public locationBehaviorSubject = new Subject<any>();
-  public coordinatesBehaviorSubject = new  Subject<any>();
+  public coordinatesBehaviorSubject = new Subject<any>();
   public type = 'restaurant';
   public keyword = 'restaurant';
 
   constructor(
     private ngZone: NgZone
   ) {
+    /*this.map = new google.maps.Map(
+      document.getElementById('map') as HTMLElement,
+      {
+        zoom: 4,
+        center: { lat: -25.363, lng: 131.044 },
+      }
+    );*/
   }
 
   public getBrowserCoordinates(opts): Observable<Position> {
@@ -249,30 +255,32 @@ export class MapService {
 
   public autoComplete(searchElementRef: ElementRef, output: EventEmitter<string>) {
 
-      const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
-        types: ['address']
+    // this.map.autoComplete()
+    const autoComplete = new (<any>window).google.maps.places.Autocomplete(searchElementRef.nativeElement, {
+    // const autoComplete = this.map.autoComplete(searchElementRef.nativeElement, {
+      types: ['address']
+    });
+
+    autoComplete.addListener('place_changed', () => {
+      this.ngZone.run(() => {
+        // get the place result
+        let place = autoComplete.getPlace();
+
+        // verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+        place = this.processFullLocation(place);
+
+        // send changed address back
+        output.emit(place);
       });
-
-      autoComplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          // get the place result
-          let place = autoComplete.getPlace();
-
-          // verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          place = this.processFullLocation(place);
-
-          // send changed address back
-          output.emit(place);
-        });
-      });
+    });
   }
 
   public storeAndUpdateRestaurantsManual(userLocation) {
-    return Observable.create(observer => {
-      this.getRestaurantsFromGoogleMap(userLocation).subscribe( (userNearbyRestaurants: any) => {
+    return new Observable(observer => {
+      this.getRestaurantsFromGoogleMap(userLocation).subscribe((userNearbyRestaurants: any) => {
         console.log('storeAndUpdateRestaurantsManual|userNearbyRestaurants:%o', userNearbyRestaurants);
         for (let i = 0; i < userNearbyRestaurants.restaurant.length; i++) {
           // $rootScope.restaurant.items.splice(0, 0, userNearbyRestaurants.restaurant[i]);

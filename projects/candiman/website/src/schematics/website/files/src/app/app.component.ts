@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   CfsInfiniteScrollService,
@@ -43,7 +42,7 @@ export class AppComponent implements OnInit {
   ) {
 
     // Subscribe to the login
-    this.userService.userSubject.subscribe((user: any) => {
+    this.userService.authorizedUserSubject.subscribe((user: any) => {
 
       if (user === null) {
         // logout condition
@@ -65,13 +64,6 @@ export class AppComponent implements OnInit {
       brand: {
         label: 'candifood',
         url: '/',
-        logo: {
-          imageInAsset: 'candilogo_icon32x32.png',
-          style: {
-            width: '30px',
-            height: '30px'
-          }
-        },
         style: {
           'color': '#ffe90f',
           'text-decoration': 'none'
@@ -204,7 +196,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  mapReady(map: GoogleMap) {
+  mapReady(map: any) {
     this.mapService.map = map;
   }
 

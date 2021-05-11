@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {RestaurantService} from '../../restaurant/service/restaurant.service';
-import {GoogleMap} from '@agm/core/services/google-maps-types';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   AlertService,
@@ -22,9 +21,11 @@ import {Subscription} from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   title = 'candifood';
+  @ViewChild('gmap') gmapElement: any;
+  map: google.maps.Map;
   public modalRef;
   public coordinates;
   public location;
@@ -214,6 +215,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
+
+
     // gets the coordinates from the browser and address from google map. this happens first time
     this.mapService.getBrowserCoordinates({}).subscribe((position: Position) => {
       this.coordinates = position && position.coords;
@@ -257,6 +260,16 @@ export class AppComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    const mapProp = {
+      center: new google.maps.LatLng(18.5793, 73.8143),
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+    this.mapService.map = this.map;
+
+  }
 
   openLocationChangeModel(event) {
     this.modalRef = this.modalService.open(ChangeLocationModelComponent, {windowClass: 'location-change-modal'});
@@ -269,7 +282,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  mapReady(map: GoogleMap) {
+  mapReady(map: any) {
+    console.log('google map is ready| mapobject: %o', map);
     this.mapService.map = map;
   }
 

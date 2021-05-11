@@ -2,7 +2,7 @@ import {Injectable, Injector} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthorizedUser, UserService} from '../user/user.service';
 
-export function appInitFactory(appInitializerService: AppInitializerService): () => Promise<any> {
+export function appInitializerFactory(appInitializerService: AppInitializerService): () => Promise<any> {
   return () => appInitializerService.isUserLoggedIn();
 }
 

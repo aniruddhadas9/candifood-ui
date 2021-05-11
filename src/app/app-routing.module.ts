@@ -12,10 +12,6 @@ const routes: Routes = [
     path: 'restaurant',
     component: RestaurantsComponent
   },
-  {
-    path: 'auth',
-    loadChildren: () => import('./cfs-auth/cfs-auth.module').then(m => m.CfsAuthModule),
-  },
 ];
 
 @NgModule({
